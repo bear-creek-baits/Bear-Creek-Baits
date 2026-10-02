@@ -1,0 +1,177 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import type { Category, Product } from '@/lib/types';
+import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable } from '@/lib/catalog';
+import { useCart, MAX_QTY } from '@/components/cart/CartProvider';
+import { QuantityStepper } from '@/components/ui/QuantityStepper';
+import { Icon } from '@/components/ui/Icon';
+import { ProductMedia } from './ProductMedia';
+import { VariantPicker } from './VariantPicker';
+import styles from './ProductDetail.module.css';
+
+export function ProductDetail({ product, category }: { product: Product; category: Category }) {
+  const { add } = useCart();
+  const [selected, setSelected] = useState<Record<string, string>>(() => defaultSelection(product));
+  const [qty, setQty] = useState(1);
+  const [justAdded, setJustAdded] = useState(false);
+  const [showSticky, setShowSticky] = useState(false);
+  const buyRef = useRef<HTMLDivElement>(null);
+
+  const variant = findVariant(product, selected) ?? product.variants[0];
+  const productAvailable = isAvailable(product);
+  const colorOpt = colorOption(product);
+
+  // Preselect color from ?color= (used by product-card swatch previews and shareable links).
+  useEffect(() => {
+    if (!colorOpt) return;
+    const c = new URLSearchParams(window.location.search).get('color');
+    if (c && colorOpt.values.includes(c)) setSelected((s) => ({ ...s, [colorOpt.name]: c }));
+  }, [colorOpt]);
+
+  // Show the sticky mobile add-to-cart bar once the main buy box scrolls out of view.
+  useEffect(() => {
+    const el = buyRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setShowSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0), {
+      threshold: 0,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!justAdded) return;
+    const t = setTimeout(() => setJustAdded(false), 1800);
+    return () => clearTimeout(t);
+  }, [justAdded]);
+
+  const choose = (name: string, value: string) => {
+    setSelected((s) => ({ ...s, [name]: value }));
+    if (colorOpt && name === colorOpt.name) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('color', value);
+      window.history.replaceState(null, '', url.toString());
+    }
+  };
+
+  const addToCart = () => {
+    if (!variant.available) return;
+    add(variant.id, product.slug, qty);
+    setJustAdded(true);
+    setQty(1);
+  };
+
+  const buttonLabel = !productAvailable ? 'Sold out' : !variant.available ? 'This option is sold out' : justAdded ? 'Added to cart' : 'Add to cart';
+
+  return (
+    <div className={`container ${styles.wrap}`}>
+      <nav aria-label="Breadcrumb" className={styles.crumbs}>
+        <ol className="breadcrumbs">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/shop/">Shop</Link>
+          </li>
+          <li>
+            <Link href={`/shop/${category.slug}/`}>{category.name}</Link>
+          </li>
+          <li aria-current="page">{product.title}</li>
+        </ol>
+      </nav>
+
+      <div className={styles.layout}>
+        <div className={styles.gallery}>
+          <div className={styles.mainImage}>
+            <div className={styles.artWrap} key={variant.id.split('--')[1]}>
+              <ProductMedia product={product} variant={variant} priority />
+            </div>
+            {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
+          </div>
+          {product.images.length === 0 && <p className={styles.caption}>Illustration shown. Product photos coming soon.</p>}
+        </div>
+
+        <div className={styles.info}>
+          <p className="eyebrow">{category.name}</p>
+          <h1 className={styles.title}>{product.title}</h1>
+          <div className={styles.priceRow}>
+            <span className={styles.price}>{formatPrice(variant.price)}</span>
+            {!variant.available && <span className={styles.soldTag}>Sold out</span>}
+          </div>
+          <p className={styles.summary}>{product.summary}</p>
+
+          <div className={styles.options}>
+            <VariantPicker product={product} selected={selected} onChange={choose} />
+          </div>
+
+          <div ref={buyRef} className={styles.buy}>
+            <QuantityStepper value={qty} onChange={setQty} max={MAX_QTY} label="Quantity" disabled={!variant.available} />
+            <button type="button" className={`btn ${styles.addBtn} ${justAdded ? styles.added : ''}`} onClick={addToCart} disabled={!variant.available}>
+              {justAdded && <Icon name="check" size={20} />}
+              {buttonLabel}
+            </button>
+          </div>
+          {!productAvailable && (
+            <p className={styles.soldNote}>
+              This one is sold out right now. <Link href="/contact/">Ask about a restock</Link> or check back soon.
+            </p>
+          )}
+          <p className={styles.live} role="status" aria-live="polite">
+            {justAdded ? `${product.title}, ${describeVariant(product, variant)} added to cart.` : ''}
+          </p>
+
+          <div className={styles.accordions}>
+            <details open>
+              <summary>
+                Description <Icon name="chevron-down" size={20} />
+              </summary>
+              <div className="prose">
+                {product.description.map((d, i) => (
+                  <p key={i}>{d}</p>
+                ))}
+              </div>
+            </details>
+            <details>
+              <summary>
+                Details <Icon name="chevron-down" size={20} />
+              </summary>
+              <ul>
+                {product.details.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+                {product.options.map((o) => (
+                  <li key={o.name}>
+                    {o.name} options: {o.values.length}
+                  </li>
+                ))}
+              </ul>
+            </details>
+            <details>
+              <summary>
+                Shipping &amp; returns <Icon name="chevron-down" size={20} />
+              </summary>
+              <p>
+                Shipping options and rates are shown at checkout. Questions about an order? <Link href="/contact/">Get in touch</Link>.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      {/* Sticky mobile add-to-cart */}
+      <div className={`${styles.sticky} ${showSticky ? styles.stickyOn : ''}`} aria-hidden={!showSticky} inert={!showSticky}>
+        <div className={styles.stickyInfo}>
+          <span className={styles.stickyTitle}>{product.title}</span>
+          <span className={styles.stickyMeta}>
+            {formatPrice(variant.price)} · {describeVariant(product, variant)}
+          </span>
+        </div>
+        <button type="button" className="btn btn-sm" onClick={addToCart} disabled={!variant.available}>
+          {variant.available ? (justAdded ? 'Added' : 'Add') : 'Sold out'}
+        </button>
+      </div>
+    </div>
+  );
+}

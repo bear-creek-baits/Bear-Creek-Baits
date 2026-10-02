@@ -1,0 +1,129 @@
+.footer {
+  padding-top: clamp(48px, 7vw, 80px);
+  border-top: 4px solid var(--green);
+}
+
+.top {
+  display: grid;
+  gap: 40px 32px;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 48px;
+}
+.brand,
+.news {
+  grid-column: 1 / -1;
+}
+@media (min-width: 900px) {
+  .top {
+    grid-template-columns: 1.3fr 0.8fr 0.8fr 1.4fr;
+  }
+  .brand,
+  .news {
+    grid-column: auto;
+  }
+}
+
+.logo {
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+  line-height: 0;
+}
+.logo img {
+  width: 120px;
+  height: auto;
+}
+.blurb {
+  margin-top: 16px;
+  max-width: 32ch;
+  color: var(--muted-on-dark);
+}
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--bone);
+}
+.social:hover {
+  color: var(--green);
+}
+
+.colTitle {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  color: var(--green);
+  margin-bottom: 14px;
+}
+.col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.col a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  text-decoration: none;
+  color: var(--bone);
+}
+.col a:hover {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.news p {
+  color: var(--muted-on-dark);
+  max-width: 40ch;
+}
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.form :global(.input) {
+  flex: 1 1 200px;
+  background: var(--ink-2);
+  border-color: var(--ink-line);
+  color: var(--bone);
+}
+.form :global(.input)::placeholder {
+  color: #8d8f84;
+}
+.form :global(.input):focus {
+  border-color: var(--green);
+}
+.error {
+  flex-basis: 100%;
+  color: #ff8a80 !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+.done {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--green) !important;
+  font-weight: 700;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 22px calc(22px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--ink-line);
+  font-size: 14px;
+  color: var(--muted-on-dark);
+}
