@@ -31,7 +31,6 @@ export function VariantPicker({ product, selected, onChange }: Props) {
   return (
     <div className={styles.picker}>
       {product.options.map((opt, index) => {
-        if (opt.values.length < 2 && opt.display !== 'swatch') return null;
         const values = opt.values.filter((v) => isValueOffered(index, v));
         const current = selected[opt.name];
         const groupId = `opt-${opt.name.replace(/\s+/g, '-').toLowerCase()}`;

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { Product } from '@/lib/types';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
-import { colorOption, formatPriceRange, isAvailable } from '@/lib/catalog';
+import { colorOption, formatPriceRange, isAvailable, sizeList } from '@/lib/catalog';
 import { ProductArt } from './ProductArt';
 import { ProductMedia } from './ProductMedia';
 import { Swatch } from './Swatch';
@@ -48,6 +48,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             {product.title}
           </Link>
         </h3>
+        {sizeList(product) && <p className={styles.sizes}>{sizeList(product)}</p>}
         <p className={styles.price}>
           {formatPriceRange(product)}
           {!available && <span className="visually-hidden"> — sold out</span>}

@@ -5,7 +5,8 @@
 //   - moves Next's /_next/ files to assets/_next/
 //   - makes every file and link path in each HTML page relative to that page (its depth is
 //     known at build time), and points Turbopack's chunk loader at the site folder at runtime
-//   - turns in-site link clicks into full page loads of the matching index.html
+//   - turns in-site link clicks into full page loads of the matching index.html, and opens each
+//     page at the top (scrollIntoView also scrolls the viewer around the page when it can)
 //   - drops the client-navigation data files (.txt), which this mode doesn't use
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -55,7 +56,10 @@ window.__bcbUrl=m;
 addEventListener("click",function(e){if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
 var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank")return;var h=a.getAttribute("href");
 if(!h||h.charAt(0)==="#"||/^[a-z]+:/i.test(h))return;var u=h.charAt(0)==="/"?m(h):m("/"+a.href.split(/[?#]/)[0].slice(b.length)+(a.href.match(/[?#].*$/)||[""])[0]);
-e.preventDefault();e.stopImmediatePropagation();location.assign(u)},true)})();</script>`;
+e.preventDefault();e.stopImmediatePropagation();location.assign(u)},true);
+function top(){var h=document.documentElement,sp=h.style.scrollPaddingTop;h.style.scrollPaddingTop="0px";
+scrollTo({top:0,behavior:"instant"});try{h.scrollIntoView({block:"start",behavior:"instant"})}catch(x){}h.style.scrollPaddingTop=sp}
+if(!location.hash){addEventListener("DOMContentLoaded",top);addEventListener("load",top)}})();</script>`;
 
 let pages = 0;
 for (const f of walk(OUT).filter((p) => p.endsWith('.html'))) {

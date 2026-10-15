@@ -143,12 +143,17 @@ export function formatPriceRange(product: Product): string {
 /** Human-readable variant summary, e.g. "Chartreuse Pink · 2"". */
 export function describeVariant(product: Product, variant: Variant): string {
   return product.options
-    .filter((o) => o.values.length > 1 || o.display === 'swatch')
+    .filter((o) => o.values.length > 1 || o.display === 'swatch' || o.name === 'Size')
     .map((o) => {
       const v = variant.options[o.name];
       return o.display === 'swatch' ? getColorway(v)?.name ?? v : v;
     })
     .join(' · ');
+}
+
+/** The sizes a profile is poured in, e.g. '1.5" · 2" · 2.2"'. Empty when the product has no Size option. */
+export function sizeList(product: Product): string {
+  return product.options.find((o) => o.name === 'Size')?.values.join(' · ') ?? '';
 }
 
 export function optionValueLabel(display: string, value: string): string {
