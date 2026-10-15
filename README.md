@@ -4,6 +4,8 @@ A working e-commerce prototype for Bear Creek Baits LLC: home page, shop with ca
 
 **Every product, price, option, color and stock status is sample data.** The only verified business inputs so far are the business name, the product types it sells, and the official logo.
 
+**Brand guide:** see [`BRAND_GUIDE.md`](BRAND_GUIDE.md) for logo rules, colors, fonts, taglines and voice. The tokens in `src/app/globals.css` follow it.
+
 ## Run it
 
 ```bash
