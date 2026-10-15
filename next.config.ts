@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
+  // Set only by `npm run build:preview` (claude.ai artifact preview), whose host reserves top-level paths starting with "_".
+  assetPrefix: process.env.ASSET_PREFIX || undefined,
 };
 
 export default nextConfig;

@@ -15,6 +15,8 @@ npm run build      # static export to ./out
 npm start          # serve ./out on http://localhost:3000
 ```
 
+`npm run build:preview` makes a copy for the claude.ai preview link (https://claude.ai/artifact/6u6VASChyKheqchTahkRVp). That host won't take top-level folders starting with `_`, so this build serves Next's files from `/assets/_next/`.
+
 The site builds to plain static files (`out/`), so it can be hosted on Netlify, Vercel, Cloudflare Pages, GitHub Pages or S3 without a server.
 
 ## Stack
