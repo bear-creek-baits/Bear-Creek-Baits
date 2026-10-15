@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { navigate } from '@/lib/navigate';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { categories } from '@/data/categories';
@@ -28,7 +29,7 @@ export function SearchResults() {
             className={styles.searchForm}
             onSubmit={(e) => {
               e.preventDefault();
-              router.push(`/search/?q=${encodeURIComponent(input.trim())}`);
+              navigate(router, `/search/?q=${encodeURIComponent(input.trim())}`);
             }}
           >
             <label htmlFor="search-page-input" className="visually-hidden">

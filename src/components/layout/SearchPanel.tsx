@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { navigate } from '@/lib/navigate';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { categories } from '@/data/categories';
@@ -29,7 +30,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!q.trim()) return;
-    router.push(`/search/?q=${encodeURIComponent(q.trim())}`);
+    navigate(router, `/search/?q=${encodeURIComponent(q.trim())}`);
     onClose();
   };
 
