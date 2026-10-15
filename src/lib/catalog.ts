@@ -58,12 +58,25 @@ export function handmadeLine(product: Product): string {
     case 'jig-head':
       return 'Hand-painted.';
     case 'hair-jig':
-      return 'Hand-tied.';
+      return 'Hand-tied to order.';
     case 'box':
       return 'Hand-poured plastics. Hand-painted heads.';
     default:
       return 'Hand-poured.';
   }
+}
+
+/** Quantity rules for one size/color of a product. */
+export function orderRules(product: Product) {
+  const min = product.minQty ?? 1;
+  return { min, step: product.qtyStep ?? 1, max: product.unit ? 5000 : 99, unit: product.unit };
+}
+
+/** "per bait · 50 minimum" for products sold by the piece, otherwise empty. */
+export function unitNote(product: Product): string {
+  const { min, unit } = orderRules(product);
+  if (!unit) return '';
+  return min > 1 ? `per ${unit} · ${min} minimum` : `per ${unit}`;
 }
 
 export function isAvailable(product: Product): boolean {
@@ -100,8 +113,6 @@ export function relatedProducts(product: Product, limit = 4): Product[] {
     'jig-heads': 'soft-plastics',
     'hair-jigs': 'soft-plastics',
     'bait-boxes': 'soft-plastics',
-    'bass-baits': 'soft-plastics',
-    'sauger-baits': 'jig-heads',
   };
   const paired = products.filter((p) => p.category === pairs[product.category]);
   const seen = new Set<string>();

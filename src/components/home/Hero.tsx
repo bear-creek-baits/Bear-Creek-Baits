@@ -21,7 +21,7 @@ export function Hero() {
     <section className={`dark topo ${styles.hero}`} aria-labelledby="hero-title">
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
-          <p className="eyebrow">Crappie · Bass · Sauger</p>
+          <p className="eyebrow">Crappie plastics · Hair jigs · Jig heads</p>
           {/* Primary tagline, split for the two-color treatment. Reads as one line to screen readers. */}
           <h1 id="hero-title" className={styles.heroTitle} aria-label={brand.tagline}>
             Bust ’Em

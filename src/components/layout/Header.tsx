@@ -81,6 +81,9 @@ export function Header() {
           </nav>
 
           <div className={styles.actions}>
+            <Link href="/dealers/" className={`${styles.utilLink} ${isActive('/dealers') ? styles.active : ''}`}>
+              Dealers
+            </Link>
             <Link href="/about/" className={`${styles.utilLink} ${isActive('/about') ? styles.active : ''}`}>
               About
             </Link>
@@ -160,6 +163,9 @@ export function Header() {
             Shop all baits
           </Link>
           <ul className={styles.drawerLinks}>
+            <li>
+              <Link href="/dealers/">Find a dealer</Link>
+            </li>
             <li>
               <Link href="/about/">About</Link>
             </li>

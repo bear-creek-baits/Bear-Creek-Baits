@@ -10,12 +10,15 @@ import type { Product, ProductOption, Variant } from '@/lib/types';
  * plus which colors he has poured in which profile.
  *
  * Still invented: every price, pack size and stock status, and the hair jig,
- * jig head (other than the #8 sickle hook note), bass and bait box listings.
+ * jig head (other than the #8 sickle hook note) and bait box listings.
  *
  * Titles follow the brand guide: "[Size] [Body]", with the color as an option.
  * The UI reads only from this module via `src/lib/catalog.ts`.
  * ==========================================================================
  */
+
+/** Minimum order per size and color for soft plastics, confirmed by Steve. */
+export const SOFT_PLASTIC_MIN = 50;
 
 type Draft = Omit<Product, 'variants' | 'sample' | 'images'> & {
   /** Price in cents for a given option combination. */
@@ -41,10 +44,12 @@ function build(d: Draft): Product {
     price: price(opts),
     available: !(soldOut?.(opts) ?? false),
   }));
-  return { ...rest, variants, images: [], sample: true };
+  // Soft plastics are poured in runs: 50 minimum per size and color, sold per bait.
+  const plastic = d.category === 'soft-plastics' ? { minQty: SOFT_PLASTIC_MIN, qtyStep: 10, unit: 'bait' } : {};
+  return { ...rest, ...plastic, variants, images: [], sample: true };
 }
 
-const samplePrice = 499; // PLACEHOLDER: one sample price per bag until real prices are confirmed
+const samplePrice = 25; // PLACEHOLDER: sample price per bait (cents) until real prices are confirmed
 
 /** Which colors Steve has posted in each Swim Bait size. */
 const swimBaitColors: Record<string, string[]> = {
@@ -67,7 +72,7 @@ export const products: Product[] = [
       'Three sizes, all with great tail action. The 2.2" is the most popular. The 2" is a custom bait that sometimes gets overlooked next to it. The 1.5" is the newest, and the hardest mold on the bench to shoot laminates in.',
       'Rig the 1.5" on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match. We can make the right head for it.',
     ],
-    details: ['Sizes: 1.5", 2" and 2.2"', 'Not every color is poured in every size', 'Sample price and bag count'],
+    details: ['Sizes: 1.5", 2" and 2.2"', 'Not every color is poured in every size', 'Sample price'],
     options: [
       { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
       {
@@ -88,7 +93,7 @@ export const products: Product[] = [
     featured: true,
     summary: 'Forked-tail crappie bait that quivers on the fall.',
     description: ['A ribbed body with a forked tail that shimmies on the drop and on a dead stick. Poured in 2" so far.'],
-    details: ['Hand-poured', 'Sample price and bag count'],
+    details: ['Hand-poured', 'Sample price'],
     options: [
       { name: 'Size', display: 'button', values: ['2"'] },
       { name: 'Color', display: 'swatch', values: ['mississippi-gold', 'county-fair', 'crown-royal'] },
@@ -102,7 +107,7 @@ export const products: Product[] = [
     art: 'grub',
     summary: 'Small curly tail grub for when they want it tiny.',
     description: ['A ribbed grub with a single curly tail that swims on the slowest retrieve. Poured in 1.5" so far.'],
-    details: ['Hand-poured', 'Sample price and bag count'],
+    details: ['Hand-poured', 'Sample price'],
     options: [
       { name: 'Size', display: 'button', values: ['1.5"'] },
       { name: 'Color', display: 'swatch', values: ['delta-shad', 'dirty-girl', 'crown-royal'] },
@@ -118,10 +123,25 @@ export const products: Product[] = [
     description: [
       'Two curly tails on a ribbed body. That extra tail action pays off when fall fish turn aggressive. Poured in 2" so far.',
     ],
-    details: ['Hand-poured', 'Sample price and bag count'],
+    details: ['Hand-poured', 'Sample price'],
     options: [
       { name: 'Size', display: 'button', values: ['2"'] },
       { name: 'Color', display: 'swatch', values: ['blue-treuse', 'crown-royal'] },
+    ],
+    price: () => samplePrice,
+  }),
+
+  build({
+    slug: 'slimmy',
+    title: 'Slimmy',
+    category: 'soft-plastics',
+    art: 'stick-worm',
+    summary: 'Long, slim minnow profile. A great sauger bait.',
+    description: ['A long, slim minnow body. Translucent blue with a red tail in the 3.5" is a great sauger bait.'],
+    details: ['Hand-poured', 'Sample price'],
+    options: [
+      { name: 'Size', display: 'button', values: ['3.5"'] },
+      { name: 'Color', display: 'swatch', values: ['blue-red-tail'] },
     ],
     price: () => samplePrice,
   }),
@@ -134,8 +154,8 @@ export const products: Product[] = [
     art: 'hair-jig',
     featured: true,
     summary: 'Hand-tied crappie hair jig on a painted round head.',
-    description: ['A hand-tied hair jig on a painted round head. Choose the weight and color pattern that fits your water.'],
-    details: ['Sample product for the website preview', 'Hand-tied'],
+    description: ['A hair jig on a painted round head, tied by hand when you order it. Choose the weight and color pattern that fits your water.'],
+    details: ['Hand-tied to order', 'Sample weights, colors and price'],
     options: [
       { name: 'Color', display: 'swatch', values: ['hair-black-chartreuse', 'hair-pink-white', 'hair-blue-white', 'hair-red-chartreuse', 'hair-purple-chartreuse', 'hair-solid-white'] },
       { name: 'Weight', display: 'button', values: ['1/32 oz', '1/16 oz', '1/8 oz'] },
@@ -149,8 +169,8 @@ export const products: Product[] = [
     category: 'hair-jigs',
     art: 'hair-jig',
     summary: 'Soft, full-bodied hair jig that breathes when it sits still.',
-    description: ['A fuller hair jig for slow falls and long pauses. Pick weight, color and hook size.'],
-    details: ['Sample product for the website preview', 'Hand-tied'],
+    description: ['A fuller hair jig for slow falls and long pauses, tied by hand when you order it. Pick weight, color and hook size.'],
+    details: ['Hand-tied to order', 'Sample weights, colors and price'],
     options: [
       { name: 'Color', display: 'swatch', values: ['hair-pink-white', 'hair-orange-chartreuse', 'hair-black-chartreuse', 'hair-solid-white', 'hair-red-chartreuse'] },
       { name: 'Weight', display: 'button', values: ['1/16 oz', '1/8 oz'] },
@@ -194,68 +214,6 @@ export const products: Product[] = [
     ],
     price: () => 549,
     soldOut: (o) => o['Head Color'] === 'head-unpainted',
-  }),
-
-  // ---------------------------------------------------------------- Bass baits
-  build({
-    slug: 'creek-craw',
-    title: 'Creek Craw',
-    category: 'bass-baits',
-    art: 'craw',
-    summary: 'Compact craw for flipping, Texas rigs and jig trailers.',
-    description: ['A compact craw body for bass. Use it on a Texas rig, a shaky head or as a jig trailer.'],
-    details: ['Sample product for the website preview'],
-    options: [
-      { name: 'Size', display: 'button', values: ['3"'] },
-      { name: 'Color', display: 'swatch', values: ['green-pumpkin', 'watermelon-red', 'black-blue', 'white-shad'] },
-    ],
-    price: () => 549,
-  }),
-  build({
-    slug: 'stick-worm',
-    title: 'Stick Worm',
-    category: 'bass-baits',
-    art: 'stick-worm',
-    summary: 'Straight-tail stick bait for wacky and Texas rigs.',
-    description: ['A straight stick bait for bass. Wacky rig it, Texas rig it or fish it weightless.'],
-    details: ['Sample product for the website preview'],
-    options: [
-      { name: 'Size', display: 'button', values: ['4"', '5"'] },
-      { name: 'Color', display: 'swatch', values: ['green-pumpkin', 'watermelon-red', 'black-blue', 'white-shad'] },
-    ],
-    price: (o) => (o.Size === '5"' ? 599 : 549),
-    soldOut: (o) => o.Color === 'white-shad',
-  }),
-
-  // ---------------------------------------------------------------- Sauger baits
-  build({
-    slug: 'slimmy',
-    title: 'Slimmy',
-    category: 'sauger-baits',
-    art: 'stick-worm',
-    summary: 'Long, slim minnow profile. A great sauger bait.',
-    description: ['A long, slim minnow body. Translucent blue with a red tail in the 3.5" is a great sauger bait.'],
-    details: ['Hand-poured', 'Sample price and bag count'],
-    options: [
-      { name: 'Size', display: 'button', values: ['3.5"'] },
-      { name: 'Color', display: 'swatch', values: ['blue-red-tail'] },
-    ],
-    price: () => samplePrice,
-  }),
-  build({
-    slug: 'sauger-jig-head',
-    title: 'Sauger Jig Head',
-    category: 'sauger-baits',
-    art: 'jig-head',
-    summary: 'Hand-painted heavy head for minnows and plastics in current.',
-    description: ['A hand-painted heavy jig head for tipping with a minnow or rigging a plastic when the river is pulling.'],
-    details: ['Sample product for the website preview', 'Hand-painted'],
-    options: [
-      { name: 'Head Color', display: 'swatch', values: ['head-chartreuse', 'head-orange', 'head-white', 'head-pink'] },
-      { name: 'Weight', display: 'button', values: ['1/4 oz', '3/8 oz', '1/2 oz'] },
-      { name: 'Pack', display: 'button', values: ['5 ct', '10 ct'] },
-    ],
-    price: (o) => (o.Pack === '10 ct' ? 899 : 499),
   }),
 
   // ---------------------------------------------------------------- Bait boxes

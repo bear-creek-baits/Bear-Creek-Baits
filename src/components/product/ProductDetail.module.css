@@ -239,3 +239,17 @@
     display: none;
   }
 }
+
+.unitNote {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lineTotal {
+  margin-top: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

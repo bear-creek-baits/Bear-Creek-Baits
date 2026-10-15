@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { categories } from '@/data/categories';
-import { describeVariant, formatPrice } from '@/lib/catalog';
-import { useCart, MAX_QTY } from './CartProvider';
+import { describeVariant, formatPrice, orderRules } from '@/lib/catalog';
+import { useCart } from './CartProvider';
 import { useDialog } from '@/components/layout/useDialog';
 import { ProductMedia } from '@/components/product/ProductMedia';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
@@ -77,13 +77,16 @@ export function CartDrawer() {
                       <span className={styles.lineTotal}>{formatPrice(l.lineTotal)}</span>
                     </div>
                     <p className={styles.meta}>{describeVariant(l.product, l.variant)}</p>
-                    <p className={styles.unit}>{formatPrice(l.variant.price)} each</p>
+                    <p className={styles.unit}>
+                      {formatPrice(l.variant.price)} {l.product.unit ? `per ${l.product.unit}` : 'each'}
+                    </p>
                     <div className={styles.row}>
                       <QuantityStepper
                         size="sm"
                         value={l.quantity}
-                        min={1}
-                        max={MAX_QTY}
+                        min={orderRules(l.product).min}
+                        max={orderRules(l.product).max}
+                        step={orderRules(l.product).step}
                         label={`Quantity for ${l.product.title}`}
                         onChange={(n) => update(l.variantId, n)}
                       />

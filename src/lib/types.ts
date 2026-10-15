@@ -6,7 +6,7 @@
  * with a thin mapping layer instead of a rewrite.
  */
 
-export type CategorySlug = 'soft-plastics' | 'hair-jigs' | 'jig-heads' | 'bass-baits' | 'sauger-baits' | 'bait-boxes';
+export type CategorySlug = 'soft-plastics' | 'hair-jigs' | 'jig-heads' | 'bait-boxes';
 
 export interface Category {
   slug: CategorySlug;
@@ -101,6 +101,12 @@ export interface Product {
   images: ProductImage[];
   art: ArtKind;
   badge?: 'New' | 'Gift idea' | 'Seasonal';
+  /** Smallest quantity per size/color (e.g. 50 soft plastics). Defaults to 1. */
+  minQty?: number;
+  /** How much the quantity buttons step by. Defaults to 1. */
+  qtyStep?: number;
+  /** What one unit is, when the price is per piece (e.g. "bait"). */
+  unit?: string;
   featured?: boolean;
   /** Marks invented demo data. Every product in the prototype is a sample. */
   sample: true;

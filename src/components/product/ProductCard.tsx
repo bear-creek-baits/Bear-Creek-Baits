@@ -6,6 +6,7 @@ import type { Product } from '@/lib/types';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
 import { colorOption, formatPriceRange, isAvailable, sizeList } from '@/lib/catalog';
+import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { ProductArt } from './ProductArt';
 import { ProductMedia } from './ProductMedia';
 import { Swatch } from './Swatch';
@@ -51,6 +52,12 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         {sizeList(product) && <p className={styles.sizes}>{sizeList(product)}</p>}
         <p className={styles.price}>
           {formatPriceRange(product)}
+          {product.unit && (
+            <span className={styles.per}>
+              {' '}
+              / {product.unit} · {product.minQty ?? SOFT_PLASTIC_MIN} min
+            </span>
+          )}
           {!available && <span className="visually-hidden"> — sold out</span>}
         </p>
 

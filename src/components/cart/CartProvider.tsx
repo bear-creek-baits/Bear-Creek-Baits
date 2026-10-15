@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { CartLine, Product, Variant } from '@/lib/types';
-import { findVariantById } from '@/lib/catalog';
+import { findVariantById, orderRules } from '@/lib/catalog';
 
 /**
  * Local prototype cart, persisted to localStorage.
@@ -11,7 +11,16 @@ import { findVariantById } from '@/lib/catalog';
  */
 
 const STORAGE_KEY = 'bcb-cart-v1';
-export const MAX_QTY = 99;
+
+/**
+ * Keeps a line's quantity inside its product's rules (e.g. at least 50 soft plastics).
+ * `allowBelowMin` lets a quantity field hold a partly typed number; the field snaps to the minimum on blur.
+ */
+function clampQty(variantId: string, n: number, allowBelowMin = false): number {
+  const found = findVariantById(variantId);
+  const { min, max } = found ? orderRules(found.product) : { min: 1, max: 99 };
+  return Math.max(allowBelowMin ? 1 : min, Math.min(max, n));
+}
 
 export interface ResolvedLine extends CartLine {
   product: Product;
@@ -76,10 +85,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const existing = prev.find((l) => l.variantId === variantId);
       if (existing) {
         return prev.map((l) =>
-          l.variantId === variantId ? { ...l, quantity: Math.min(MAX_QTY, l.quantity + quantity) } : l,
+          l.variantId === variantId ? { ...l, quantity: clampQty(variantId, l.quantity + quantity) } : l,
         );
       }
-      return [...prev, { variantId, slug, quantity: Math.min(MAX_QTY, quantity) }];
+      return [...prev, { variantId, slug, quantity: clampQty(variantId, quantity) }];
     });
     setLastAdded(variantId);
     setOpen(true);
@@ -89,7 +98,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setRaw((prev) =>
       quantity <= 0
         ? prev.filter((l) => l.variantId !== variantId)
-        : prev.map((l) => (l.variantId === variantId ? { ...l, quantity: Math.min(MAX_QTY, quantity) } : l)),
+        : prev.map((l) => (l.variantId === variantId ? { ...l, quantity: clampQty(variantId, quantity, true) } : l)),
     );
   }, []);
 

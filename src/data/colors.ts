@@ -5,7 +5,7 @@ import type { Colorway } from '@/lib/types';
  * ---------
  * Soft plastic color NAMES come from Steve's Bear Creek Baits Facebook posts (Sep–Oct 2026).
  * The hex values are rough matches from his photos so the illustrations and swatches read right;
- * real product photos will replace them. Bass, jig head, hair jig and bait box colors are still samples.
+ * real product photos will replace them. Jig head, hair jig and bait box colors are still samples.
  */
 export const colorways: Colorway[] = [
   // Crappie & sauger plastics (names from the Facebook posts)
@@ -20,12 +20,6 @@ export const colorways: Colorway[] = [
   { id: 'blue-treuse', name: 'Blue Treuse', primary: '#1F5E9E', secondary: '#1A4F86', flake: '#5FC0F0', tail: '#E4F21E', families: ['blue', 'chartreuse'] },
   { id: 'dirty-girl', name: 'Dirty Girl', primary: '#151515', secondary: '#151515', flake: '#C8CCD0', tail: '#4BEF3A', families: ['black', 'chartreuse'] },
   { id: 'blue-red-tail', name: 'Blue / Red Tail', primary: '#2F7FD6', secondary: '#2A70C0', flake: '#D8E8F5', tail: '#E0262E', families: ['blue', 'red'] },
-
-  // Bass plastics
-  { id: 'green-pumpkin', name: 'Green Pumpkin', primary: '#5B5A2C', secondary: '#5B5A2C', flake: '#1A1A10', families: ['natural'] },
-  { id: 'watermelon-red', name: 'Watermelon Red', primary: '#5E7A3A', secondary: '#5E7A3A', flake: '#E03A3A', families: ['natural', 'red'] },
-  { id: 'black-blue', name: 'Black Blue', primary: '#1B1B26', secondary: '#1B1B26', flake: '#3A7BFF', families: ['black', 'blue'] },
-  { id: 'white-shad', name: 'White Shad', primary: '#F1F0EA', secondary: '#C8CED2', flake: '#B9C7CF', families: ['white', 'natural'] },
 
   // Painted jig head colors
   { id: 'head-red', name: 'Red', primary: '#D7262E', secondary: '#D7262E', families: ['red'] },

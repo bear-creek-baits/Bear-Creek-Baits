@@ -6,7 +6,7 @@ import { useCart, type ResolvedLine } from '@/components/cart/CartProvider';
 import { ProductMedia } from '@/components/product/ProductMedia';
 import { Icon } from '@/components/ui/Icon';
 import { brand, ordering, site } from '@/content/site';
-import { describeVariant, formatPrice } from '@/lib/catalog';
+import { describeVariant, formatPrice, orderRules } from '@/lib/catalog';
 import styles from '../pages.module.css';
 
 /**
@@ -32,6 +32,7 @@ export function OrderRequestView() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'failed'>('idle');
   const [sent, setSent] = useState<{ contactBy: string } | null>(null);
+  const [shortLines, setShortLines] = useState<string[]>([]);
 
   if (!ready) {
     return <div className={`container ${styles.checkoutLoading}`} aria-busy="true" />;
@@ -94,6 +95,10 @@ export function OrderRequestView() {
 
     // Honeypot: real people never fill this hidden field.
     if (val('_gotcha')) return;
+
+    const short = lines.filter((l) => l.quantity < orderRules(l.product).min);
+    setShortLines(short.map((l) => `${l.product.title} (${describeVariant(l.product, l.variant)}): ${orderRules(l.product).min} minimum`));
+    if (short.length) return;
 
     data.set('order', orderSummary(lines, subtotal));
     data.set('_subject', `Order request from ${val('name')}`);
@@ -193,6 +198,16 @@ export function OrderRequestView() {
                   <button type="submit" className="btn" disabled={status === 'sending'}>
                     {status === 'sending' ? 'Sending…' : 'Send order request'}
                   </button>
+                  {shortLines.length > 0 && (
+                    <div className="field-error" role="alert">
+                      Bump these up to the minimum, then send again:
+                      <ul>
+                        {shortLines.map((t) => (
+                          <li key={t}>{t}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   {status === 'failed' && (
                     <p className="field-error" role="alert">
                       That didn’t go through. Your list is still saved. Try again, or{' '}
@@ -233,7 +248,10 @@ export function OrderRequestView() {
                   </span>
                   <span className={styles.sumInfo}>
                     <strong>{l.product.title}</strong>
-                    <span>{describeVariant(l.product, l.variant)}</span>
+                    <span>
+                      {describeVariant(l.product, l.variant)}
+                      {l.product.unit ? ` · ${l.quantity} ${l.product.unit}s` : ''}
+                    </span>
                   </span>
                   <span className={styles.sumPrice}>{formatPrice(l.lineTotal)}</span>
                 </li>

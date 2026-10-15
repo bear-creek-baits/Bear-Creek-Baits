@@ -38,7 +38,7 @@ export default function AboutPage() {
               every jig head is hand-painted. Nothing is mass-produced.
             </p>
             <p>
-              Crappie comes first, with bass and sauger baits for the rest of the trip. Over 50 years of chasing fish, and the same care in
+              Soft plastics are poured in runs and hair jigs are tied to order. Over 50 years of chasing fish, and the same care in
               every bait.
             </p>
             <ul className={styles.makeList}>

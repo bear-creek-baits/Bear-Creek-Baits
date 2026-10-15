@@ -56,6 +56,18 @@ const faqs = [
     a: 'Yes. We make every bait by hand in small batches, so sold-out colors come back. Sold-out options are marked on the product page; reach out through the contact page to ask about a restock.',
   },
   {
+    q: 'Is there a minimum order?',
+    a: 'Soft plastics are poured in runs, so there’s a 50-bait minimum for each size and color.',
+  },
+  {
+    q: 'How long do hair jigs take?',
+    a: 'Every hair jig is tied by hand when you order it. We’ll let you know the timing when we reach out to confirm your order.',
+  },
+  {
+    q: 'Can I buy Bear Creek Baits in a store?',
+    a: 'Yes. Several tackle shops around Pickwick and the Shoals carry them. Use the dealer finder to see the closest one to you.',
+  },
+  {
     q: 'Do you take bulk or custom orders?',
     a: 'Ask through the contact page with what you have in mind.',
   },

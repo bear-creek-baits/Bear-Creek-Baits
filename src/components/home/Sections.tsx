@@ -7,6 +7,9 @@ import { ProductArt } from '@/components/product/ProductArt';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
 import type { ArtKind } from '@/lib/types';
+import { dealers } from '@/data/dealers';
+import { DealerMap } from '@/components/dealers/DealerMap';
+import dealerStyles from '@/components/dealers/Dealers.module.css';
 import styles from './Home.module.css';
 
 /* ------------------------------------------------------------------ Categories */
@@ -193,8 +196,8 @@ export function Bench() {
             Big bite.
           </h2>
           <p className={styles.benchLead}>
-            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Crappie leads the lineup, with bass and
-            sauger baits for the rest of the trip.
+            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Soft plastics are poured in runs, and every
+            hair jig is tied to order.
           </p>
           <ol className={styles.points}>
             {points.map((p) => (
@@ -211,6 +214,33 @@ export function Bench() {
             About Bear Creek Baits <Icon name="arrow-right" size={18} />
           </Link>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ Local dealers */
+
+export function LocalDealers() {
+  return (
+    <section className={`section ${dealerStyles.teaser}`} aria-labelledby="dealers-title">
+      <div className={`container ${dealerStyles.teaserGrid}`}>
+        <div>
+          <p className="eyebrow">Local dealers</p>
+          <h2 id="dealers-title" className={dealerStyles.teaserTitle}>Pick some up on the way to the lake.</h2>
+          <p className={dealerStyles.teaserLead}>Tackle shops around Pickwick and the Shoals carry Bear Creek Baits. Find the one closest to you.</p>
+          <ul className={dealerStyles.teaserTowns}>
+            {dealers.map((d) => (
+              <li key={d.id}>{d.town.replace(/, [A-Z]{2}$/, '')}</li>
+            ))}
+          </ul>
+          <Link href="/dealers/" className="btn">
+            Find a dealer <Icon name="arrow-right" size={20} />
+          </Link>
+        </div>
+        <Link href="/dealers/" className={dealerStyles.mapWrap} aria-label="Open the dealer finder">
+          <DealerMap />
+        </Link>
       </div>
     </section>
   );

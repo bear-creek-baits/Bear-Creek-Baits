@@ -161,3 +161,9 @@
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
+
+.per {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--muted);
+}

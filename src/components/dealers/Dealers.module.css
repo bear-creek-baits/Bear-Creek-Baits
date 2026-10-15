@@ -1,0 +1,327 @@
+/* ================================================================ Finder layout */
+
+.finder {
+  display: grid;
+  gap: 20px;
+  grid-template-areas: 'search' 'map' 'list';
+}
+.areaSearch {
+  grid-area: search;
+}
+.areaMap {
+  grid-area: map;
+}
+.areaList {
+  grid-area: list;
+}
+@media (min-width: 960px) {
+  .finder {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'search map' 'list map';
+    gap: 20px 40px;
+    align-items: start;
+  }
+  .areaMap {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+}
+.finderSide {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.search {
+  display: grid;
+  gap: 8px;
+}
+.search label {
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.searchRow {
+  display: flex;
+  gap: 10px;
+}
+.searchRow :global(.input) {
+  flex: 1;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+.searchRow :global(.btn) {
+  flex: none;
+}
+
+.status {
+  color: var(--muted);
+}
+
+/* ================================================================ Dealer cards */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.card {
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  transition: border-color 0.15s var(--ease);
+}
+.cardActive {
+  border-color: var(--ink);
+  box-shadow: inset 4px 0 0 var(--green);
+}
+.cardMain {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 14px 16px 8px;
+  text-align: left;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.cardHead strong {
+  font-size: 17px;
+}
+.miles {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.closest {
+  justify-self: start;
+  margin: 2px 0;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--green);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.town {
+  font-weight: 600;
+  color: var(--green-ink);
+}
+.addr {
+  font-size: 15px;
+  color: var(--muted);
+}
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 4px 16px 14px;
+}
+.phone {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+.directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: var(--green-ink);
+  text-decoration: none;
+}
+.directions:hover,
+.phone:hover {
+  text-decoration: underline;
+}
+.fine {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ================================================================ Map */
+
+.mapWrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ink);
+}
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.mapBg {
+  fill: var(--ink);
+}
+.stateLine {
+  fill: none;
+  stroke: rgba(243, 240, 232, 0.28);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 5;
+}
+.stateLabel {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  fill: rgba(243, 240, 232, 0.3);
+}
+.river {
+  fill: none;
+  stroke: #3d6f8f;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lake {
+  fill: none;
+  stroke: #3d6f8f;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.creek {
+  fill: none;
+  stroke: #3d6f8f;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.waterLabel {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  fill: #8db5cf;
+}
+.townDot {
+  fill: rgba(243, 240, 232, 0.45);
+}
+.townLabel {
+  font-family: var(--font-body);
+  font-size: 12px;
+  fill: rgba(243, 240, 232, 0.5);
+}
+
+.pin {
+  cursor: default;
+}
+.pin[role='button'] {
+  cursor: pointer;
+}
+.pin:focus {
+  outline: none;
+}
+.pinShape {
+  fill: var(--green);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.pinDot {
+  fill: var(--ink);
+}
+.pinLabel {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  fill: var(--bone);
+  paint-order: stroke;
+  stroke: var(--ink);
+  stroke-width: 4px;
+}
+.pinActive .pinShape,
+.pin:focus-visible .pinShape {
+  fill: var(--bone);
+  stroke: var(--green);
+  stroke-width: 3;
+}
+.pinActive .pinLabel {
+  fill: var(--green);
+}
+.you {
+  fill: var(--orange);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.youHalo {
+  fill: rgba(238, 106, 33, 0.25);
+}
+.youLabel {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 13px;
+  fill: var(--orange);
+  paint-order: stroke;
+  stroke: var(--ink);
+  stroke-width: 4px;
+}
+
+/* ================================================================ Homepage teaser */
+
+.teaser {
+  background: var(--paper);
+}
+.teaserGrid {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .teaserGrid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 56px;
+  }
+}
+.teaserTowns {
+  list-style: none;
+  margin: 20px 0 26px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.teaserTowns li {
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.teaserTitle {
+  font-size: clamp(36px, 6vw, 60px);
+  margin-top: 10px;
+}
+.teaserLead {
+  margin-top: 12px;
+  color: var(--muted);
+  max-width: 46ch;
+}

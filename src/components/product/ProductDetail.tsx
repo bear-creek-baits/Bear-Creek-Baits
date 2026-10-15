@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
-import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, handmadeLine, isAvailable, resolveSelection } from '@/lib/catalog';
-import { useCart, MAX_QTY } from '@/components/cart/CartProvider';
+import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, handmadeLine, isAvailable, orderRules, resolveSelection, unitNote } from '@/lib/catalog';
+import { useCart } from '@/components/cart/CartProvider';
 import { ordering, orderingCopy } from '@/content/site';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
@@ -15,7 +15,8 @@ import styles from './ProductDetail.module.css';
 export function ProductDetail({ product, category }: { product: Product; category: Category }) {
   const { add } = useCart();
   const [selected, setSelected] = useState<Record<string, string>>(() => defaultSelection(product));
-  const [qty, setQty] = useState(1);
+  const rules = orderRules(product);
+  const [qty, setQty] = useState(rules.min);
   const [justAdded, setJustAdded] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
   const buyRef = useRef<HTMLDivElement>(null);
@@ -61,9 +62,9 @@ export function ProductDetail({ product, category }: { product: Product; categor
 
   const addToCart = () => {
     if (!canAdd) return;
-    add(variant.id, product.slug, qty);
+    add(variant.id, product.slug, Math.max(rules.min, qty));
     setJustAdded(true);
-    setQty(1);
+    setQty(rules.min);
   };
 
   const buttonLabel = !productAvailable
@@ -109,6 +110,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
           <h1 className={styles.title}>{product.title}</h1>
           <div className={styles.priceRow}>
             <span className={styles.price}>{formatPrice(variant.price)}</span>
+            {unitNote(product) && <span className={styles.unitNote}>{unitNote(product)}</span>}
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>
           <p className={styles.handmade}>{handmadeLine(product)}</p>
@@ -119,12 +121,25 @@ export function ProductDetail({ product, category }: { product: Product; categor
           </div>
 
           <div ref={buyRef} className={styles.buy}>
-            <QuantityStepper value={qty} onChange={setQty} max={MAX_QTY} label="Quantity" disabled={!canAdd} />
+            <QuantityStepper
+              value={qty}
+              onChange={setQty}
+              min={rules.min}
+              max={rules.max}
+              step={rules.step}
+              label={rules.unit ? `Quantity (${rules.unit}s)` : 'Quantity'}
+              disabled={!canAdd}
+            />
             <button type="button" className={`btn ${styles.addBtn} ${justAdded ? styles.added : ''}`} onClick={addToCart} disabled={!canAdd}>
               {justAdded && <Icon name="check" size={20} />}
               {buttonLabel}
             </button>
           </div>
+          {rules.unit && canAdd && (
+            <p className={styles.lineTotal}>
+              {Math.max(rules.min, qty)} {rules.unit}s · {formatPrice(variant.price * Math.max(rules.min, qty))}
+            </p>
+          )}
           {!variant.available ? (
             <p className={styles.soldNote}>
               {productAvailable ? 'This option is' : 'This one is'} sold out. We make every bait by hand in small batches, so it’ll be back.{' '}
