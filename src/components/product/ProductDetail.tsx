@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
-import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable } from '@/lib/catalog';
+import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, handmadeLine, isAvailable, resolveSelection } from '@/lib/catalog';
 import { useCart, MAX_QTY } from '@/components/cart/CartProvider';
-import { brand, ordering, orderingCopy } from '@/content/site';
+import { ordering, orderingCopy } from '@/content/site';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
 import { ProductMedia } from './ProductMedia';
@@ -28,8 +28,8 @@ export function ProductDetail({ product, category }: { product: Product; categor
   useEffect(() => {
     if (!colorOpt) return;
     const c = new URLSearchParams(window.location.search).get('color');
-    if (c && colorOpt.values.includes(c)) setSelected((s) => ({ ...s, [colorOpt.name]: c }));
-  }, [colorOpt]);
+    if (c && colorOpt.values.includes(c)) setSelected((s) => resolveSelection(product, s, colorOpt.name, c));
+  }, [colorOpt, product]);
 
   // Show the sticky mobile add-to-cart bar once the main buy box scrolls out of view.
   useEffect(() => {
@@ -49,7 +49,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
   }, [justAdded]);
 
   const choose = (name: string, value: string) => {
-    setSelected((s) => ({ ...s, [name]: value }));
+    setSelected((s) => resolveSelection(product, s, name, value));
     if (colorOpt && name === colorOpt.name) {
       const url = new URL(window.location.href);
       url.searchParams.set('color', value);
@@ -111,7 +111,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
             <span className={styles.price}>{formatPrice(variant.price)}</span>
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>
-          <p className={styles.handmade}>{brand.handmade}</p>
+          <p className={styles.handmade}>{handmadeLine(product)}</p>
           <p className={styles.summary}>{product.summary}</p>
 
           <div className={styles.options}>

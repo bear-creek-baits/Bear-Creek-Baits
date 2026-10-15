@@ -40,6 +40,32 @@ export function findVariant(product: Product, selected: Record<string, string>):
   return product.variants.find((v) => product.options.every((o) => v.options[o.name] === selected[o.name]));
 }
 
+/**
+ * Applies one option change. If that combination isn't made (a color not poured in the new size),
+ * switches to the closest combination that is, preferring one in stock.
+ */
+export function resolveSelection(product: Product, current: Record<string, string>, name: string, value: string): Record<string, string> {
+  const next = { ...current, [name]: value };
+  if (findVariant(product, next)) return next;
+  const withValue = product.variants.filter((v) => v.options[name] === value);
+  const match = withValue.find((v) => v.available) ?? withValue[0];
+  return match ? { ...match.options } : next;
+}
+
+/** "Hand-poured.", "Hand-tied." or "Hand-painted.", depending on how the product is made. */
+export function handmadeLine(product: Product): string {
+  switch (product.art) {
+    case 'jig-head':
+      return 'Hand-painted.';
+    case 'hair-jig':
+      return 'Hand-tied.';
+    case 'box':
+      return 'Hand-poured plastics. Hand-painted heads.';
+    default:
+      return 'Hand-poured.';
+  }
+}
+
 export function isAvailable(product: Product): boolean {
   return product.variants.some((v) => v.available);
 }

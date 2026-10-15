@@ -22,6 +22,8 @@ type Draft = Omit<Product, 'variants' | 'sample' | 'images'> & {
   price: (opts: Record<string, string>) => number;
   /** Return true for option combinations that should show as sold out. */
   soldOut?: (opts: Record<string, string>) => boolean;
+  /** Return false for combinations that aren't made at all (e.g. a color not poured in that size). */
+  offered?: (opts: Record<string, string>) => boolean;
 };
 
 function cartesian(options: ProductOption[]): Record<string, string>[] {
@@ -32,8 +34,8 @@ function cartesian(options: ProductOption[]): Record<string, string>[] {
 }
 
 function build(d: Draft): Product {
-  const { price, soldOut, ...rest } = d;
-  const variants: Variant[] = cartesian(d.options).map((opts) => ({
+  const { price, soldOut, offered, ...rest } = d;
+  const variants: Variant[] = cartesian(d.options).filter((opts) => offered?.(opts) ?? true).map((opts) => ({
     id: [d.slug, ...Object.values(opts)].join('--').replace(/[^a-z0-9-]+/gi, '').toLowerCase(),
     options: opts,
     price: price(opts),
@@ -44,51 +46,39 @@ function build(d: Draft): Product {
 
 const samplePrice = 499; // PLACEHOLDER: one sample price per bag until real prices are confirmed
 
+/** Which colors Steve has posted in each Swim Bait size. */
+const swimBaitColors: Record<string, string[]> = {
+  '1.5"': ['crown-royal', 'delta-shad', 'blue-ice-char', 'monkey-snot', 'the-closer'],
+  '2"': ['crown-royal', 'blue-ice-char', 'county-fair'],
+  '2.2"': ['county-fair', 'copper-top', 'crown-royal', 'monkey-snot'],
+};
+
 export const products: Product[] = [
   // ---------------------------------------------------------------- Soft plastics (crappie)
   build({
-    slug: 'swim-bait-1-5',
-    title: '1.5" Swim Bait',
+    slug: 'swim-bait',
+    title: 'Swim Bait',
     category: 'soft-plastics',
     art: 'shad',
     badge: 'New',
     featured: true,
-    summary: 'The newest profile on the bench. Small paddle tail, big tail action.',
+    summary: 'Paddle-tail swim bait in three sizes, now including the new 1.5".',
     description: [
-      'The new 1.5" swim bait. It\'s the hardest mold on the bench to shoot laminates in, but the colors come out looking right.',
-      'Rig it on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match. We can make the right head for it.',
+      'Three sizes, all with great tail action. The 2.2" is the most popular. The 2" is a custom bait that sometimes gets overlooked next to it. The 1.5" is the newest, and the hardest mold on the bench to shoot laminates in.',
+      'Rig the 1.5" on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match. We can make the right head for it.',
     ],
-    details: ['Hand-poured', 'Pairs with the Swim Bait Jig Head (#8 sickle hook)', 'Sample price and bag count'],
-    options: [{ name: 'Color', display: 'swatch', values: ['crown-royal', 'delta-shad', 'blue-ice-char', 'monkey-snot', 'the-closer'] }],
-    price: () => samplePrice,
-  }),
-  build({
-    slug: 'swim-bait-2',
-    title: '2" Swim Bait',
-    category: 'soft-plastics',
-    art: 'shad',
-    summary: 'A custom 2" swim bait that doesn\'t get the attention it deserves.',
-    description: [
-      'A custom bait that sometimes gets overlooked next to the 2.2" Swim Bait. Same great tail action in a slightly smaller profile.',
+    details: ['Sizes: 1.5", 2" and 2.2"', 'Not every color is poured in every size', 'Sample price and bag count'],
+    options: [
+      { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
+      {
+        name: 'Color',
+        display: 'swatch',
+        values: ['crown-royal', 'county-fair', 'blue-ice-char', 'monkey-snot', 'delta-shad', 'copper-top', 'the-closer'],
+      },
     ],
-    details: ['Hand-poured', 'Custom profile', 'Sample price and bag count'],
-    options: [{ name: 'Color', display: 'swatch', values: ['crown-royal', 'blue-ice-char', 'county-fair'] }],
+    offered: (o) => swimBaitColors[o.Size].includes(o.Color),
     price: () => samplePrice,
-    soldOut: (o) => o.Color === 'county-fair',
-  }),
-  build({
-    slug: 'swim-bait-2-2',
-    title: '2.2" Swim Bait',
-    category: 'soft-plastics',
-    art: 'shad',
-    featured: true,
-    summary: 'The most popular swim bait in the lineup.',
-    description: [
-      'The very popular 2.2" swim bait. A ribbed body and a paddle tail that keeps kicking at a slow crawl.',
-    ],
-    details: ['Hand-poured', 'Sample price and bag count'],
-    options: [{ name: 'Color', display: 'swatch', values: ['county-fair', 'copper-top', 'crown-royal', 'monkey-snot'] }],
-    price: () => samplePrice,
+    soldOut: (o) => o.Size === '2"' && o.Color === 'county-fair',
   }),
   build({
     slug: 'crappie-crusher-2',
@@ -169,7 +159,7 @@ export const products: Product[] = [
     featured: true,
     summary: 'Painted round head for rigging crappie plastics.',
     description: ['A painted round-head jig for crappie plastics. Choose weight, hook size, head color and pack size.'],
-    details: ['Sample product for the website preview', 'Pairs with the 2.2" Swim Bait and 2" Crappie Crusher'],
+    details: ['Sample product for the website preview', 'Pairs with the Swim Bait and 2" Crappie Crusher'],
     options: [
       { name: 'Head Color', display: 'swatch', values: ['head-red', 'head-chartreuse', 'head-pink', 'head-white', 'head-black', 'head-orange', 'head-unpainted'] },
       { name: 'Weight', display: 'button', values: ['1/64 oz', '1/32 oz', '1/16 oz', '1/8 oz'] },

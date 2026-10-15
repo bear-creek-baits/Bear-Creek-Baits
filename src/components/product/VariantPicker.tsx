@@ -14,7 +14,8 @@ interface Props {
 /**
  * Renders each product option as either color swatches or tappable buttons.
  * Values that are sold out in combination with the other current selections are marked but
- * remain selectable, so customers can see the option exists.
+ * remain selectable, so customers can see the option exists. Values that aren't made at all with
+ * the options chosen above them (a color not poured in the selected size) are hidden.
  */
 export function VariantPicker({ product, selected, onChange }: Props) {
   const isValueAvailable = (name: string, value: string) =>
@@ -22,10 +23,16 @@ export function VariantPicker({ product, selected, onChange }: Props) {
       (v) => v.available && v.options[name] === value && product.options.every((o) => o.name === name || v.options[o.name] === selected[o.name]),
     );
 
+  const isValueOffered = (index: number, value: string) =>
+    product.variants.some(
+      (v) => v.options[product.options[index].name] === value && product.options.slice(0, index).every((o) => v.options[o.name] === selected[o.name]),
+    );
+
   return (
     <div className={styles.picker}>
-      {product.options.map((opt) => {
+      {product.options.map((opt, index) => {
         if (opt.values.length < 2 && opt.display !== 'swatch') return null;
+        const values = opt.values.filter((v) => isValueOffered(index, v));
         const current = selected[opt.name];
         const groupId = `opt-${opt.name.replace(/\s+/g, '-').toLowerCase()}`;
         return (
@@ -35,7 +42,7 @@ export function VariantPicker({ product, selected, onChange }: Props) {
               {!isValueAvailable(opt.name, current) && <span className={styles.so}>Sold out</span>}
             </legend>
             <div className={opt.display === 'swatch' ? styles.swatches : styles.buttons} role="radiogroup" aria-labelledby={groupId}>
-              {opt.values.map((value) => {
+              {values.map((value) => {
                 const isSel = value === current;
                 const avail = isValueAvailable(opt.name, value);
                 const label = optionValueLabel(opt.display, value);
@@ -54,10 +61,10 @@ export function VariantPicker({ product, selected, onChange }: Props) {
                       if (!keys.includes(e.key)) return;
                       e.preventDefault();
                       const dir = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1;
-                      const idx = opt.values.indexOf(value);
-                      const next = opt.values[(idx + dir + opt.values.length) % opt.values.length];
+                      const idx = values.indexOf(value);
+                      const next = values[(idx + dir + values.length) % values.length];
                       onChange(opt.name, next);
-                      const sib = (e.currentTarget.parentElement?.children[(idx + dir + opt.values.length) % opt.values.length] as HTMLElement | undefined);
+                      const sib = (e.currentTarget.parentElement?.children[(idx + dir + values.length) % values.length] as HTMLElement | undefined);
                       sib?.focus();
                     }}
                     tabIndex={isSel ? 0 : -1}
