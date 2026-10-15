@@ -1,6 +1,6 @@
 # Bear Creek Baits — Brand Guide
 
-Version 1.0 · October 2026
+Version 1.1 · October 2026
 
 This guide sets the look and voice of Bear Creek Baits LLC. It is written for two readers: the owner, and whoever builds or updates the website. Every color and font here already exists as a token in `src/app/globals.css`, so the site and this guide stay in sync.
 
@@ -8,9 +8,11 @@ This guide sets the look and voice of Bear Creek Baits LLC. It is written for tw
 
 ## 1. The brand at a glance
 
-**Who we are.** A small, independent tackle maker. We make soft plastics, hand-tied hair jigs and jig heads, mostly for crappie, with some bass and sauger baits too.
+**Who we are.** A small, independent tackle maker. Every bait is made by hand: hand-poured soft plastics, hand-tied hair jigs and hand-painted jig heads. Mostly for crappie, with some bass and sauger baits too.
 
-**What we stand for.** Baits made by people who fish, built to get bit. We have been chasing fish for over 50 years, and every bait gets the same care.
+**What we stand for.** Baits made by hand, by people who fish, built to get bit. Nothing is mass-produced: every plastic is poured, every jig is tied and every head is painted by hand. We have been chasing fish for over 50 years, and every bait gets the same care.
+
+**Our proof point.** *Hand-poured. Hand-tied. Hand-painted.* This is the clearest difference between Bear Creek Baits and big-box tackle. Say it often: on the homepage, on every product page and on the package.
 
 **Who we serve.** Crappie anglers first: spider-riggers, single-pole jig fishermen, dock shooters and weekend bank fishermen. Bass and sauger anglers second.
 
@@ -32,7 +34,6 @@ Writing rules for the taglines:
 - Use title case for the two short lines. The brand promise is a sentence, so it uses sentence case.
 - Keep the period at the end of the short lines when they stand alone. Drop it in tight spaces like a hat or a button.
 - Don't change the wording, combine the lines into one, or add exclamation points.
-- **Confirm the year.** "Over 50 Years" needs a start year behind it. Once confirmed, the site can also show "Since 19XX" in the footer, and that version never goes out of date.
 
 ---
 
@@ -49,7 +50,7 @@ The logo is the one-eyed bear gripping a badge with **BEAR CREEK BAITS LLC** and
 | `public/brand/icon-192.png`, `icon-512.png`, `apple-touch-icon.png`, `favicon.ico` | App and browser icons |
 | `public/brand/og-image.png` | Link preview image for Facebook and texts (1200 × 630) |
 
-> **Action item:** The only logo on hand is a small raster image on a green background. Ask the original designer or printer for the **vector file** (AI, EPS, SVG or PDF). A vector file is needed for sharp printing at any size, for a transparent-background version, and for the one-color versions listed below.
+> **Action item (once the owner commits to the website):** The only logo on hand is a small raster image on a green background. Get the **vector file** from the original designer or printer (AI, EPS, SVG or PDF). A vector file is needed for sharp printing at any size, for a transparent-background version, and for the one-color versions listed below.
 
 ### Approved versions
 
@@ -192,29 +193,27 @@ All three are free under the SIL Open Font License, available from Google Fonts,
 
 | Use | Avoid |
 | --- | --- |
-| hand-tied, small-batch, hand-poured* | premium, elite, pro-grade |
+| hand-poured, hand-tied, hand-painted, small-batch | premium, elite, pro-grade |
 | gets bit, puts fish in the boat | revolutionary, cutting-edge, game-changing |
 | slab, papermouth, crappie | "fish catching machine", "irresistible" |
 | small shop, made by people who fish | million-dollar, industry-leading |
 | color names anglers know (monkey milk, black/chartreuse) | invented brand-speak for common colors |
 
-\* Only use "hand-poured" or "hand-painted" if that's how the baits are actually made. Confirm with the owner.
-
 ### Copy examples
 
 **Homepage hero**
 > BUST 'EM RIGHT IN THE MOUTH.
-> Crappie plastics, hand-tied hair jigs and jig heads from a small shop that's been chasing 'em for over 50 years.
+> Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads from a small shop that's been chasing 'em for over 50 years.
 > [Shop Crappie Baits]
 
 **Product description (soft plastic)**
-> A 2" shad body with a thin paddle tail that swims at a crawl. Rig it on a 1/16 oz head for docks, or go 1/8 oz when you're spider rigging in wind.
+> A hand-poured 2" shad body with a thin paddle tail that swims at a crawl. Rig it on a 1/16 oz head for docks, or go 1/8 oz when you're spider rigging in wind.
 
 **Order confirmation email**
 > Thanks for your order. We're getting it packed now. We're not a million-dollar company, but a million dollars' worth of heart goes into every bait, and yours is no different. Send us a picture when you stick a good one.
 
 **Out-of-stock message**
-> This color is sold out. We make baits in small batches, so it'll be back. Tap "Notify me" and we'll email you when it is.
+> This color is sold out. We pour every bait by hand in small batches, so it'll be back. Tap "Notify me" and we'll email you when it is.
 
 ### Naming products
 
@@ -255,6 +254,7 @@ The site in this repo already uses the system above. When adding pages or featur
    - *Bust 'Em Right in the Mouth.* — homepage hero headline, social share image.
    - *Chasing 'Em for Over 50 Years.* — footer, About page header.
    - *Brand promise* — About page, order confirmation, packing slip.
+   - *Hand-poured. Hand-tied. Hand-painted.* — homepage strip under the hero, every product page near the price, About page.
 6. **Focus and accessibility:** keep the green focus outline. Never put green text on a light background or white text on green (see section 3).
 7. **Social and email:** profile picture = full-color logo on green, cropped square. Cover/banner = Night Black with topo lines, the primary tagline in Big Shoulders Display, and a product or catch photo.
 
@@ -262,13 +262,14 @@ The site in this repo already uses the system above. When adding pages or featur
 
 ## 8. Open items for the owner
 
-These need answers before the website launches:
+Once the owner commits to the website:
 
 - [ ] Vector logo file (AI, EPS, SVG or PDF) from the original designer
-- [ ] The start year behind "Over 50 Years" (and the story behind it for the About page)
-- [ ] Who's behind the business: names and a photo for the About page, if you want them shown
 - [ ] Exact Facebook page link and any other social accounts
+
+Also needed before launch:
+
+- [ ] Names and a photo for the About page, if wanted, and the story behind the 50 years
 - [ ] Real product photos and the current list of baits, colors, weights and prices
 - [ ] Business email, phone and city/state to show on the site
-- [ ] How the baits are made (hand-poured? hand-painted heads?), so the copy can say so
 - [ ] Printer's Pantone match for Bear Creek Green, so packaging, shirts and stickers all match
