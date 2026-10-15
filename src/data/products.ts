@@ -214,6 +214,37 @@ export const products: Product[] = [
     soldOut: (o) => o.Color === 'white-shad',
   }),
 
+  // ---------------------------------------------------------------- Sauger baits
+  build({
+    slug: 'sauger-hair-jig',
+    title: 'Sauger Hair Jig',
+    category: 'sauger-baits',
+    art: 'hair-jig',
+    summary: 'Heavier hand-tied jig that gets down in current and stays there.',
+    description: ['A heavier hand-tied hair jig for sauger in cold, moving water. Hop it along the bottom below a dam or drag it slow on a break.'],
+    details: ['Sample product for the website preview', 'Hand-tied'],
+    options: [
+      { name: 'Color', display: 'swatch', values: ['hair-orange-chartreuse', 'hair-black-chartreuse', 'hair-solid-white', 'hair-purple-chartreuse'] },
+      { name: 'Weight', display: 'button', values: ['1/4 oz', '3/8 oz', '1/2 oz'] },
+    ],
+    price: () => 699,
+  }),
+  build({
+    slug: 'sauger-jig-head',
+    title: 'Sauger Jig Head',
+    category: 'sauger-baits',
+    art: 'jig-head',
+    summary: 'Hand-painted heavy head for minnows and plastics in current.',
+    description: ['A hand-painted heavy jig head for tipping with a minnow or rigging a plastic when the river is pulling.'],
+    details: ['Sample product for the website preview', 'Hand-painted'],
+    options: [
+      { name: 'Head Color', display: 'swatch', values: ['head-chartreuse', 'head-orange', 'head-white', 'head-pink'] },
+      { name: 'Weight', display: 'button', values: ['1/4 oz', '3/8 oz', '1/2 oz'] },
+      { name: 'Pack', display: 'button', values: ['5 ct', '10 ct'] },
+    ],
+    price: (o) => (o.Pack === '10 ct' ? 899 : 499),
+  }),
+
   // ---------------------------------------------------------------- Bait boxes
   build({
     slug: 'crappie-bait-box',

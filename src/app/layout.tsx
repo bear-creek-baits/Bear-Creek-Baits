@@ -7,7 +7,7 @@ import '@fontsource/barlow/700.css';
 import '@fontsource/barlow-condensed/600.css';
 import '@fontsource/barlow-condensed/700.css';
 import './globals.css';
-import { site, prototypeNotice } from '@/content/site';
+import { site, prototypeNotice, ordering } from '@/content/site';
 import { CartProvider } from '@/components/cart/CartProvider';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { Header } from '@/components/layout/Header';
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    'Bear Creek Baits makes crappie baits: soft plastics, hand-tied hair jigs, jig heads, bass baits and bait boxes. Shop online.',
+    'Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads from Bear Creek Baits, a small shop chasing \'em for over 50 years.',
   applicationName: site.name,
   openGraph: {
     type: 'website',
@@ -52,6 +52,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        {!ordering.open && (
+          <div className="announce announce-paused" role="status">
+            <strong>Orders paused</strong> {ordering.pausedMessage}
+          </div>
+        )}
         {site.prototype && <div className="announce">{prototypeNotice}</div>}
         <CartProvider>
           <Header />

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { categories } from '@/data/categories';
-import { site } from '@/content/site';
+import { brand, site } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
 import { NewsletterForm } from './NewsletterForm';
 import styles from './Footer.module.css';
@@ -15,7 +15,8 @@ export function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo.webp" alt="" width={474} height={464} loading="lazy" />
           </Link>
-          <p className={styles.blurb}>Crappie soft plastics, hand-tied hair jigs, jig heads and bait boxes.</p>
+          <p className={styles.heritage}>{brand.heritage}</p>
+          <p className={styles.blurb}>Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads.</p>
           <a href={site.social.facebook} className={styles.social} target="_blank" rel="noopener noreferrer">
             <Icon name="facebook" size={20} /> Follow on Facebook
           </a>

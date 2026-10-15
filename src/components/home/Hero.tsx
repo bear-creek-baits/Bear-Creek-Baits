@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ProductArt } from '@/components/product/ProductArt';
 import { Icon } from '@/components/ui/Icon';
 import type { ArtKind } from '@/lib/types';
+import { brand } from '@/content/site';
 import styles from './Home.module.css';
 
 /** Baits arranged like they were dumped out on the tailgate. Positions are % of the art area. */
@@ -20,20 +21,23 @@ export function Hero() {
     <section className={`dark topo ${styles.hero}`} aria-labelledby="hero-title">
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
-          <p className="eyebrow">Soft plastics · Hair jigs · Jig heads</p>
-          <h1 id="hero-title" className={styles.heroTitle}>
-            Built for crappie.
-            <span>Loaded with color.</span>
+          <p className="eyebrow">Crappie · Bass · Sauger</p>
+          {/* Primary tagline, split for the two-color treatment. Reads as one line to screen readers. */}
+          <h1 id="hero-title" className={styles.heroTitle} aria-label={brand.tagline}>
+            Bust ’Em
+            <span>Right in the Mouth.</span>
           </h1>
+          <p className={styles.heroHandmade}>{brand.handmade}</p>
           <p className={styles.heroText}>
-            Crappie soft plastics, hand-tied hair jigs and jig heads from Bear Creek Baits. Plus a few bass baits, and bait boxes worth giving.
+            Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads from a small shop that’s been chasing ’em for over 50
+            years.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/shop/" className="btn">
-              Shop baits <Icon name="arrow-right" size={20} />
+              Shop crappie baits <Icon name="arrow-right" size={20} />
             </Link>
-            <Link href="/shop/bait-boxes/" className="btn btn-outline">
-              Bait boxes
+            <Link href="/faq/" className="btn btn-outline">
+              How ordering works
             </Link>
           </div>
         </div>

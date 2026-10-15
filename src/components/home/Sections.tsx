@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
-import { site } from '@/content/site';
+import { brand, ordering, site } from '@/content/site';
 import { getCategoryCounts, getFeaturedProducts } from '@/lib/catalog';
 import { ProductArt } from '@/components/product/ProductArt';
 import { ProductGrid } from '@/components/product/ProductGrid';
@@ -25,8 +25,8 @@ export function CategoryGrid() {
           </Link>
         </div>
         <ul className={styles.catGrid}>
-          {categories.map((c, i) => (
-            <li key={c.slug} className={i === 0 ? styles.catWide : undefined}>
+          {categories.map((c) => (
+            <li key={c.slug}>
               <Link href={`/shop/${c.slug}/`} className={styles.catCard}>
                 <span className={styles.catArt}>
                   <ProductArt kind={c.art} color={c.artColor} />
@@ -162,9 +162,9 @@ export function BaitBoxFeature() {
 
 export function Bench() {
   const points = [
-    { n: '01', title: 'Hair jigs, tied by hand', body: 'Every hair jig in the lineup is hand-tied. Pick the weight and pattern you fish.' },
-    { n: '02', title: 'Color is the point', body: 'Solid, two-tone and flake colors for stained water, clear water and everything between.' },
-    { n: '03', title: 'Pair it up', body: 'Plastics and painted jig heads sold side by side, so matching a body to a head takes one stop.' },
+    { n: '01', title: 'Hand-poured', body: 'Soft plastics poured in small batches, in the colors crappie fishermen actually reach for.' },
+    { n: '02', title: 'Hand-tied', body: 'Every hair jig is tied by hand. Pick the weight and pattern you fish.' },
+    { n: '03', title: 'Hand-painted', body: 'Jig heads painted to match the plastics, so pairing a body to a head takes one stop.' },
   ];
   return (
     <section className={`section ${styles.bench}`} aria-labelledby="bench-title">
@@ -182,11 +182,11 @@ export function Bench() {
           <h2 id="bench-title" className={styles.benchTitle}>
             Small shop.
             <br />
-            Crappie first.
+            Big bite.
           </h2>
           <p className={styles.benchLead}>
-            Bear Creek Baits is an independent tackle company built around crappie fishing. Soft plastics, hair jigs and jig heads make up most of
-            the lineup, with a few bass baits for the other side of the boat.
+            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Crappie leads the lineup, with bass and
+            sauger baits for the rest of the trip.
           </p>
           <ol className={styles.points}>
             {points.map((p) => (
@@ -218,7 +218,7 @@ export function OnTheWater() {
           <div>
             <p className="eyebrow">On the water</p>
             <h2 id="water-title">Show us your catch</h2>
-            <p>Caught one on a Bear Creek bait? Send the picture our way on Facebook. Customer catches will show up here.</p>
+            <p>Send us a picture when you stick a good one. Customer catches will show up here.</p>
           </div>
           <a href={site.social.facebook} className="text-link" target="_blank" rel="noopener noreferrer">
             Share on Facebook <Icon name="arrow-right" size={18} />
@@ -237,13 +237,51 @@ export function OnTheWater() {
   );
 }
 
+/* ------------------------------------------------------------------ How ordering works */
+
+export function OrderSteps() {
+  if (ordering.mode !== 'request') return null;
+  const steps = [
+    { title: 'Build your list', body: 'Pick your baits, colors and weights and add them to your order list.' },
+    { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to the bench.' },
+    { title: 'We confirm and ship', body: 'We reach out to confirm stock, your total and shipping, then pack it up.' },
+  ];
+  return (
+    <section className="section dark topo" aria-labelledby="steps-title">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">How ordering works</p>
+            <h2 id="steps-title">Made by hand. Ordered by request.</h2>
+            <p>Every bait is made in small batches, so we confirm each order before you pay. That way you only pay for what’s ready to ship.</p>
+          </div>
+        </div>
+        <ol className={styles.stepGrid}>
+          {steps.map((s, i) => (
+            <li key={s.title}>
+              <span className={styles.stepN}>{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))}
+        </ol>
+        {!ordering.open && (
+          <p className={styles.stepsPaused} role="status">
+            <strong>Orders paused.</strong> {ordering.pausedMessage}
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------------ Final CTA */
 
 export function FinalCta() {
   return (
     <section className={`dark topo ${styles.final}`} aria-labelledby="final-title">
       <div className={`container ${styles.finalInner}`}>
-        <h2 id="final-title">Restock the tackle box.</h2>
+        <h2 id="final-title">{brand.tagline}</h2>
         <p>Plastics, jig heads and hair jigs in the colors you fish.</p>
         <div className={styles.finalCtas}>
           <Link href="/shop/" className="btn">

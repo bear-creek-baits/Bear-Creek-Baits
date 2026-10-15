@@ -430,6 +430,18 @@ textarea.input {
   line-height: 1.3;
 }
 
+.announce-paused {
+  background: var(--ink-2);
+  color: var(--bone);
+  border-bottom: 1px solid var(--ink-line);
+}
+.announce-paused strong {
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}
+
 main:focus {
   outline: none;
 }

@@ -46,6 +46,16 @@ export const categories: Category[] = [
     artColor: 'green-pumpkin',
   },
   {
+    slug: 'sauger-baits',
+    name: 'Sauger Baits',
+    blurb: 'Heavier jigs for cold, moving water',
+    intro: 'Sauger baits for river current and cold water: heavier hair jigs and heads that get down and stay there.',
+    seoTitle: 'Sauger Jigs & Baits',
+    seoDescription: 'Shop hand-tied sauger jigs and baits from Bear Creek Baits.',
+    art: 'hair-jig',
+    artColor: 'hair-orange-chartreuse',
+  },
+  {
     slug: 'bait-boxes',
     name: 'Bait Boxes',
     blurb: 'Assorted plastics and jig heads in one box',

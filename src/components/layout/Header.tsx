@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { categories } from '@/data/categories';
-import { site } from '@/content/site';
+import { site, orderingCopy } from '@/content/site';
 import { useCart } from '@/components/cart/CartProvider';
 import { Icon } from '@/components/ui/Icon';
 import { ProductArt } from '@/components/product/ProductArt';
@@ -95,7 +95,7 @@ export function Header() {
             >
               <Icon name="search" size={24} />
             </button>
-            <button type="button" className={`${styles.iconBtn} ${styles.cartBtn}`} onClick={openCart} aria-label={`Open cart, ${count} item${count === 1 ? '' : 's'}`}>
+            <button type="button" className={`${styles.iconBtn} ${styles.cartBtn}`} onClick={openCart} aria-label={`Open ${orderingCopy.listName.toLowerCase()}, ${count} item${count === 1 ? '' : 's'}`}>
               <Icon name="cart" size={25} />
               {ready && count > 0 && (
                 <span className={styles.badge} aria-hidden="true">

@@ -75,6 +75,7 @@ export function relatedProducts(product: Product, limit = 4): Product[] {
     'hair-jigs': 'soft-plastics',
     'bait-boxes': 'soft-plastics',
     'bass-baits': 'soft-plastics',
+    'sauger-baits': 'jig-heads',
   };
   const paired = products.filter((p) => p.category === pairs[product.category]);
   const seen = new Set<string>();

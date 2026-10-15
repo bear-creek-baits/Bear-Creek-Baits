@@ -106,6 +106,15 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+.handmade {
+  margin-top: 10px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+}
 .summary {
   margin-top: 12px;
   font-size: 18px;

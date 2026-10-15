@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { categories } from '@/data/categories';
-import { site } from '@/content/site';
+import { brand, site } from '@/content/site';
 import { ProductArt } from '@/components/product/ProductArt';
 import { Icon } from '@/components/ui/Icon';
 import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Bear Creek Baits is an independent tackle company focused on crappie fishing: soft plastics, hand-tied hair jigs and jig heads.',
+  description: 'Bear Creek Baits is a small, independent tackle maker: hand-poured soft plastics, hand-tied hair jigs and hand-painted jig heads.',
   alternates: { canonical: '/about/' },
 };
 
@@ -18,8 +18,8 @@ export default function AboutPage() {
       <section className="page-hero">
         <div className="container">
           <p className="eyebrow">About</p>
-          <h1>Crappie baits from Bear Creek</h1>
-          <p>An independent tackle company built around crappie fishing.</p>
+          <h1>{brand.heritage}</h1>
+          <p>A small, independent tackle maker. {brand.handmade}</p>
         </div>
       </section>
 
@@ -30,14 +30,16 @@ export default function AboutPage() {
             <img src="/brand/logo.webp" alt="Bear Creek Baits LLC logo" width={474} height={464} />
           </div>
           <div className="prose">
-            {/* DRAFT COPY — limited to what the business has confirmed. Replace with the owner's story. */}
+            {/* DRAFT COPY — limited to what the brand guide confirms. Replace with the story behind the 50 years, names and a photo. */}
+            <blockquote className={styles.promise}>{brand.promise}</blockquote>
             <h2 className={styles.h2}>What we make</h2>
             <p>
-              Bear Creek Baits LLC makes baits for crappie fishermen. The lineup centers on crappie soft plastics, hand-tied hair jigs and
-              jig heads, with a few bass baits and assorted bait boxes alongside.
+              Baits made by hand, by people who fish, built to get bit. Every soft plastic is hand-poured, every hair jig is hand-tied and
+              every jig head is hand-painted. Nothing is mass-produced.
             </p>
             <p>
-              The goal is simple: baits in the colors crappie fishermen actually reach for, and jig heads to rig them on, all from one shop.
+              Crappie comes first, with bass and sauger baits for the rest of the trip. Over 50 years of chasing fish, and the same care in
+              every bait.
             </p>
             <ul className={styles.makeList}>
               {categories.map((c) => (

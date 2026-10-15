@@ -1,6 +1,8 @@
 # Bear Creek Baits — storefront prototype
 
-A working e-commerce prototype for Bear Creek Baits LLC: home page, shop with category tabs, filters and sort, product pages with variant pickers, search, a cart that is saved in the browser, and a checkout hand-off marked as a prototype.
+Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.1): home page, shop with category tabs, filters and sort, product pages with variant pickers, search, and an order list that is saved in the browser.
+
+**Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when the bench is backed up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
 
 **Every product, price, option, color and stock status is sample data.** The only verified business inputs so far are the business name, the product types it sells, and the official logo.
 
@@ -27,6 +29,9 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 | What | File |
 | --- | --- |
 | Business info, Facebook link, prototype switch | `src/content/site.ts` |
+| **Ordering mode, open/closed switch, form endpoint** | `src/content/site.ts` → `ordering` |
+| Brand taglines (use exactly as written) | `src/content/site.ts` → `brand` |
+| Order request page | `src/app/order/` |
 | **Sample product catalog** | `src/data/products.ts` |
 | Sample colorways / swatches | `src/data/colors.ts` |
 | Categories and their copy | `src/data/categories.ts` |
@@ -40,14 +45,34 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 
 Add images under `public/products/…` and list them in the product's `images` array, or on individual variants (`variant.image`). Once a photo exists it replaces the illustration automatically.
 
+## Ordering (phase 1)
+
+Everything lives in the `ordering` block of `src/content/site.ts`:
+
+| Setting | What it does |
+| --- | --- |
+| `open` | **The switch.** `false` pauses orders: a banner shows on every page, "Add to order" buttons turn off and the order form is replaced by a "we're catching up" note. Customers can still browse and their list stays saved. Flip it back to `true` and redeploy to reopen. |
+| `pausedMessage` | The wording shown while paused. |
+| `formEndpoint` | Where order requests go. Create a free form at Formspree (or Basin, Netlify Forms, a Google Apps Script…), paste its URL here, and each request arrives in Steve's inbox with the customer's contact info and an itemized list. While `null`, the form works but nothing is delivered. |
+| `mode` | `'request'` today. `'shopify'` later (see below). |
+
+Each request includes: name, email, best way to reach them (email / text / call), phone, city and state, notes, and the itemized list with an estimated subtotal.
+
 ### Turning off prototype mode
 
 Set `prototype: false` in `src/content/site.ts`. That removes the sample-content notices and lets search engines index the site. Only do this after real catalog data and checkout are in place.
 
-## Path to production (suggested)
+## Path to launch (phase 1)
 
-1. Set up Shopify (products, variants, inventory, shipping, taxes, payments).
+1. Load the real baits, colors, weights and prices into `src/data/products.ts` and add photos.
+2. Set `ordering.formEndpoint` (and point the contact form at the same service).
+3. Fill in the real Facebook link, email/phone and domain in `site`.
+4. Set `prototype: false` and deploy.
+
+## Moving to Shopify (phase 2, when Steve is ready)
+
+1. Set up Shopify (products, variants, inventory, shipping, taxes, payments). Shopify's inventory tracking can mark items sold out automatically, which helps with capacity.
 2. Re-implement `src/lib/catalog.ts` against the Shopify Storefront API. The data shapes already mirror Shopify's product, option and variant model.
 3. Back `CartProvider` with the Storefront Cart API and send **Checkout** to `cart.checkoutUrl`.
-4. Connect the contact and newsletter forms (Shopify Forms, Klaviyo, Formspree, etc.).
-5. Set the real domain in `site.url` and turn off prototype mode.
+4. Set `ordering.mode = 'shopify'`. Buttons, drawer and shipping wording switch from "order request" to "cart / checkout" automatically. The `open` switch keeps working.
+5. Connect the newsletter form (Shopify Customer API, Klaviyo, etc.).

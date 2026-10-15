@@ -217,3 +217,14 @@
 .emptyCats a:hover {
   color: var(--green-ink);
 }
+
+.paused {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--bone);
+  font-size: 15px;
+  line-height: 1.4;
+}
+.paused strong {
+  color: var(--orange-ink);
+}

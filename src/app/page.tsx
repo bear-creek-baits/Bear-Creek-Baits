@@ -1,5 +1,5 @@
 import { Hero } from '@/components/home/Hero';
-import { BaitBoxFeature, Bench, CategoryGrid, ColorWall, Featured, FinalCta, OnTheWater } from '@/components/home/Sections';
+import { BaitBoxFeature, Bench, CategoryGrid, ColorWall, Featured, FinalCta, OnTheWater, OrderSteps } from '@/components/home/Sections';
 import { site } from '@/content/site';
 
 export default function HomePage() {
@@ -16,9 +16,10 @@ export default function HomePage() {
       <Hero />
       <CategoryGrid />
       <Featured />
+      <OrderSteps />
+      <Bench />
       <ColorWall />
       <BaitBoxFeature />
-      <Bench />
       <OnTheWater />
       <FinalCta />
     </>

@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon';
+import { ordering } from '@/content/site';
 import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'Common questions about ordering from Bear Creek Baits.',
+  description: 'How ordering works at Bear Creek Baits, plus shipping, restocks and custom orders.',
   alternates: { canonical: '/faq/' },
 };
 
@@ -13,11 +14,35 @@ export const metadata: Metadata = {
  * DRAFT — answers avoid stating policies that have not been confirmed.
  * Replace with the real shipping, returns and order details before launch.
  */
+const orderingFaqs =
+  ordering.mode === 'request'
+    ? [
+        {
+          q: 'How does ordering work?',
+          a: 'Add the baits you want to your order list and send it as an order request. Nothing is charged online. We check your list against what’s on the bench, then reach out by email, text or phone to confirm your total and shipping. Once you say go, we pack it up.',
+        },
+        {
+          q: 'Why can’t I pay on the site?',
+          a: 'Every bait is made by hand in small batches. Confirming each order first means you only pay for baits that are ready to ship, and nobody waits on something that hasn’t been poured yet.',
+        },
+        {
+          q: 'How much is shipping?',
+          a: 'We’ll confirm shipping when we reach out about your order, before anything is charged.',
+        },
+        {
+          q: 'What does “Orders paused” mean?',
+          a: 'When the bench gets busy, we pause new orders so we can keep up with the ones we have. You can still browse and build your list, and it stays saved on your device until we open back up.',
+        },
+      ]
+    : [
+        {
+          q: 'How much is shipping?',
+          a: 'Shipping options and rates are shown at checkout before you pay.',
+        },
+      ];
+
 const faqs = [
-  {
-    q: 'How much is shipping?',
-    a: 'Shipping options and rates are shown at checkout before you pay.',
-  },
+  ...orderingFaqs,
   {
     q: 'Which jig head should I pair with a soft plastic?',
     a: 'Each product page lists matching baits under “You might also need.” If you’re unsure, send a message and we’ll point you in the right direction.',
@@ -28,7 +53,7 @@ const faqs = [
   },
   {
     q: 'A color I want is sold out. Will it come back?',
-    a: 'Sold-out colors are marked on the product page. Reach out through the contact page to ask about a restock.',
+    a: 'Yes. We make every bait by hand in small batches, so sold-out colors come back. Sold-out options are marked on the product page; reach out through the contact page to ask about a restock.',
   },
   {
     q: 'Do you take bulk or custom orders?',
@@ -43,7 +68,7 @@ export default function FaqPage() {
         <div className="container">
           <p className="eyebrow">Help</p>
           <h1>FAQ</h1>
-          <p>Quick answers to common questions.</p>
+          <p>How ordering works, shipping, restocks and the rest.</p>
         </div>
       </section>
       <section className="section">

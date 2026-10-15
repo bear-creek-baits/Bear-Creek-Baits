@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
 import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable } from '@/lib/catalog';
 import { useCart, MAX_QTY } from '@/components/cart/CartProvider';
+import { brand, ordering, orderingCopy } from '@/content/site';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
 import { ProductMedia } from './ProductMedia';
@@ -56,14 +57,24 @@ export function ProductDetail({ product, category }: { product: Product; categor
     }
   };
 
+  const canAdd = variant.available && ordering.open;
+
   const addToCart = () => {
-    if (!variant.available) return;
+    if (!canAdd) return;
     add(variant.id, product.slug, qty);
     setJustAdded(true);
     setQty(1);
   };
 
-  const buttonLabel = !productAvailable ? 'Sold out' : !variant.available ? 'This option is sold out' : justAdded ? 'Added to cart' : 'Add to cart';
+  const buttonLabel = !productAvailable
+    ? 'Sold out'
+    : !variant.available
+      ? 'This option is sold out'
+      : !ordering.open
+        ? 'Orders paused'
+        : justAdded
+          ? orderingCopy.added
+          : orderingCopy.add;
 
   return (
     <div className={`container ${styles.wrap}`}>
@@ -100,6 +111,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
             <span className={styles.price}>{formatPrice(variant.price)}</span>
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>
+          <p className={styles.handmade}>{brand.handmade}</p>
           <p className={styles.summary}>{product.summary}</p>
 
           <div className={styles.options}>
@@ -107,19 +119,26 @@ export function ProductDetail({ product, category }: { product: Product; categor
           </div>
 
           <div ref={buyRef} className={styles.buy}>
-            <QuantityStepper value={qty} onChange={setQty} max={MAX_QTY} label="Quantity" disabled={!variant.available} />
-            <button type="button" className={`btn ${styles.addBtn} ${justAdded ? styles.added : ''}`} onClick={addToCart} disabled={!variant.available}>
+            <QuantityStepper value={qty} onChange={setQty} max={MAX_QTY} label="Quantity" disabled={!canAdd} />
+            <button type="button" className={`btn ${styles.addBtn} ${justAdded ? styles.added : ''}`} onClick={addToCart} disabled={!canAdd}>
               {justAdded && <Icon name="check" size={20} />}
               {buttonLabel}
             </button>
           </div>
-          {!productAvailable && (
+          {!variant.available ? (
             <p className={styles.soldNote}>
-              This one is sold out right now. <Link href="/contact/">Ask about a restock</Link> or check back soon.
+              {productAvailable ? 'This option is' : 'This one is'} sold out. We make every bait by hand in small batches, so it’ll be back.{' '}
+              <Link href="/contact/">Ask about a restock</Link>.
             </p>
+          ) : (
+            !ordering.open && (
+              <p className={styles.soldNote}>
+                {ordering.pausedMessage} <Link href="/contact/">Questions? Get in touch</Link>.
+              </p>
+            )
           )}
           <p className={styles.live} role="status" aria-live="polite">
-            {justAdded ? `${product.title}, ${describeVariant(product, variant)} added to cart.` : ''}
+            {justAdded ? `${product.title}, ${describeVariant(product, variant)} added to your ${orderingCopy.listName.toLowerCase()}.` : ''}
           </p>
 
           <div className={styles.accordions}>
@@ -153,14 +172,14 @@ export function ProductDetail({ product, category }: { product: Product; categor
                 Shipping &amp; returns <Icon name="chevron-down" size={20} />
               </summary>
               <p>
-                Shipping options and rates are shown at checkout. Questions about an order? <Link href="/contact/">Get in touch</Link>.
+                {orderingCopy.shippingNote} Questions about an order? <Link href="/contact/">Get in touch</Link>.
               </p>
             </details>
           </div>
         </div>
       </div>
 
-      {/* Sticky mobile add-to-cart */}
+      {/* Sticky mobile add button */}
       <div className={`${styles.sticky} ${showSticky ? styles.stickyOn : ''}`} aria-hidden={!showSticky} inert={!showSticky}>
         <div className={styles.stickyInfo}>
           <span className={styles.stickyTitle}>{product.title}</span>
@@ -168,8 +187,8 @@ export function ProductDetail({ product, category }: { product: Product; categor
             {formatPrice(variant.price)} · {describeVariant(product, variant)}
           </span>
         </div>
-        <button type="button" className="btn btn-sm" onClick={addToCart} disabled={!variant.available}>
-          {variant.available ? (justAdded ? 'Added' : 'Add') : 'Sold out'}
+        <button type="button" className="btn btn-sm" onClick={addToCart} disabled={!canAdd}>
+          {!variant.available ? 'Sold out' : !ordering.open ? 'Paused' : justAdded ? 'Added' : orderingCopy.addShort}
         </button>
       </div>
     </div>

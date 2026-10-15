@@ -27,9 +27,86 @@ export const site = {
 
   /**
    * While true, a notice tells visitors the products, prices and images are samples,
-   * and checkout is disabled. Set to false once real catalog data and Shopify checkout are wired up.
+   * and forms are not delivered. Set to false once real catalog data and a form endpoint are in place.
    */
   prototype: true,
 };
 
 export const prototypeNotice = 'Preview site · Sample products, prices & images';
+
+/**
+ * ==========================================================================
+ *  ORDERING — the settings Steve is most likely to change
+ * ==========================================================================
+ */
+export type OrderingMode = 'request' | 'shopify';
+
+export const ordering = {
+  /**
+   * 'request' — Phase 1. Customers build an order list and send it as a request.
+   *             Nothing is charged online. Steve confirms stock, total and shipping,
+   *             then takes payment however he does today.
+   * 'shopify' — Later. The same list becomes a real cart that hands off to Shopify checkout.
+   *             See "Moving to Shopify" in the README before switching.
+   */
+  mode: 'request' as OrderingMode,
+
+  /**
+   * THE OPEN/CLOSED SWITCH.
+   * true  = taking orders.
+   * false = orders paused everywhere: a banner shows on every page, "Add" buttons are turned off
+   *         and the order form is hidden. People can still browse and save their list for later.
+   */
+  open: true,
+
+  /** Shown in the site-wide banner and on the order page while `open` is false. */
+  pausedMessage: 'Orders are paused while we catch up on the bench. Browse all you want; we’ll open back up soon.',
+
+  /**
+   * PLACEHOLDER — where order requests are sent. Any service that accepts a form POST works
+   * (Formspree, Basin, Netlify Forms, a Google Apps Script, Shopify Forms...). Formspree, for
+   * example, gives you a URL like 'https://formspree.io/f/abcdwxyz' and emails each request to Steve.
+   * While null, the form validates and shows the thank-you screen but nothing is delivered.
+   */
+  formEndpoint: null as string | null,
+};
+
+/** Wording that changes with the ordering mode, so the UI never says "checkout" when nothing is charged. */
+export const orderingCopy =
+  ordering.mode === 'request'
+    ? {
+        listName: 'Order list',
+        add: 'Add to order',
+        addShort: 'Add',
+        added: 'Added to order',
+        goToOrder: 'Send order request',
+        orderHref: '/order/',
+        listNote: "Nothing is charged online. We'll confirm stock, your total and shipping before you pay.",
+        shippingNote:
+          "We'll confirm shipping when we reach out about your order. Nothing is charged online.",
+      }
+    : {
+        listName: 'Cart',
+        add: 'Add to cart',
+        addShort: 'Add',
+        added: 'Added to cart',
+        goToOrder: 'Checkout',
+        orderHref: '/checkout/',
+        listNote: 'Shipping and taxes are calculated at checkout.',
+        shippingNote: 'Shipping options and rates are shown at checkout.',
+      };
+
+/**
+ * Brand lines from the Bear Creek Baits brand guide v1.1.
+ * Use them exactly as written: don't reword, merge or add exclamation points.
+ */
+export const brand = {
+  /** Homepage hero, share image, packaging front. */
+  tagline: 'Bust ’Em Right in the Mouth.',
+  /** Footer and About header. */
+  heritage: 'Chasing ’Em for Over 50 Years.',
+  /** About page, order confirmation, packing slips. */
+  promise: 'We’re not a million-dollar company, but a million dollars’ worth of heart goes into every bait.',
+  /** Under the hero and near the price on every product page. */
+  handmade: 'Hand-poured. Hand-tied. Hand-painted.',
+};

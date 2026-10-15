@@ -10,7 +10,7 @@ import { useDialog } from '@/components/layout/useDialog';
 import { ProductMedia } from '@/components/product/ProductMedia';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
-import { site } from '@/content/site';
+import { site, ordering, orderingCopy } from '@/content/site';
 import styles from './CartDrawer.module.css';
 
 export function CartDrawer() {
@@ -37,9 +37,9 @@ export function CartDrawer() {
       >
         <header className={styles.head}>
           <h2 id="cart-title">
-            Your cart {count > 0 && <span className={styles.count}>({count})</span>}
+            Your {orderingCopy.listName.toLowerCase()} {count > 0 && <span className={styles.count}>({count})</span>}
           </h2>
-          <button type="button" className={styles.close} onClick={close} aria-label="Close cart">
+          <button type="button" className={styles.close} onClick={close} aria-label={`Close ${orderingCopy.listName.toLowerCase()}`}>
             <Icon name="close" size={24} />
           </button>
         </header>
@@ -49,7 +49,7 @@ export function CartDrawer() {
             <div className={styles.emptyIcon}>
               <Icon name="cart" size={34} strokeWidth={1.6} />
             </div>
-            <p className={styles.emptyTitle}>Your cart is empty</p>
+            <p className={styles.emptyTitle}>Your {orderingCopy.listName.toLowerCase()} is empty</p>
             <p className={styles.emptyText}>Pick a category to get started.</p>
             <ul className={styles.emptyCats}>
               {categories.map((c) => (
@@ -98,17 +98,25 @@ export function CartDrawer() {
 
             <footer className={styles.foot}>
               <div className={styles.subtotal}>
-                <span>Subtotal</span>
+                <span>{ordering.mode === 'request' ? 'Estimated subtotal' : 'Subtotal'}</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
-              <p className={styles.note}>Shipping and taxes are calculated at checkout.</p>
-              <Link href="/checkout/" className="btn btn-block" onClick={close}>
-                <Icon name="lock" size={18} /> Checkout
-              </Link>
+              <p className={styles.note}>{orderingCopy.listNote}</p>
+              {ordering.open ? (
+                <Link href={orderingCopy.orderHref} className="btn btn-block" onClick={close}>
+                  {ordering.mode === 'shopify' && <Icon name="lock" size={18} />} {orderingCopy.goToOrder}
+                </Link>
+              ) : (
+                <p className={styles.paused} role="status">
+                  <strong>Orders paused.</strong> Your list is saved on this device for when we open back up.
+                </p>
+              )}
               <button type="button" className={`btn btn-outline btn-block ${styles.keep}`} onClick={close}>
                 Keep shopping
               </button>
-              {site.prototype && <p className={styles.proto}>Preview site: checkout is not live yet.</p>}
+              {site.prototype && (
+                <p className={styles.proto}>Preview site: {ordering.mode === 'request' ? 'order requests are not delivered yet.' : 'checkout is not live yet.'}</p>
+              )}
             </footer>
           </>
         )}

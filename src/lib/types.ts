@@ -6,7 +6,7 @@
  * with a thin mapping layer instead of a rewrite.
  */
 
-export type CategorySlug = 'soft-plastics' | 'hair-jigs' | 'jig-heads' | 'bass-baits' | 'bait-boxes';
+export type CategorySlug = 'soft-plastics' | 'hair-jigs' | 'jig-heads' | 'bass-baits' | 'sauger-baits' | 'bait-boxes';
 
 export interface Category {
   slug: CategorySlug;

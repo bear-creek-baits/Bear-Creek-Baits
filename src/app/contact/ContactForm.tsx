@@ -68,7 +68,7 @@ export function ContactForm() {
         <label htmlFor="topic">What’s this about?</label>
         <select id="topic" name="topic" className="input">
           <option>A question about a product</option>
-          <option>An order I placed</option>
+          <option>An order request I sent</option>
           <option>Bulk or custom order</option>
           <option>Something else</option>
         </select>
