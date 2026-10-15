@@ -22,7 +22,7 @@ const METAL_DARK = '#6F757B';
 
 export function ProductArt({ kind, color, className, angle, title }: Props) {
   const uid = useId().replace(/:/g, '');
-  const cw = getColorway(color) ?? { primary: '#C9F025', secondary: '#FF4F9E', flake: undefined };
+  const cw: { primary: string; secondary: string; flake?: string; tail?: string } = getColorway(color) ?? { primary: '#C9F025', secondary: '#FF4F9E' };
   const p = cw.primary;
   const s = cw.secondary;
   const id = (n: string) => `${n}-${uid}`;
@@ -32,11 +32,18 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
   const shade = `url(#${id('shade')})`;
   const flake = cw.flake ? `url(#${id('flake')})` : undefined;
 
-  /** Paints a shape three times: laminate color, flake, then soft shading. */
+  // Where the dipped tail color starts, in the art's x coordinates (baits point left to right).
+  const tailFrom: Partial<Record<ArtKind, number>> = { shad: 262, 'split-tail': 252, 'stick-worm': 300 };
+  const tailX = cw.tail ? tailFrom[kind] : undefined;
+  const tailFill = tailX !== undefined ? `url(#${id('tail')})` : undefined;
+  const tailColor = cw.tail ?? s;
+
+  /** Paints a shape in layers: laminate color, flake, dipped tail, then soft shading. */
   const layered = (d: string) => (
     <>
       <path d={d} fill={lam} />
       {flake && <path d={d} fill={flake} />}
+      {tailFill && <path d={d} fill={tailFill} />}
       <path d={d} fill={shade} />
     </>
   );
@@ -69,8 +76,8 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
     case 'grub':
       body = (
         <g>
-          <path d="M226 200 C276 198 318 214 326 246" fill="none" stroke={s} strokeWidth="24" strokeLinecap="round" />
-          <path d="M326 246 C334 282 300 302 280 288 C268 280 272 262 288 262" fill="none" stroke={s} strokeWidth="14" strokeLinecap="round" />
+          <path d="M226 200 C276 198 318 214 326 246" fill="none" stroke={tailColor} strokeWidth="24" strokeLinecap="round" />
+          <path d="M326 246 C334 282 300 302 280 288 C268 280 272 262 288 262" fill="none" stroke={tailColor} strokeWidth="14" strokeLinecap="round" />
           {layered('M60 200 C60 184 74 174 92 174 L232 176 C246 177 252 188 252 200 C252 212 246 223 232 224 L92 226 C74 226 60 216 60 200 Z')}
           {Array.from({ length: 9 }).map((_, i) => (
             <path
@@ -96,7 +103,7 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
                 key={i}
                 d={`M200 ${y} C246 ${y + d} 286 ${y - d} ${330 + (i % 3) * 8} ${y + d * 0.6 + (i - 3.5) * 5}`}
                 fill="none"
-                stroke={i % 2 ? s : p}
+                stroke={cw.tail ?? (i % 2 ? s : p)}
                 strokeWidth="7"
                 strokeLinecap="round"
               />
@@ -243,6 +250,12 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
           <stop offset="0.5" stopColor={s} />
           <stop offset="1" stopColor={s} />
         </linearGradient>
+        {tailX !== undefined && (
+          <linearGradient id={id('tail')} gradientUnits="userSpaceOnUse" x1={tailX - 6} y1="0" x2={tailX + 6} y2="0">
+            <stop offset="0" stopColor={tailColor} stopOpacity="0" />
+            <stop offset="1" stopColor={tailColor} />
+          </linearGradient>
+        )}
         <linearGradient id={id('shade')} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#fff" stopOpacity="0.38" />
           <stop offset="0.35" stopColor="#fff" stopOpacity="0" />

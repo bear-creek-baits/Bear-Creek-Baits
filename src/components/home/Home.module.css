@@ -592,3 +592,21 @@
 .stepsPaused strong {
   color: var(--orange);
 }
+
+.wallMore {
+  justify-content: center;
+  height: 100%;
+  min-height: 120px;
+  padding: 14px;
+}
+.wallMoreText {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+}

@@ -7,12 +7,12 @@ import styles from './Home.module.css';
 
 /** Baits arranged like they were dumped out on the tailgate. Positions are % of the art area. */
 const spread: { kind: ArtKind; color: string; x: number; y: number; size: number; angle: number }[] = [
-  { kind: 'shad', color: 'chartreuse-pink', x: -6, y: -10, size: 66, angle: -18 },
+  { kind: 'shad', color: 'crown-royal', x: -6, y: -10, size: 66, angle: -18 },
   { kind: 'hair-jig', color: 'hair-black-chartreuse', x: 44, y: -12, size: 62, angle: 16 },
-  { kind: 'grub', color: 'blue-ice', x: 46, y: 26, size: 60, angle: -28 },
+  { kind: 'grub', color: 'blue-treuse', x: 46, y: 26, size: 60, angle: -28 },
   { kind: 'jig-head', color: 'head-red', x: 0, y: 30, size: 42, angle: 8 },
-  { kind: 'split-tail', color: 'orange-chartreuse', x: 8, y: 44, size: 64, angle: -8 },
-  { kind: 'tube', color: 'hot-pink', x: 56, y: 56, size: 50, angle: 22 },
+  { kind: 'split-tail', color: 'mississippi-gold', x: 8, y: 44, size: 64, angle: -8 },
+  { kind: 'shad', color: 'county-fair', x: 56, y: 56, size: 50, angle: 22 },
   { kind: 'jig-head', color: 'head-chartreuse', x: 32, y: 18, size: 34, angle: -40 },
 ];
 

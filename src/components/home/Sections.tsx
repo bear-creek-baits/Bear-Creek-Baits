@@ -6,6 +6,7 @@ import { getCategoryCounts, getFeaturedProducts } from '@/lib/catalog';
 import { ProductArt } from '@/components/product/ProductArt';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
+import type { ArtKind } from '@/lib/types';
 import styles from './Home.module.css';
 
 /* ------------------------------------------------------------------ Categories */
@@ -71,19 +72,19 @@ export function Featured() {
 
 /* ------------------------------------------------------------------ Color wall */
 
-const wallColors = [
-  'chartreuse-pink',
-  'pearl-pink',
-  'blue-ice',
-  'black-chartreuse',
-  'junebug',
-  'orange-chartreuse',
-  'natural-shad',
-  'red-chartreuse',
-  'hot-pink',
-  'glow-white',
-  'purple-chartreuse',
-  'smoke-silver',
+/** Colors and the profile each one is shown in on the wall. */
+const wallColors: { id: string; kind: ArtKind }[] = [
+  { id: 'crown-royal', kind: 'shad' },
+  { id: 'monkey-snot', kind: 'shad' },
+  { id: 'county-fair', kind: 'split-tail' },
+  { id: 'delta-shad', kind: 'shad' },
+  { id: 'mississippi-gold', kind: 'split-tail' },
+  { id: 'blue-ice-char', kind: 'shad' },
+  { id: 'copper-top', kind: 'shad' },
+  { id: 'the-closer', kind: 'shad' },
+  { id: 'blue-treuse', kind: 'grub' },
+  { id: 'dirty-girl', kind: 'grub' },
+  { id: 'blue-red-tail', kind: 'stick-worm' },
 ];
 
 export function ColorWall() {
@@ -94,23 +95,30 @@ export function ColorWall() {
           <div>
             <p className="eyebrow">Shop by color</p>
             <h2 id="wall-title">Pick your color</h2>
-            <p>Bright for stained water, natural for clear, two-tone when you can’t decide. Tap a color to see every bait that comes in it.</p>
+            <p>Every color has a name. Crown Royal is one of the hottest colors on Pickwick right now. Tap a color to see every profile it’s poured in.</p>
           </div>
         </div>
         <ul className={styles.wallGrid}>
-          {wallColors.map((id, i) => {
+          {wallColors.map(({ id, kind }) => {
             const cw = getColorway(id)!;
             return (
               <li key={id}>
                 <Link href={`/search/?q=${encodeURIComponent(cw.name)}`} className={styles.wallTile}>
                   <span className={styles.wallArt}>
-                    <ProductArt kind={i % 3 === 0 ? 'shad' : i % 3 === 1 ? 'split-tail' : 'grub'} color={id} angle={-14} />
+                    <ProductArt kind={kind} color={id} angle={-14} />
                   </span>
                   <span className={styles.wallName}>{cw.name}</span>
                 </Link>
               </li>
             );
           })}
+          <li>
+            <Link href="/shop/soft-plastics/" className={`${styles.wallTile} ${styles.wallMore}`}>
+              <span className={styles.wallMoreText}>
+                Every profile <Icon name="arrow-right" size={18} />
+              </span>
+            </Link>
+          </li>
         </ul>
       </div>
     </section>

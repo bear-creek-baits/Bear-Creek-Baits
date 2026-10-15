@@ -1,25 +1,25 @@
 import type { Colorway } from '@/lib/types';
 
 /**
- * SAMPLE COLORWAYS
- * ----------------
- * Generic, descriptive color names invented for the prototype. They are NOT Bear Creek Baits'
- * real color lineup. Replace with the actual color chart (names + reference photos) later.
+ * COLORWAYS
+ * ---------
+ * Soft plastic color NAMES come from Steve's Bear Creek Baits Facebook posts (Sep–Oct 2026).
+ * The hex values are rough matches from his photos so the illustrations and swatches read right;
+ * real product photos will replace them. Bass, jig head, hair jig and bait box colors are still samples.
  */
 export const colorways: Colorway[] = [
-  // Crappie plastics
-  { id: 'chartreuse-pink', name: 'Chartreuse Pink', primary: '#C9F025', secondary: '#FF4F9E', families: ['chartreuse', 'pink'] },
-  { id: 'pearl-pink', name: 'Pearl Pink', primary: '#F6F2E7', secondary: '#FF8AB8', families: ['white', 'pink'] },
-  { id: 'blue-ice', name: 'Blue Ice', primary: '#A9DDF3', secondary: '#EAF6FB', flake: '#FFFFFF', families: ['blue', 'white'] },
-  { id: 'black-chartreuse', name: 'Black Chartreuse', primary: '#1D1E1B', secondary: '#C9F025', families: ['black', 'chartreuse'] },
-  { id: 'junebug', name: 'Junebug', primary: '#3F2152', secondary: '#3F2152', flake: '#4BE07A', families: ['purple'] },
-  { id: 'smoke-silver', name: 'Smoke Silver', primary: '#9C9A92', secondary: '#C9C7BF', flake: '#FFFFFF', families: ['natural'] },
-  { id: 'orange-chartreuse', name: 'Orange Chartreuse', primary: '#FF7A1A', secondary: '#C9F025', families: ['orange', 'chartreuse'] },
-  { id: 'natural-shad', name: 'Natural Shad', primary: '#6E7A80', secondary: '#EDEBE4', flake: '#D8E3E8', families: ['natural', 'white'] },
-  { id: 'red-chartreuse', name: 'Red Chartreuse', primary: '#D7262E', secondary: '#C9F025', families: ['red', 'chartreuse'] },
-  { id: 'hot-pink', name: 'Hot Pink', primary: '#FF3D8B', secondary: '#FF3D8B', flake: '#FFD1E3', families: ['pink'] },
-  { id: 'glow-white', name: 'Glow White', primary: '#F1F5DF', secondary: '#E2F0B8', families: ['white'] },
-  { id: 'purple-chartreuse', name: 'Purple Chartreuse', primary: '#5B2A86', secondary: '#C9F025', families: ['purple', 'chartreuse'] },
+  // Crappie & sauger plastics (names from the Facebook posts)
+  { id: 'crown-royal', name: 'Crown Royal', primary: '#1A2238', secondary: '#141A2C', flake: '#3FA7E0', tail: '#D9F227', families: ['black', 'blue', 'chartreuse'] },
+  { id: 'delta-shad', name: 'Delta Shad', primary: '#4C625D', secondary: '#D9DCD4', flake: '#22B3A4', families: ['natural', 'white'] },
+  { id: 'mississippi-gold', name: 'Mississippi Gold', primary: '#5C4B1C', secondary: '#5C4B1C', flake: '#E8C53A', tail: '#FF3B1F', families: ['natural', 'orange'] },
+  { id: 'county-fair', name: 'County Fair', primary: '#E5426F', secondary: '#D63A64', flake: '#3B6FD0', tail: '#E8F21F', families: ['pink', 'chartreuse'] },
+  { id: 'blue-ice-char', name: 'Blue Ice / Char. Tail', primary: '#2D8BBC', secondary: '#9FD3EA', flake: '#C9F2FF', tail: '#E2F21E', families: ['blue', 'chartreuse'] },
+  { id: 'copper-top', name: 'Copper Top', primary: '#A2481C', secondary: '#D5EE2A', flake: '#F0A060', families: ['orange', 'chartreuse'] },
+  { id: 'monkey-snot', name: 'Monkey Snot', primary: '#DAD6C3', secondary: '#E6E2D1', flake: '#2A2F3A', tail: '#D8F022', families: ['white', 'chartreuse'] },
+  { id: 'the-closer', name: 'The Closer', primary: '#F0301E', secondary: '#E52A1A', tail: '#E8F02A', families: ['red', 'chartreuse'] },
+  { id: 'blue-treuse', name: 'Blue Treuse', primary: '#1F5E9E', secondary: '#1A4F86', flake: '#5FC0F0', tail: '#E4F21E', families: ['blue', 'chartreuse'] },
+  { id: 'dirty-girl', name: 'Dirty Girl', primary: '#151515', secondary: '#151515', flake: '#C8CCD0', tail: '#4BEF3A', families: ['black', 'chartreuse'] },
+  { id: 'blue-red-tail', name: 'Blue / Red Tail', primary: '#2F7FD6', secondary: '#2A70C0', flake: '#D8E8F5', tail: '#E0262E', families: ['blue', 'red'] },
 
   // Bass plastics
   { id: 'green-pumpkin', name: 'Green Pumpkin', primary: '#5B5A2C', secondary: '#5B5A2C', flake: '#1A1A10', families: ['natural'] },

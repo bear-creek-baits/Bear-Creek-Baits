@@ -1,11 +1,11 @@
 import { getColorway } from '@/data/colors';
 import styles from './Swatch.module.css';
 
-/** Round color chip. Two-tone colorways split diagonally; flake colors get a speckle. */
+/** Round color chip. Two-tone and tail colorways split diagonally; flake colors get a speckle. */
 export function Swatch({ color, size = 36, selected, unavailable }: { color: string; size?: number; selected?: boolean; unavailable?: boolean }) {
   const cw = getColorway(color);
   const p = cw?.primary ?? '#ccc';
-  const s = cw?.secondary ?? p;
+  const s = cw?.tail ?? cw?.secondary ?? p;
   const bg =
     p === s ? p : `linear-gradient(135deg, ${p} 0 50%, ${s} 50% 100%)`;
   return (

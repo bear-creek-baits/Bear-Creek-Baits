@@ -8,12 +8,12 @@ export const categories: Category[] = [
   {
     slug: 'soft-plastics',
     name: 'Soft Plastics',
-    blurb: 'Crappie plastics in a lot of colors',
-    intro: 'Crappie plastics in bright, natural and everything-in-between colors. Pick a body, pick a color, rig it on a jig head.',
+    blurb: 'Swim baits, Crappie Crushers and curly tails',
+    intro: 'Hand-poured crappie plastics: 1.5", 2" and 2.2" Swim Baits, the 2" Crappie Crusher and curly tails. Pick a profile, pick a color, rig it on a jig head.',
     seoTitle: 'Crappie Soft Plastics',
     seoDescription: 'Shop crappie soft plastics from Bear Creek Baits. Browse body styles and colors and order online.',
     art: 'shad',
-    artColor: 'chartreuse-pink',
+    artColor: 'crown-royal',
   },
   {
     slug: 'hair-jigs',
@@ -48,12 +48,12 @@ export const categories: Category[] = [
   {
     slug: 'sauger-baits',
     name: 'Sauger Baits',
-    blurb: 'Heavier jigs for cold, moving water',
-    intro: 'Sauger baits for river current and cold water: heavier hair jigs and heads that get down and stay there.',
+    blurb: 'Slimmies and heavier heads for cold, moving water',
+    intro: 'Sauger baits for river current and cold water: the 3.5" Slimmy and heavier heads that get down and stay there.',
     seoTitle: 'Sauger Jigs & Baits',
     seoDescription: 'Shop hand-tied sauger jigs and baits from Bear Creek Baits.',
-    art: 'hair-jig',
-    artColor: 'hair-orange-chartreuse',
+    art: 'stick-worm',
+    artColor: 'blue-red-tail',
   },
   {
     slug: 'bait-boxes',

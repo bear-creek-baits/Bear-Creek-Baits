@@ -2,15 +2,18 @@ import type { Product, ProductOption, Variant } from '@/lib/types';
 
 /**
  * ==========================================================================
- *  SAMPLE PRODUCT CATALOG — NOT REAL BEAR CREEK BAITS DATA
+ *  MOCK PRODUCT CATALOG
  * ==========================================================================
- * Every product name, price, option (lengths, weights, hook sizes, pack sizes),
- * color and stock status below was invented to demonstrate the storefront.
- * None of it has been confirmed by Bear Creek Baits.
+ * Soft plastic PROFILES and COLOR NAMES come from Steve's Bear Creek Baits
+ * Facebook posts (Sep–Oct 2026): the 1.5", 2" and 2.2" Swim Baits, the 2"
+ * Crappie Crusher, the 1.5" Curly, the 2" Double Curly and the 3.5" Slimmy,
+ * plus which colors he has poured in which profile.
  *
- * To replace with the real catalog, edit the entries below (or map Shopify
- * Storefront API products into the same `Product` shape) — the UI reads only
- * from this module via `src/lib/catalog.ts`.
+ * Still invented: every price, pack size and stock status, and the hair jig,
+ * jig head (other than the #8 sickle hook note), bass and bait box listings.
+ *
+ * Titles follow the brand guide: "[Size] [Body]", with the color as an option.
+ * The UI reads only from this module via `src/lib/catalog.ts`.
  * ==========================================================================
  */
 
@@ -39,82 +42,89 @@ function build(d: Draft): Product {
   return { ...rest, variants, images: [], sample: true };
 }
 
-const crappieColors = [
-  'chartreuse-pink',
-  'pearl-pink',
-  'blue-ice',
-  'black-chartreuse',
-  'junebug',
-  'orange-chartreuse',
-  'natural-shad',
-  'red-chartreuse',
-];
+const samplePrice = 499; // PLACEHOLDER: one sample price per bag until real prices are confirmed
 
 export const products: Product[] = [
-  // ---------------------------------------------------------------- Soft plastics
+  // ---------------------------------------------------------------- Soft plastics (crappie)
   build({
-    slug: 'creek-minnow',
-    title: 'Creek Minnow',
+    slug: 'swim-bait-1-5',
+    title: '1.5" Swim Bait',
+    category: 'soft-plastics',
+    art: 'shad',
+    badge: 'New',
+    featured: true,
+    summary: 'The newest profile on the bench. Small paddle tail, big tail action.',
+    description: [
+      'The new 1.5" swim bait. It\'s the hardest mold on the bench to shoot laminates in, but the colors come out looking right.',
+      'Rig it on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match. We can make the right head for it.',
+    ],
+    details: ['Hand-poured', 'Pairs with the Swim Bait Jig Head (#8 sickle hook)', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['crown-royal', 'delta-shad', 'blue-ice-char', 'monkey-snot', 'the-closer'] }],
+    price: () => samplePrice,
+  }),
+  build({
+    slug: 'swim-bait-2',
+    title: '2" Swim Bait',
+    category: 'soft-plastics',
+    art: 'shad',
+    summary: 'A custom 2" swim bait that doesn\'t get the attention it deserves.',
+    description: [
+      'A custom bait that sometimes gets overlooked next to the 2.2" Swim Bait. Same great tail action in a slightly smaller profile.',
+    ],
+    details: ['Hand-poured', 'Custom profile', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['crown-royal', 'blue-ice-char', 'county-fair'] }],
+    price: () => samplePrice,
+    soldOut: (o) => o.Color === 'county-fair',
+  }),
+  build({
+    slug: 'swim-bait-2-2',
+    title: '2.2" Swim Bait',
     category: 'soft-plastics',
     art: 'shad',
     featured: true,
-    summary: 'Paddle-tail crappie minnow for casting, trolling or slow swimming.',
+    summary: 'The most popular swim bait in the lineup.',
     description: [
-      'A slim minnow body with a small paddle tail. Rig it on a light jig head and swim it, troll it, or fish it under a float.',
+      'The very popular 2.2" swim bait. A ribbed body and a paddle tail that keeps kicking at a slow crawl.',
     ],
-    details: ['Sample product for the website preview', 'Pairs with the Round Ball Jig Head'],
-    options: [
-      { name: 'Color', display: 'swatch', values: crappieColors },
-      { name: 'Length', display: 'button', values: ['1.5"', '2"'] },
-    ],
-    price: (o) => (o.Length === '2"' ? 499 : 449),
-    soldOut: (o) => o.Color === 'junebug' && o.Length === '1.5"',
+    details: ['Hand-poured', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['county-fair', 'copper-top', 'crown-royal', 'monkey-snot'] }],
+    price: () => samplePrice,
   }),
   build({
-    slug: 'curly-tail-grub',
-    title: 'Curly Tail Grub',
-    category: 'soft-plastics',
-    art: 'grub',
-    featured: true,
-    summary: 'Ribbed grub body with a curly tail that kicks on a slow retrieve.',
-    description: [
-      'A ribbed grub with a curl tail. A simple bait that works on a jig head, a tight-line rig or under a cork.',
-    ],
-    details: ['Sample product for the website preview', 'Available in two pack sizes'],
-    options: [
-      { name: 'Color', display: 'swatch', values: ['chartreuse-pink', 'pearl-pink', 'hot-pink', 'black-chartreuse', 'glow-white', 'purple-chartreuse', 'smoke-silver', 'red-chartreuse'] },
-      { name: 'Pack', display: 'button', values: ['10 ct', '25 ct'] },
-    ],
-    price: (o) => (o.Pack === '25 ct' ? 899 : 399),
-    soldOut: (o) => o.Color === 'glow-white' && o.Pack === '25 ct',
-  }),
-  build({
-    slug: 'crappie-tube',
-    title: 'Crappie Tube',
-    category: 'soft-plastics',
-    art: 'tube',
-    summary: 'Hollow-body tube with a tentacle skirt.',
-    description: ['A classic crappie tube with a split tentacle skirt. Fish it on a jig head or under a float.'],
-    details: ['Sample product for the website preview'],
-    options: [
-      { name: 'Color', display: 'swatch', values: ['chartreuse-pink', 'blue-ice', 'black-chartreuse', 'hot-pink', 'smoke-silver', 'junebug'] },
-      { name: 'Length', display: 'button', values: ['1.5"', '2"'] },
-    ],
-    price: () => 429,
-    soldOut: (o) => o.Color === 'hot-pink',
-  }),
-  build({
-    slug: 'split-tail-minnow',
-    title: 'Split Tail Minnow',
+    slug: 'crappie-crusher-2',
+    title: '2" Crappie Crusher',
     category: 'soft-plastics',
     art: 'split-tail',
-    badge: 'New',
     featured: true,
-    summary: 'Thin split tail that quivers with almost no movement.',
-    description: ['A slender body that finishes in a thin split tail. Built for slow presentations and finicky fish.'],
-    details: ['Sample product for the website preview'],
-    options: [{ name: 'Color', display: 'swatch', values: crappieColors }],
-    price: () => 449,
+    summary: 'Forked-tail crappie bait that quivers on the fall.',
+    description: ['A 2" body with a forked tail that shimmies on the drop and on a dead stick.'],
+    details: ['Hand-poured', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['mississippi-gold', 'county-fair', 'crown-royal'] }],
+    price: () => samplePrice,
+  }),
+  build({
+    slug: 'curly-1-5',
+    title: '1.5" Curly',
+    category: 'soft-plastics',
+    art: 'grub',
+    summary: 'Small curly tail grub for when they want it tiny.',
+    description: ['A 1.5" ribbed grub with a curly tail that swims on the slowest retrieve.'],
+    details: ['Hand-poured', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['delta-shad', 'dirty-girl', 'crown-royal'] }],
+    price: () => samplePrice,
+  }),
+  build({
+    slug: 'double-curly-2',
+    title: '2" Double Curly',
+    category: 'soft-plastics',
+    art: 'grub',
+    summary: 'Two curly tails for big action when fall fish get aggressive.',
+    description: [
+      'Two curly tails on a 2" ribbed body. That extra tail action pays off when fall fish turn aggressive.',
+    ],
+    details: ['Hand-poured', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['blue-treuse', 'crown-royal'] }],
+    price: () => samplePrice,
   }),
 
   // ---------------------------------------------------------------- Hair jigs
@@ -159,7 +169,7 @@ export const products: Product[] = [
     featured: true,
     summary: 'Painted round head for rigging crappie plastics.',
     description: ['A painted round-head jig for crappie plastics. Choose weight, hook size, head color and pack size.'],
-    details: ['Sample product for the website preview', 'Pairs with the Creek Minnow and Curly Tail Grub'],
+    details: ['Sample product for the website preview', 'Pairs with the 2.2" Swim Bait and 2" Crappie Crusher'],
     options: [
       { name: 'Head Color', display: 'swatch', values: ['head-red', 'head-chartreuse', 'head-pink', 'head-white', 'head-black', 'head-orange', 'head-unpainted'] },
       { name: 'Weight', display: 'button', values: ['1/64 oz', '1/32 oz', '1/16 oz', '1/8 oz'] },
@@ -170,20 +180,21 @@ export const products: Product[] = [
     soldOut: (o) => o.Weight === '1/64 oz' && o.Hook === '#1',
   }),
   build({
-    slug: 'minnow-head-jig-head',
-    title: 'Minnow Head Jig Head',
+    slug: 'swim-bait-jig-head',
+    title: 'Swim Bait Jig Head',
     category: 'jig-heads',
     art: 'jig-head',
-    summary: 'Tapered head that lines up with minnow-style plastics.',
-    description: ['A tapered head that lines up cleanly with minnow and shad bodies.'],
-    details: ['Sample product for the website preview'],
+    summary: 'Hand-painted head on a #8 sickle hook, made for the 1.5" Swim Bait.',
+    description: [
+      'The right head for the 1.5" Swim Bait: a #8 sickle hook. You could get away with a #6 J hook, but the sickle hook rides better in this small bait.',
+    ],
+    details: ['#8 sickle hook', 'Hand-painted', 'Sample weights, colors, price and stock'],
     options: [
       { name: 'Head Color', display: 'swatch', values: ['head-chartreuse', 'head-pink', 'head-white', 'head-unpainted'] },
-      { name: 'Weight', display: 'button', values: ['1/32 oz', '1/16 oz', '1/8 oz'] },
+      { name: 'Weight', display: 'button', values: ['1/32 oz', '1/16 oz'] },
     ],
     price: () => 549,
-    // Whole product sold out — demonstrates the sold-out state.
-    soldOut: () => true,
+    soldOut: (o) => o['Head Color'] === 'head-unpainted',
   }),
 
   // ---------------------------------------------------------------- Bass baits
@@ -216,18 +227,15 @@ export const products: Product[] = [
 
   // ---------------------------------------------------------------- Sauger baits
   build({
-    slug: 'sauger-hair-jig',
-    title: 'Sauger Hair Jig',
+    slug: 'slimmy-3-5',
+    title: '3.5" Slimmy',
     category: 'sauger-baits',
-    art: 'hair-jig',
-    summary: 'Heavier hand-tied jig that gets down in current and stays there.',
-    description: ['A heavier hand-tied hair jig for sauger in cold, moving water. Hop it along the bottom below a dam or drag it slow on a break.'],
-    details: ['Sample product for the website preview', 'Hand-tied'],
-    options: [
-      { name: 'Color', display: 'swatch', values: ['hair-orange-chartreuse', 'hair-black-chartreuse', 'hair-solid-white', 'hair-purple-chartreuse'] },
-      { name: 'Weight', display: 'button', values: ['1/4 oz', '3/8 oz', '1/2 oz'] },
-    ],
-    price: () => 699,
+    art: 'stick-worm',
+    summary: 'Long, slim minnow profile. A great sauger bait.',
+    description: ['A 3.5" slim minnow body. Translucent blue with a red tail is a great sauger bait.'],
+    details: ['Hand-poured', 'Sample price and bag count'],
+    options: [{ name: 'Color', display: 'swatch', values: ['blue-red-tail'] }],
+    price: () => samplePrice,
   }),
   build({
     slug: 'sauger-jig-head',
