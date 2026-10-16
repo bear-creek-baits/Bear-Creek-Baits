@@ -6,7 +6,7 @@
  * with a thin mapping layer instead of a rewrite.
  */
 
-export type CategorySlug = 'soft-plastics' | 'hair-jigs' | 'jig-heads' | 'bait-boxes';
+export type CategorySlug = 'soft-plastics';
 
 export interface Category {
   slug: CategorySlug;
@@ -23,16 +23,7 @@ export interface Category {
 }
 
 /** Illustration used when a product has no photo yet. */
-export type ArtKind =
-  | 'grub'
-  | 'shad'
-  | 'split-tail'
-  | 'tube'
-  | 'hair-jig'
-  | 'jig-head'
-  | 'craw'
-  | 'stick-worm'
-  | 'box';
+export type ArtKind = 'grub' | 'shad' | 'split-tail' | 'tube' | 'craw' | 'stick-worm';
 
 /** Broad color groups used for shop filtering. */
 export type ColorFamily =
@@ -51,7 +42,7 @@ export interface Colorway {
   name: string;
   /** Main body color. */
   primary: string;
-  /** Second color for laminates, tails or hair. Same as primary for solid colors. */
+  /** Belly color for laminates. Same as primary for solid colors. */
   secondary: string;
   /** Optional glitter/flake color. */
   flake?: string;
@@ -100,7 +91,7 @@ export interface Product {
   /** Product photos. Empty = illustrated placeholder is shown. */
   images: ProductImage[];
   art: ArtKind;
-  badge?: 'New' | 'Gift idea' | 'Seasonal';
+  badge?: 'New' | 'Seasonal';
   /** Smallest quantity per size/color (e.g. 50 soft plastics). Defaults to 1. */
   minQty?: number;
   /** How much the quantity buttons step by. Defaults to 1. */

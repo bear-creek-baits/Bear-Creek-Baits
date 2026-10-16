@@ -1,5 +1,5 @@
 import { Hero } from '@/components/home/Hero';
-import { BaitBoxFeature, Bench, CategoryGrid, ColorWall, Featured, FinalCta, LocalDealers, OnTheWater, OrderSteps } from '@/components/home/Sections';
+import { Bench, ColorWall, Featured, FinalCta, LocalDealers, OnTheWater, OrderSteps } from '@/components/home/Sections';
 import { site } from '@/content/site';
 
 export default function HomePage() {
@@ -14,12 +14,10 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <Hero />
-      <CategoryGrid />
       <Featured />
       <OrderSteps />
       <Bench />
       <ColorWall />
-      <BaitBoxFeature />
       <LocalDealers />
       <OnTheWater />
       <FinalCta />

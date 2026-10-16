@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
+import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { brand, ordering, site } from '@/content/site';
-import { getCategoryCounts, getFeaturedProducts } from '@/lib/catalog';
+import { getAllProducts, getFeaturedProducts } from '@/lib/catalog';
 import { ProductArt } from '@/components/product/ProductArt';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
@@ -12,47 +12,7 @@ import { DealerMap } from '@/components/dealers/DealerMap';
 import dealerStyles from '@/components/dealers/Dealers.module.css';
 import styles from './Home.module.css';
 
-/* ------------------------------------------------------------------ Categories */
-
-export function CategoryGrid() {
-  const counts = getCategoryCounts();
-  return (
-    <section className={`section ${styles.cats}`} aria-labelledby="cats-title">
-      <div className="container">
-        <div className="section-head">
-          <div>
-            <p className="eyebrow">Shop by bait</p>
-            <h2 id="cats-title">What are you rigging?</h2>
-          </div>
-          <Link href="/shop/" className="text-link">
-            Shop all <Icon name="arrow-right" size={18} />
-          </Link>
-        </div>
-        <ul className={styles.catGrid}>
-          {categories.map((c) => (
-            <li key={c.slug}>
-              <Link href={`/shop/${c.slug}/`} className={styles.catCard}>
-                <span className={styles.catArt}>
-                  <ProductArt kind={c.art} color={c.artColor} />
-                </span>
-                <span className={styles.catText}>
-                  <span className={styles.catName}>{c.name}</span>
-                  <span className={styles.catBlurb}>{c.blurb}</span>
-                </span>
-                <span className={styles.catCount}>
-                  {counts[c.slug]} <span className="visually-hidden">products</span>
-                  <Icon name="arrow-right" size={18} />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ Featured */
+/* ------------------------------------------------------------------ Featured profiles */
 
 export function Featured() {
   return (
@@ -60,8 +20,8 @@ export function Featured() {
       <div className="container">
         <div className="section-head">
           <div>
-            <p className="eyebrow">Tackle box staples</p>
-            <h2 id="featured-title">Start here</h2>
+            <p className="eyebrow">Shop by profile</p>
+            <h2 id="featured-title">What are you rigging?</h2>
           </div>
           <Link href="/shop/" className="text-link">
             View all <Icon name="arrow-right" size={18} />
@@ -75,19 +35,15 @@ export function Featured() {
 
 /* ------------------------------------------------------------------ Color wall */
 
-/** Colors and the profile each one is shown in on the wall. */
+/** Colors and the profile each one is shown in on the wall (one it's photographed in). */
 const wallColors: { id: string; kind: ArtKind }[] = [
-  { id: 'crown-royal', kind: 'shad' },
-  { id: 'monkey-snot', kind: 'shad' },
-  { id: 'county-fair', kind: 'split-tail' },
-  { id: 'delta-shad', kind: 'shad' },
-  { id: 'mississippi-gold', kind: 'split-tail' },
-  { id: 'blue-ice-char', kind: 'shad' },
-  { id: 'copper-top', kind: 'shad' },
   { id: 'the-closer', kind: 'shad' },
-  { id: 'blue-treuse', kind: 'grub' },
-  { id: 'dirty-girl', kind: 'grub' },
-  { id: 'blue-red-tail', kind: 'stick-worm' },
+  { id: 'silver-streak', kind: 'shad' },
+  { id: 'laurence-grubs', kind: 'grub' },
+  { id: 'blue-ice-lime', kind: 'grub' },
+  { id: 'dynamite', kind: 'grub' },
+  { id: 'monkey-snot', kind: 'grub' },
+  { id: 'blue-treuse', kind: 'stick-worm' },
 ];
 
 export function ColorWall() {
@@ -98,7 +54,7 @@ export function ColorWall() {
           <div>
             <p className="eyebrow">Shop by color</p>
             <h2 id="wall-title">Pick your color</h2>
-            <p>Every color has a name. Crown Royal is one of the hottest colors on Pickwick right now. Tap a color to see every profile it’s poured in.</p>
+            <p>Every color has a name. Tap a color to see every profile it’s poured in.</p>
           </div>
         </div>
         <ul className={styles.wallGrid}>
@@ -128,64 +84,23 @@ export function ColorWall() {
   );
 }
 
-/* ------------------------------------------------------------------ Bait box */
-
-export function BaitBoxFeature() {
-  return (
-    <section className={styles.box} aria-labelledby="box-title">
-      <div className={`container ${styles.boxGrid}`}>
-        <div className={styles.boxArt} aria-hidden="true">
-          <ProductArt kind="box" color="mix-bright" />
-        </div>
-        <div className={styles.boxCopy}>
-          <p className={`eyebrow ${styles.boxEyebrow}`}>Bait boxes</p>
-          <h2 id="box-title">A whole box of crappie baits.</h2>
-          <p>
-            Assorted soft plastics and jig heads packed in one box. Pick a size and a color lean. Stock up before the season, try colors you
-            haven’t fished, or hand one to the crappie fisherman who’s hard to buy for.
-          </p>
-          <ul className={styles.boxSteps}>
-            <li>
-              <span>1</span> Choose a box size
-            </li>
-            <li>
-              <span>2</span> Pick bright, natural or assorted colors
-            </li>
-            <li>
-              <span>3</span> We pack it with plastics and jig heads
-            </li>
-          </ul>
-          <div className={styles.boxCtas}>
-            <Link href="/products/crappie-bait-box/" className="btn btn-dark">
-              Build a bait box <Icon name="arrow-right" size={20} />
-            </Link>
-            <Link href="/shop/bait-boxes/" className={styles.boxLink}>
-              See all boxes
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------------------------------------------ Bench / brand */
 
 export function Bench() {
   const points = [
     { n: '01', title: 'Hand-poured', body: 'Soft plastics poured in small batches, in the colors crappie fishermen actually reach for.' },
-    { n: '02', title: 'Hand-tied', body: 'Every hair jig is tied by hand. Pick the weight and pattern you fish.' },
-    { n: '03', title: 'Hand-painted', body: 'Jig heads painted to match the plastics, so pairing a body to a head takes one stop.' },
+    { n: '02', title: 'Laminates and dipped tails', body: 'Two-tone laminates and dipped tails, done by hand on the bench.' },
+    { n: '03', title: 'Poured in runs', body: `Every size and color is poured as a run, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each.` },
   ];
   return (
     <section className={`section ${styles.bench}`} aria-labelledby="bench-title">
       <div className={`container ${styles.benchGrid}`}>
         <div className={styles.benchVisual} aria-hidden="true">
           <div className={styles.benchPanel}>
-            <ProductArt kind="hair-jig" color="hair-pink-white" angle={-16} />
+            <ProductArt kind="grub" color="laurence-grubs" angle={-16} />
           </div>
           <div className={`${styles.benchPanel} ${styles.benchPanelSm}`}>
-            <ProductArt kind="jig-head" color="head-orange" angle={-10} />
+            <ProductArt kind="shad" color="the-closer" angle={-10} />
           </div>
         </div>
         <div>
@@ -196,8 +111,7 @@ export function Bench() {
             Big bite.
           </h2>
           <p className={styles.benchLead}>
-            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Soft plastics are poured in runs, and every
-            hair jig is tied to order.
+            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Every soft plastic is poured on the bench.
           </p>
           <ol className={styles.points}>
             {points.map((p) => (
@@ -280,7 +194,7 @@ export function OnTheWater() {
 export function OrderSteps() {
   if (ordering.mode !== 'request') return null;
   const steps = [
-    { title: 'Build your list', body: 'Pick your baits, colors and weights and add them to your order list.' },
+    { title: 'Build your list', body: 'Pick your baits, sizes and colors and add them to your order list.' },
     { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to the bench.' },
     { title: 'We confirm and ship', body: 'We reach out to confirm stock, your total and shipping, then pack it up.' },
   ];
@@ -320,16 +234,16 @@ export function FinalCta() {
     <section className={`dark topo ${styles.final}`} aria-labelledby="final-title">
       <div className={`container ${styles.finalInner}`}>
         <h2 id="final-title">{brand.tagline}</h2>
-        <p>Plastics, jig heads and hair jigs in the colors you fish.</p>
+        <p>Swim baits, curly tails and minnows in the colors you fish.</p>
         <div className={styles.finalCtas}>
           <Link href="/shop/" className="btn">
             Shop all baits <Icon name="arrow-right" size={20} />
           </Link>
         </div>
         <ul className={styles.finalLinks}>
-          {categories.map((c) => (
-            <li key={c.slug}>
-              <Link href={`/shop/${c.slug}/`}>{c.name}</Link>
+          {getAllProducts().map((p) => (
+            <li key={p.slug}>
+              <Link href={`/products/${p.slug}/`}>{p.title}</Link>
             </li>
           ))}
         </ul>

@@ -11,7 +11,7 @@ import { Icon } from '@/components/ui/Icon';
 import { useDialog } from './useDialog';
 import styles from './SearchPanel.module.css';
 
-const suggestions = ['Chartreuse', 'Hair jig', 'Jig head', 'Pink', 'Bait box', 'Minnow'];
+const suggestions = ['Chartreuse', 'The Closer', 'Curly', 'Blue', 'Swim bait', 'Minnow'];
 
 export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const router = useRouter();
@@ -56,7 +56,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
               id="site-search"
               type="search"
               className={styles.input}
-              placeholder="Search baits, colors, jig heads…"
+              placeholder="Search baits and colors…"
               autoComplete="off"
               value={q}
               onChange={(e) => setQ(e.target.value)}

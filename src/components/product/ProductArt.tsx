@@ -3,7 +3,7 @@ import type { ArtKind } from '@/lib/types';
 import { getColorway } from '@/data/colors';
 
 /**
- * Illustrated stand-in used until real product photography exists.
+ * Illustrated stand-in for products without a photo, and decoration (hero, color wall).
  * Deliberately stylized (flat vector) so it is never mistaken for a photo of an actual Bear Creek product.
  * Colors are driven by the selected colorway, so swatch changes are reflected immediately.
  */
@@ -17,69 +17,15 @@ interface Props {
   title?: string;
 }
 
-const METAL = '#A3A8AD';
-
-/**
- * A 90° jig hook, drawn point-up the way a jig rides: the line-tie eye stands up out of the
- * top of the head, the shank runs straight back, then a round bend turns up into a point with a barb.
- * (x0, y) is where the shank leaves the head; the bend is centred at (xb, y - r).
- */
-function hookParts(x0: number, y: number, xb: number, r: number, wire: string) {
-  const top = y - 2 * r;
-  const tipX = xb - r * 1.5;
-  const tipY = top + r * 0.34;
-  // Where the round wire of the point leg ends and the filed point begins.
-  const ex = tipX + 12;
-  const ey = tipY - 0.9;
-  const shank = `M${x0} ${y} L${xb} ${y}`;
-  const bend = `M${xb - 1} ${y} A${r} ${r} 0 0 0 ${xb} ${top} L${ex} ${ey}`;
-  // Point and barb as one shape: top edge tapers to the tip, the barb flares back on the inside.
-  const point = `M${ex} ${ey - 3} L${tipX} ${tipY} L${tipX + 13} ${tipY + 7} L${tipX + 11} ${tipY + 2.4} L${ex + 1} ${ey + 3} Z`;
-  return {
-    shank: (
-      <>
-        <path d={shank} fill="none" stroke={wire} strokeWidth="6" strokeLinecap="round" />
-        <path d={shank} fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="1.6" strokeLinecap="round" transform="translate(0 -1.6)" />
-      </>
-    ),
-    bend: (
-      <>
-        <path d={bend} fill="none" stroke={wire} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-        <path
-          d={`M${xb + r * 0.7} ${y - r * 1.7} A${r} ${r} 0 0 1 ${xb + r} ${y - r}`}
-          fill="none"
-          stroke="rgba(255,255,255,.55)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path d={point} fill={wire} stroke={wire} strokeWidth="0.8" strokeLinejoin="round" />
-      </>
-    ),
-  };
-}
-
-/** Line-tie eye standing up out of the top of a jig head. */
-function hookEye(cx: number, headTop: number, wire: string) {
-  const cy = headTop - 9;
-  return (
-    <>
-      <path d={`M${cx} ${headTop + 4} L${cx} ${cy + 7}`} stroke={wire} strokeWidth="5" strokeLinecap="round" />
-      <circle cx={cx} cy={cy} r="7.5" fill="none" stroke={wire} strokeWidth="4.5" />
-      <path d={`M${cx - 5} ${cy - 4.5} A7.5 7.5 0 0 1 ${cx + 3} ${cy - 7}`} fill="none" stroke="rgba(255,255,255,.6)" strokeWidth="1.4" strokeLinecap="round" />
-    </>
-  );
-}
-
 export function ProductArt({ kind, color, className, angle, title }: Props) {
   const uid = useId().replace(/:/g, '');
   const cw: { primary: string; secondary: string; flake?: string; tail?: string } = getColorway(color) ?? { primary: '#C9F025', secondary: '#FF4F9E' };
   const p = cw.primary;
   const s = cw.secondary;
   const id = (n: string) => `${n}-${uid}`;
-  const rot = angle ?? (kind === 'box' ? 0 : -22);
+  const rot = angle ?? -22;
 
   const lam = `url(#${id('lam')})`;
-  const wire = `url(#${id('wire')})`;
   const shade = `url(#${id('shade')})`;
   const flake = cw.flake ? `url(#${id('flake')})` : undefined;
 
@@ -201,91 +147,6 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
       );
       break;
 
-    case 'jig-head': {
-      const hook = hookParts(166, 200, 300, 26, wire);
-      body = (
-        <g>
-          {hookEye(134, 164, wire)}
-          {hook.shank}
-          {hook.bend}
-          <rect x="160" y="192" width="20" height="16" rx="4" fill={p} />
-          <rect x="160" y="192" width="20" height="16" rx="4" fill={shade} />
-          <circle cx="134" cy="200" r="36" fill={p} />
-          <circle cx="134" cy="200" r="36" fill={shade} />
-          <ellipse cx="122" cy="186" rx="11" ry="7" fill="rgba(255,255,255,.4)" />
-          <circle cx="122" cy="204" r="10" fill="#FFD21F" stroke="rgba(0,0,0,.25)" strokeWidth="1.5" />
-          <circle cx="120" cy="204" r="5" fill="#111" />
-        </g>
-      );
-      break;
-    }
-
-    case 'hair-jig': {
-      const hook = hookParts(150, 210, 344, 24, wire);
-      const strands = Array.from({ length: 34 }).map((_, i) => {
-        const t = i / 33;
-        const y0 = 188 + t * 26;
-        const y1 = 160 + t * 82;
-        const x1 = 280 + Math.sin(i * 1.7) * 12;
-        return (
-          <path
-            key={i}
-            d={`M146 ${y0} Q220 ${y0 + (y1 - y0) * 0.3} ${x1} ${y1}`}
-            fill="none"
-            stroke={t < 0.5 ? p : s}
-            strokeWidth={5.5 - Math.abs(t - 0.5) * 3}
-            strokeLinecap="round"
-          />
-        );
-      });
-      body = (
-        <g>
-          {hookEye(112, 170, wire)}
-          {hook.shank}
-          {strands}
-          {hook.bend}
-          <rect x="136" y="184" width="18" height="34" rx="5" fill="#222" />
-          <circle cx="112" cy="200" r="30" fill={p} />
-          <circle cx="112" cy="200" r="30" fill={shade} />
-          <ellipse cx="102" cy="188" rx="9" ry="6" fill="rgba(255,255,255,.4)" />
-          <circle cx="102" cy="203" r="8.5" fill="#FFD21F" stroke="rgba(0,0,0,.25)" strokeWidth="1.5" />
-          <circle cx="100" cy="203" r="4.2" fill="#111" />
-        </g>
-      );
-      break;
-    }
-
-    case 'box': {
-      const mini = [p, s, '#FF7A1A', '#A9DDF3', '#C9F025', '#FF4F9E', '#F6F2E7'];
-      body = (
-        <g>
-          {/* lid */}
-          <path d="M84 176 L110 96 L290 96 L316 176 Z" fill="#2B2D27" />
-          <path d="M96 170 L118 104 L282 104 L304 170 Z" fill="#33352E" />
-          {/* baits poking out */}
-          {mini.map((c, i) => {
-            const x = 104 + i * 30;
-            const h = 52 + ((i * 37) % 26);
-            return (
-              <g key={i} transform={`rotate(${(i % 2 ? 6 : -6) + (i - 3) * 2} ${x + 9} 200)`}>
-                <rect x={x} y={200 - h} width="20" height={h + 20} rx="10" fill={c} />
-                <rect x={x} y={200 - h} width="20" height={h + 20} rx="10" fill={shade} />
-              </g>
-            );
-          })}
-          {/* jig heads */}
-          {[0, 1, 2].map((i) => (
-            <circle key={i} cx={128 + i * 72} cy={176} r="11" fill={['#D7262E', '#C9F025', '#FF5FA2'][i]} stroke="rgba(0,0,0,.2)" />
-          ))}
-          {/* box body */}
-          <path d="M70 180 L330 180 L320 318 L80 318 Z" fill="#1F201C" />
-          <path d="M70 180 L330 180 L328 200 L72 200 Z" fill="#2B2D27" />
-          <path d="M75 236 L325 236 L322 272 L78 272 Z" fill="#8DBB2C" />
-          <path d="M75 236 L325 236 L325 241 L75 241 Z" fill="rgba(0,0,0,.15)" />
-        </g>
-      );
-      break;
-    }
   }
 
   return (
@@ -310,12 +171,6 @@ export function ProductArt({ kind, color, className, angle, title }: Props) {
             <stop offset="1" stopColor={tailColor} />
           </linearGradient>
         )}
-        {/* brushed-steel wire; user space so straight strokes (zero-height boxes) still render */}
-        <linearGradient id={id('wire')} gradientUnits="userSpaceOnUse" x1="0" y1="130" x2="0" y2="215">
-          <stop offset="0" stopColor="#E4E7EA" />
-          <stop offset="0.45" stopColor={METAL} />
-          <stop offset="1" stopColor="#5E646A" />
-        </linearGradient>
         <linearGradient id={id('shade')} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#fff" stopOpacity="0.38" />
           <stop offset="0.35" stopColor="#fff" stopOpacity="0" />

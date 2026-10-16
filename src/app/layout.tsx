@@ -16,11 +16,11 @@ import { Footer } from '@/components/layout/Footer';
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | Crappie Soft Plastics, Hair Jigs & Jig Heads`,
+    default: `${site.name} | Hand-Poured Crappie Soft Plastics`,
     template: `%s | ${site.name}`,
   },
   description:
-    'Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads from Bear Creek Baits, a small shop chasing \'em for over 50 years.',
+    'Hand-poured crappie plastics from Bear Creek Baits, a small shop chasing \'em for over 50 years.',
   applicationName: site.name,
   openGraph: {
     type: 'website',

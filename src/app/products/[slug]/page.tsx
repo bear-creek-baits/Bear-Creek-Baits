@@ -61,8 +61,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div className="container">
             <div className="section-head">
               <div>
-                <p className="eyebrow">Rig it with</p>
-                <h2 id="related-title">You might also need</h2>
+                <p className="eyebrow">More profiles</p>
+                <h2 id="related-title">Try another profile</h2>
               </div>
             </div>
             <ProductGrid products={related} />

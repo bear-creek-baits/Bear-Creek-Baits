@@ -52,18 +52,9 @@ export function resolveSelection(product: Product, current: Record<string, strin
   return match ? { ...match.options } : next;
 }
 
-/** "Hand-poured.", "Hand-tied." or "Hand-painted.", depending on how the product is made. */
+/** How the product is made, shown near the price. Every product in the shop today is a soft plastic. */
 export function handmadeLine(product: Product): string {
-  switch (product.art) {
-    case 'jig-head':
-      return 'Hand-painted.';
-    case 'hair-jig':
-      return 'Hand-tied to order.';
-    case 'box':
-      return 'Hand-poured plastics. Hand-painted heads.';
-    default:
-      return 'Hand-poured.';
-  }
+  return product.category === 'soft-plastics' ? 'Hand-poured.' : 'Handmade.';
 }
 
 /** Quantity rules for one size/color of a product. */
@@ -105,18 +96,9 @@ export function productColorFamilies(product: Product): Set<ColorFamily> {
   return fams;
 }
 
+/** Other profiles in the same category. */
 export function relatedProducts(product: Product, limit = 4): Product[] {
-  const same = products.filter((p) => p.slug !== product.slug && p.category === product.category);
-  // Jig heads pair with plastics; plastics pair with jig heads.
-  const pairs: Partial<Record<CategorySlug, CategorySlug>> = {
-    'soft-plastics': 'jig-heads',
-    'jig-heads': 'soft-plastics',
-    'hair-jigs': 'soft-plastics',
-    'bait-boxes': 'soft-plastics',
-  };
-  const paired = products.filter((p) => p.category === pairs[product.category]);
-  const seen = new Set<string>();
-  return [...same, ...paired].filter((p) => !seen.has(p.slug) && seen.add(p.slug)).slice(0, limit);
+  return products.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, limit);
 }
 
 export function searchProducts(query: string): Product[] {

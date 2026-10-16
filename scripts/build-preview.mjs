@@ -3,7 +3,7 @@
 // That host serves the files from a sub-folder (not the root of a domain), rejects top-level
 // paths starting with "_" and rejects a literal U+FFFD. So this build:
 //   - moves Next's /_next/ files to assets/_next/
-//   - makes every file and link path in each HTML page relative to that page (its depth is
+//   - makes every file and link path in each HTML page (including product photo src attributes) relative to that page (its depth is
 //     known at build time), and points Turbopack's chunk loader at the site folder at runtime
 //   - turns in-site link clicks into full page loads of the matching index.html, and opens each
 //     page at the top (scrollIntoView also scrolls the viewer around the page when it can)
@@ -70,6 +70,7 @@ for (const f of walk(OUT).filter((p) => p.endsWith('.html'))) {
   html = html
     .replaceAll('/assets/_next/', `${up}assets/_next/`)
     .replaceAll('"/brand/', `"${up}brand/`)
+    .replaceAll('src="/products/', `src="${up}products/`)
     .replaceAll('"/favicon.ico"', `"${up}favicon.ico"`)
     .replaceAll('"/manifest.webmanifest"', `"${up}manifest.webmanifest"`)
     .replace(/href="\/(?!\/)([^"]*)"/g, (_, p) => `href="${up}${toFile('/' + p)}"`)

@@ -1,5 +1,6 @@
 import type { Product, Variant } from '@/lib/types';
 import { colorOption } from '@/lib/catalog';
+import { asset } from '@/lib/asset';
 import { ProductArt } from './ProductArt';
 
 interface Props {
@@ -22,7 +23,7 @@ export function ProductMedia({ product, variant, className, labelled = true, pri
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={photo.src}
+        src={asset(photo.src)}
         alt={labelled ? photo.alt : ''}
         width={photo.width}
         height={photo.height}

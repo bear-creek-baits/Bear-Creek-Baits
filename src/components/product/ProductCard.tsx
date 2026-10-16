@@ -22,6 +22,8 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const category = categories.find((c) => c.slug === product.category);
   const href = `/products/${product.slug}/`;
   const hasPhoto = product.images.length > 0;
+  // Hovering a swatch shows that color's photo.
+  const previewVariant = preview && opt ? product.variants.find((v) => v.options[opt.name] === preview && v.image) : undefined;
 
   return (
     <article className={styles.card}>
@@ -30,7 +32,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           {preview && !hasPhoto ? (
             <ProductArt kind={product.art} color={preview} />
           ) : (
-            <ProductMedia product={product} labelled={false} priority={priority} />
+            <ProductMedia product={product} variant={previewVariant} labelled={false} priority={priority} />
           )}
         </div>
         <div className={styles.flags}>

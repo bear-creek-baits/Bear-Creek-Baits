@@ -39,7 +39,7 @@ export function SearchResults() {
               id="search-page-input"
               type="search"
               className="input"
-              placeholder="Search baits, colors, jig heads…"
+              placeholder="Search baits and colors…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />

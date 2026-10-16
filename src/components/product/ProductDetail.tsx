@@ -97,7 +97,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
       <div className={styles.layout}>
         <div className={styles.gallery}>
           <div className={styles.mainImage}>
-            <div className={styles.artWrap} key={variant.id.split('--')[1]}>
+            <div className={styles.artWrap} key={variant.image?.src ?? variant.id}>
               <ProductMedia product={product} variant={variant} priority />
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}

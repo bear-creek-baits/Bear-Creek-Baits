@@ -16,7 +16,7 @@ export function Footer() {
             <img src="/brand/logo.webp" alt="" width={474} height={464} loading="lazy" />
           </Link>
           <p className={styles.heritage}>{brand.heritage}</p>
-          <p className={styles.blurb}>Hand-poured crappie plastics, hand-tied hair jigs and hand-painted jig heads.</p>
+          <p className={styles.blurb}>Hand-poured crappie plastics: swim baits, curly tails and minnows.</p>
           <a href={site.social.facebook} className={styles.social} target="_blank" rel="noopener noreferrer">
             <Icon name="facebook" size={20} /> Follow on Facebook
           </a>

@@ -44,12 +44,8 @@ const orderingFaqs =
 const faqs = [
   ...orderingFaqs,
   {
-    q: 'Which jig head should I pair with a soft plastic?',
-    a: 'Each product page lists matching baits under “You might also need.” If you’re unsure, send a message and we’ll point you in the right direction.',
-  },
-  {
-    q: 'What’s in a bait box?',
-    a: 'Bait boxes are an assortment of soft plastics and jig heads. You choose the size and color lean; exact contents vary.',
+    q: 'What jig head should I rig these on?',
+    a: 'A light crappie jig head. For the 1.5" Swim Bait, use a #8 sickle hook; a #6 J hook will get by. If you’re unsure, send a message and we’ll point you in the right direction.',
   },
   {
     q: 'A color I want is sold out. Will it come back?',
@@ -58,10 +54,6 @@ const faqs = [
   {
     q: 'Is there a minimum order?',
     a: 'Soft plastics are poured in runs, so there’s a 50-bait minimum for each size and color.',
-  },
-  {
-    q: 'How long do hair jigs take?',
-    a: 'Every hair jig is tied by hand when you order it. We’ll let you know the timing when we reach out to confirm your order.',
   },
   {
     q: 'Can I buy Bear Creek Baits in a store?',

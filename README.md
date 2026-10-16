@@ -4,7 +4,7 @@ Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.
 
 **Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when the bench is backed up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
 
-**Every product, price, option, color and stock status is sample data.** The only verified business inputs so far are the business name, the product types it sells, and the official logo.
+**Prices and stock status are sample data.** The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
 
 ## Run it
 
@@ -34,18 +34,19 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 | **Ordering mode, open/closed switch, form endpoint** | `src/content/site.ts` → `ordering` |
 | Brand taglines (use exactly as written) | `src/content/site.ts` → `brand` |
 | Order request page | `src/app/order/` |
-| **Sample product catalog** | `src/data/products.ts` |
-| Sample colorways / swatches | `src/data/colors.ts` |
+| **Product catalog** (one product per photo folder) | `src/data/products.ts` |
+| Colorways / swatches (sampled from the photos) | `src/data/colors.ts` |
+| Product photos (1600px WebP) | `public/products/<profile>/<color>.webp` |
 | Categories and their copy | `src/data/categories.ts` |
 | Catalog access layer (swap this for Shopify later) | `src/lib/catalog.ts` |
 | Cart (localStorage) | `src/components/cart/CartProvider.tsx` |
-| Bait illustrations (stand-ins until photos exist) | `src/components/product/ProductArt.tsx` |
+| Bait illustrations (hero, color wall, products without a photo) | `src/components/product/ProductArt.tsx` |
 | Original uploaded logo (untouched) | `assets/original/` |
 | Web logo and icons (cropped to drop stray text along the bottom edge; artwork unchanged) | `public/brand/` |
 
 ### Adding real product photos
 
-Add images under `public/products/…` and list them in the product's `images` array, or on individual variants (`variant.image`). Once a photo exists it replaces the illustration automatically.
+Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`). Copy each one to `public/products/<profile>/<color>.webp`, resized to 1600px on the longest side; only the web-sized copies are committed. Then add the color to the product's `Color` option and `photos(...)` list in `src/data/products.ts` (each color variant gets its photo as `variant.image`, so picking the color shows it), and add a colorway in `src/data/colors.ts` sampled from the photo.
 
 ## Ordering (phase 1)
 
@@ -66,7 +67,7 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 
 ## Path to launch (phase 1)
 
-1. Load the real baits, colors, weights and prices into `src/data/products.ts` and add photos.
+1. Fill in real prices, stock and any missing sizes (Flicker Minnow; Silver Streak in the Swim Bait) in `src/data/products.ts`.
 2. Set `ordering.formEndpoint` (and point the contact form at the same service).
 3. Fill in the real Facebook link, email/phone and domain in `site`.
 4. Set `prototype: false` and deploy.

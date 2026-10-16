@@ -92,26 +92,29 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
 
   return (
     <div className={`container ${styles.wrap}`}>
-      <nav className={styles.cats} aria-label="Categories">
-        <ul>
-          <li>
-            <Link href="/shop/" className={!activeCategory ? styles.catOn : undefined} aria-current={!activeCategory ? 'page' : undefined}>
-              All <span>{total}</span>
-            </Link>
-          </li>
-          {categories.map((c) => (
-            <li key={c.slug}>
-              <Link
-                href={`/shop/${c.slug}/`}
-                className={activeCategory === c.slug ? styles.catOn : undefined}
-                aria-current={activeCategory === c.slug ? 'page' : undefined}
-              >
-                {c.name} <span>{counts[c.slug]}</span>
+      {/* Category tabs only help once there's more than one category. */}
+      {categories.length > 1 && (
+        <nav className={styles.cats} aria-label="Categories">
+          <ul>
+            <li>
+              <Link href="/shop/" className={!activeCategory ? styles.catOn : undefined} aria-current={!activeCategory ? 'page' : undefined}>
+                All <span>{total}</span>
               </Link>
             </li>
-          ))}
-        </ul>
-      </nav>
+            {categories.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={`/shop/${c.slug}/`}
+                  className={activeCategory === c.slug ? styles.catOn : undefined}
+                  aria-current={activeCategory === c.slug ? 'page' : undefined}
+                >
+                  {c.name} <span>{counts[c.slug]}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
 
       <div className={styles.layout}>
         <aside className={styles.sidebar} aria-label="Filters">
