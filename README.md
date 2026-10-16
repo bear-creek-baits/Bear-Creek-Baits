@@ -69,7 +69,7 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 
 1. Fill in real prices, stock and any missing sizes (Flicker Minnow; Silver Streak in the Swim Bait) in `src/data/products.ts`.
 2. Set `ordering.formEndpoint` (and point the contact form at the same service).
-3. Fill in the real Facebook link, email/phone and domain in `site`.
+3. Fill in the real email/phone and domain in `site` (the Facebook link is in).
 4. Set `prototype: false` and deploy.
 
 ## Moving to Shopify (phase 2, when Steve is ready)

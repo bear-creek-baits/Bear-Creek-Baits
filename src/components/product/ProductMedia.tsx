@@ -13,7 +13,8 @@ interface Props {
 
 /**
  * Renders the product photo (variant image first, then product image). Photos are cut out with a
- * transparent background, so a soft shadow sets the bait on whatever panel it sits on.
+ * transparent background and carry their own soft shadow. Don't add a CSS drop-shadow filter:
+ * iOS Safari draws it in tiles on scaled or rotated images and leaves visible seams.
  * Products without a photo show a plain "photo coming soon" note.
  */
 export function ProductMedia({ product, variant, className, labelled = true, priority }: Props) {
@@ -40,7 +41,7 @@ export function ProductMedia({ product, variant, className, labelled = true, pri
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       className={className}
-      style={{ objectFit: 'contain', width: '100%', height: '100%', filter: 'drop-shadow(0 10px 12px rgba(0, 0, 0, 0.18))' }}
+      style={{ objectFit: 'contain', width: '100%', height: '100%' }}
     />
   );
 }

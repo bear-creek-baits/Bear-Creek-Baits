@@ -21,8 +21,8 @@ export const site = {
   address: null as string | null,
 
   social: {
-    /** PLACEHOLDER — replace with the exact Facebook page URL. Currently a Facebook search link. */
-    facebook: 'https://www.facebook.com/search/top?q=Bear%20Creek%20Baits',
+    /** VERIFIED — the Bear Creek Baits Facebook page (share link from the client, tracking parameter removed). */
+    facebook: 'https://www.facebook.com/share/1C8CKEeAuP/',
   },
 
   /**

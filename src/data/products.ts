@@ -40,7 +40,7 @@ function cartesian(options: ProductOption[]): Record<string, string>[] {
 
 /**
  * Photo entries for one profile folder, with each photo's [width, height]. The photos are cut out
- * (transparent background) and trimmed to the bait, so they sit on any page color.
+ * (transparent background, soft shadow baked in) and trimmed to the bait, so they sit on any page color.
  */
 function photos(slug: string, title: string, colors: Record<string, [number, number]>): Record<string, ProductImage> {
   return Object.fromEntries(
@@ -96,7 +96,7 @@ export const products: Product[] = [
       { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
       { name: 'Color', display: 'swatch', values: ['silver-streak', 'the-closer'] },
     ],
-    photos: photos('swim-bait', 'Swim Bait', { 'silver-streak': [1600, 330], 'the-closer': [1600, 295] }),
+    photos: photos('swim-bait', 'Swim Bait', { 'silver-streak': [1600, 426], 'the-closer': [1600, 393] }),
     offered: (o) => swimBaitColors[o.Size].includes(o.Color),
     price: () => samplePrice,
   }),
@@ -119,12 +119,12 @@ export const products: Product[] = [
       },
     ],
     photos: photos('curly-tail', 'Curly Tail', {
-      'blue-ice-lime': [1600, 769],
-      dynamite: [1600, 714],
-      'laurence-grubs': [1600, 850],
-      'monkey-snot': [1600, 829],
-      'silver-streak': [1600, 671],
-      'the-closer': [1600, 837],
+      'blue-ice-lime': [1600, 832],
+      dynamite: [1600, 781],
+      'laurence-grubs': [1600, 907],
+      'monkey-snot': [1600, 887],
+      'silver-streak': [1600, 740],
+      'the-closer': [1600, 894],
     }),
     price: () => samplePrice,
   }),
@@ -140,7 +140,7 @@ export const products: Product[] = [
       { name: 'Size', display: 'button', values: ['2"'] },
       { name: 'Color', display: 'swatch', values: ['blue-treuse'] },
     ],
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 298] }),
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
     price: () => samplePrice,
   }),
   build({
@@ -153,7 +153,7 @@ export const products: Product[] = [
     // PLACEHOLDER: size not confirmed yet, so there's no Size option. Add one (like the others) once it is.
     details: ['Hand-poured', 'Size to be confirmed', 'Sample price'],
     options: [{ name: 'Color', display: 'swatch', values: ['the-closer'] }],
-    photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': [1600, 321] }),
+    photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': [1600, 417] }),
     price: () => samplePrice,
   }),
 ];
