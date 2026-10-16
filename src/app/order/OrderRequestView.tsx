@@ -47,8 +47,8 @@ export function OrderRequestView() {
           </span>
           <h1 className={styles.h1}>Got it. Your order request is in.</h1>
           <p className={styles.lead}>
-            We’ll reach out by {sent.contactBy.toLowerCase()} to confirm what’s in stock, your total and shipping. Nothing is charged until
-            then.
+            We’ll reach out by {sent.contactBy.toLowerCase()} to confirm your total, shipping and when your baits will be poured. Nothing is
+            charged until then.
           </p>
           <p className={styles.lead}>{brand.promise}</p>
           {site.prototype && !ordering.formEndpoint && <p className={styles.protoNote}>Preview site: this request was not delivered.</p>}
@@ -148,7 +148,8 @@ export function OrderRequestView() {
                 <h2 className={styles.h3}>How it works</h2>
                 <ol className={styles.steps}>
                   <li>Send us your list. Nothing is charged online.</li>
-                  <li>We check it against what’s on the bench and reach out to confirm your total and shipping.</li>
+                  <li>Anything not already poured goes on the pour list. We pour one or two colors at a time.</li>
+                  <li>We reach out to confirm your total, shipping and timing.</li>
                   <li>Once you say go, we pack it and send it your way.</li>
                 </ol>
 

@@ -55,8 +55,8 @@ export function Footer() {
         </nav>
 
         <div className={styles.news}>
-          <h2 className={styles.colTitle}>New colors &amp; restocks</h2>
-          <p>Get an email when new colors drop or sold-out baits come back.</p>
+          <h2 className={styles.colTitle}>New colors</h2>
+          <p>Get an email when a new color drops.</p>
           <NewsletterForm />
         </div>
       </div>

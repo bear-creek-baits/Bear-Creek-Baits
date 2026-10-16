@@ -4,7 +4,7 @@ Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.
 
 **Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when the bench is backed up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
 
-**Prices and stock status are sample data.** The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
+**Prices are sample data.** The site deliberately doesn't track or show stock: Steve pours in runs of one or two colors and posts each day's pour on Facebook, so every size and color is orderable and anything not already poured goes on his pour list. Nothing needs updating when a run is poured. The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
 
 ## Run it
 

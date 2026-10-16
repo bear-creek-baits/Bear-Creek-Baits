@@ -17,7 +17,7 @@ export default function ContactPage() {
         <div className="container">
           <p className="eyebrow">Contact</p>
           <h1>Get in touch</h1>
-          <p>Questions about an order, a color, a restock or a bulk request? Send a message.</p>
+          <p>Questions about an order, a color, the pour list or a bulk request? Send a message.</p>
         </div>
       </section>
       <section className="section">

@@ -6,7 +6,7 @@ import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'How ordering works at Bear Creek Baits, plus shipping, restocks and custom orders.',
+  description: 'How ordering works at Bear Creek Baits: small-batch pours, the pour list, shipping and custom orders.',
   alternates: { canonical: '/faq/' },
 };
 
@@ -48,8 +48,12 @@ const faqs = [
     a: 'A light crappie jig head. For the 1.5" Swim Bait, use a #8 sickle hook; a #6 J hook will get by. If you’re unsure, send a message and we’ll point you in the right direction.',
   },
   {
-    q: 'A color I want is sold out. Will it come back?',
-    a: 'Yes. We make every bait by hand in small batches, so sold-out colors come back. Sold-out options are marked on the product page; reach out through the contact page to ask about a restock.',
+    q: 'Can I order any color?',
+    a: 'Yes. Every size and color on the site can be ordered. We pour in small runs, one or two colors at a time, so if yours isn’t already poured it goes on the pour list. We’ll tell you the timing when we confirm your order.',
+  },
+  {
+    q: 'How do I see what you poured today?',
+    a: 'We post each day’s run on our Facebook page. If something there catches your eye, add it to your order list and mention it in the notes.',
   },
   {
     q: 'Is there a minimum order?',
@@ -72,7 +76,7 @@ export default function FaqPage() {
         <div className="container">
           <p className="eyebrow">Help</p>
           <h1>FAQ</h1>
-          <p>How ordering works, shipping, restocks and the rest.</p>
+          <p>How ordering works, the pour list, shipping and the rest.</p>
         </div>
       </section>
       <section className="section">

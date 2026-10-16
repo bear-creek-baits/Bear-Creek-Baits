@@ -83,13 +83,50 @@ export function ColorWall() {
   );
 }
 
+/* ------------------------------------------------------------------ Today's pour */
+
+/**
+ * Points to Facebook, where Steve posts each day's pour, instead of showing stock on the site
+ * (nothing here needs updating when a run is poured). Anything else goes on the pour list.
+ */
+export function TodaysPour() {
+  return (
+    <section className={styles.pour} aria-labelledby="pour-title">
+      <div className={`container ${styles.pourGrid}`}>
+        <div className={styles.pourArt} aria-hidden="true">
+          <BaitPhoto product="curly-tail" color="blue-ice-lime" angle={-8} />
+          <BaitPhoto product="swim-bait" color="the-closer" angle={6} />
+        </div>
+        <div>
+          <p className={`eyebrow ${styles.pourEyebrow}`}>Fresh off the bench</p>
+          <h2 id="pour-title" className={styles.pourTitle}>
+            See what got poured today.
+          </h2>
+          <p className={styles.pourText}>
+            We pour one or two colors at a time and post each day’s run on Facebook. Want something else? Order any size and color here
+            and it goes on the pour list.
+          </p>
+          <div className={styles.pourCtas}>
+            <a href={site.social.facebook} className="btn btn-dark" target="_blank" rel="noopener noreferrer">
+              <Icon name="facebook" size={20} /> Today’s pour on Facebook
+            </a>
+            <Link href="/shop/" className={styles.pourLink}>
+              Shop all colors
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------------ Bench / brand */
 
 export function Bench() {
   const points = [
     { n: '01', title: 'Hand-poured', body: 'Soft plastics poured in small batches, in the colors crappie fishermen actually reach for.' },
     { n: '02', title: 'Laminates and dipped tails', body: 'Two-tone laminates and dipped tails, done by hand on the bench.' },
-    { n: '03', title: 'Poured in runs', body: `Every size and color is poured as a run, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each.` },
+    { n: '03', title: 'Poured in runs', body: `We pour one or two colors at a time, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each size and color.` },
   ];
   return (
     <section className={`section ${styles.bench}`} aria-labelledby="bench-title">
@@ -193,9 +230,9 @@ export function OnTheWater() {
 export function OrderSteps() {
   if (ordering.mode !== 'request') return null;
   const steps = [
-    { title: 'Build your list', body: 'Pick your baits, sizes and colors and add them to your order list.' },
+    { title: 'Build your list', body: 'Pick any bait, size and color. If it isn’t already poured, it goes on the pour list.' },
     { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to the bench.' },
-    { title: 'We confirm and ship', body: 'We reach out to confirm stock, your total and shipping, then pack it up.' },
+    { title: 'We confirm and ship', body: 'We reach out to confirm your total, shipping and timing, then pack it up once it’s poured.' },
   ];
   return (
     <section className="section dark topo" aria-labelledby="steps-title">
@@ -204,7 +241,10 @@ export function OrderSteps() {
           <div>
             <p className="eyebrow">How ordering works</p>
             <h2 id="steps-title">Made by hand. Ordered by request.</h2>
-            <p>Every bait is made in small batches, so we confirm each order before you pay. That way you only pay for what’s ready to ship.</p>
+            <p>
+              We pour in small runs, one or two colors at a time, so we confirm each order before you pay. You only pay once we know when
+              it’ll be ready.
+            </p>
           </div>
         </div>
         <ol className={styles.stepGrid}>

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
 import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, handmadeLine, isAvailable, orderRules, resolveSelection, unitNote } from '@/lib/catalog';
 import { useCart } from '@/components/cart/CartProvider';
-import { ordering, orderingCopy } from '@/content/site';
+import { ordering, orderingCopy, site } from '@/content/site';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
 import { ProductMedia } from './ProductMedia';
@@ -137,6 +137,16 @@ export function ProductDetail({ product, category }: { product: Product; categor
           {rules.unit && canAdd && (
             <p className={styles.lineTotal}>
               {Math.max(rules.min, qty)} {rules.unit}s · {formatPrice(variant.price * Math.max(rules.min, qty))}
+            </p>
+          )}
+          {variant.available && ordering.open && (
+            <p className={styles.pourNote}>
+              Poured in small runs, one or two colors at a time. If yours isn’t already poured, it goes on the pour list and we’ll confirm
+              timing before you pay.{' '}
+              <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
+                See today’s pour on Facebook
+              </a>
+              .
             </p>
           )}
           {!variant.available ? (

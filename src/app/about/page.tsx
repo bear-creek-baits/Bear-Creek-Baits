@@ -64,7 +64,7 @@ export default function AboutPage() {
       <section className={`section dark topo`}>
         <div className={`container ${styles.followCta}`}>
           <h2>Follow along</h2>
-          <p>New colors, restocks and catches get posted on Facebook first.</p>
+          <p>New colors, each day’s pour and customer catches get posted on Facebook first.</p>
           <a href={site.social.facebook} className="btn" target="_blank" rel="noopener noreferrer">
             <Icon name="facebook" size={20} /> Bear Creek Baits on Facebook
           </a>

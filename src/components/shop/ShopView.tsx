@@ -22,7 +22,6 @@ interface Props {
 
 export function ShopView({ products, activeCategory, counts, total }: Props) {
   const [families, setFamilies] = useState<Set<ColorFamily>>(new Set());
-  const [inStock, setInStock] = useState(false);
   const [sort, setSort] = useState<Sort>('featured');
   const [sheetOpen, setSheetOpen] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -37,7 +36,6 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
 
   const visible = useMemo(() => {
     let list = products.filter((p) => {
-      if (inStock && !isAvailable(p)) return false;
       if (families.size) {
         const pf = productColorFamilies(p);
         if (![...families].some((f) => pf.has(f))) return false;
@@ -49,7 +47,7 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
     if (sort === 'name') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     if (sort === 'featured') list = [...list].sort((a, b) => Number(isAvailable(b)) - Number(isAvailable(a)));
     return list;
-  }, [products, families, inStock, sort]);
+  }, [products, families, sort]);
 
   const toggleFamily = (f: ColorFamily) =>
     setFamilies((prev) => {
@@ -59,13 +57,11 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
       return next;
     });
 
-  const activeFilterCount = families.size + (inStock ? 1 : 0);
-  const clear = () => {
-    setFamilies(new Set());
-    setInStock(false);
-  };
+  const activeFilterCount = families.size;
+  const clear = () => setFamilies(new Set());
 
-  const filters = (idPrefix: string) => (
+  // No stock filter on purpose: every size and color can be ordered (it's poured to order).
+  const filters = () => (
     <>
       <fieldset className={styles.fgroup}>
         <legend>Color</legend>
@@ -78,14 +74,6 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
             </label>
           ))}
         </div>
-      </fieldset>
-      <fieldset className={styles.fgroup}>
-        <legend>Availability</legend>
-        <label className={styles.toggle} htmlFor={`${idPrefix}-instock`}>
-          <input id={`${idPrefix}-instock`} type="checkbox" checked={inStock} onChange={(e) => setInStock(e.target.checked)} />
-          <span className={styles.switch} aria-hidden="true" />
-          In stock only
-        </label>
       </fieldset>
     </>
   );
@@ -126,7 +114,7 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
               </button>
             )}
           </div>
-          {filters('side')}
+          {filters()}
         </aside>
 
         <div className={styles.results}>
@@ -163,12 +151,6 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
                   <span className="visually-hidden">Remove filter</span>
                 </button>
               ))}
-              {inStock && (
-                <button type="button" onClick={() => setInStock(false)}>
-                  In stock <Icon name="close" size={14} />
-                  <span className="visually-hidden">Remove filter</span>
-                </button>
-              )}
             </div>
           )}
 
@@ -202,7 +184,7 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
             <Icon name="close" size={24} />
           </button>
         </div>
-        <div className={styles.sheetBody}>{filters('sheet')}</div>
+        <div className={styles.sheetBody}>{filters()}</div>
         <div className={styles.sheetFoot}>
           <button type="button" className="btn btn-outline" onClick={clear} disabled={!activeFilterCount}>
             Clear
