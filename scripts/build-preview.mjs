@@ -7,7 +7,8 @@
 //     known at build time), and points Turbopack's chunk loader at the site folder at runtime
 //   - turns in-site link clicks into full page loads of the matching index.html, and opens each
 //     page at the top (scrollIntoView also scrolls the viewer around the page when it can)
-//   - drops the client-navigation data files (.txt), which this mode doesn't use
+//   - drops the client-navigation data files (.txt), which this mode doesn't use, and stops link
+//     prefetching from requesting them (otherwise every link logs a 404 in the console)
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
@@ -53,6 +54,8 @@ window.__BCB_BASE__=b;window.TURBOPACK_CHUNK_BASE_PATH=${JSON.stringify(up + "as
 function m(h){if(h.charAt(0)!=="/"||h.charAt(1)==="/")return h;var i=h.search(/[?#]/),p=(i<0?h:h.slice(0,i)).slice(1),r=i<0?"":h.slice(i);
 if(p===""||p.slice(-1)==="/")p+="index.html";var u=new URL(p+r,b);keep.forEach(function(v,k){if(!u.searchParams.has(k))u.searchParams.set(k,v)});return u.href}
 window.__bcbUrl=m;
+var F=window.fetch;window.fetch=function(i){var u=i&&typeof i==="object"&&"url" in i?i.url:String(i);
+if(u.indexOf("_rsc=")>-1)return Promise.reject(new TypeError("preview: no client navigation data"));return F.apply(this,arguments)};
 addEventListener("click",function(e){if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
 var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a||a.target==="_blank")return;var h=a.getAttribute("href");
 if(!h||h.charAt(0)==="#"||/^[a-z]+:/i.test(h))return;var u=h.charAt(0)==="/"?m(h):m("/"+a.href.split(/[?#]/)[0].slice(b.length)+(a.href.match(/[?#].*$/)||[""])[0]);

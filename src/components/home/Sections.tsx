@@ -196,35 +196,6 @@ export function LocalDealers() {
   );
 }
 
-/* ------------------------------------------------------------------ On the water */
-
-export function OnTheWater() {
-  return (
-    <section className={`section ${styles.water}`} aria-labelledby="water-title">
-      <div className="container">
-        <div className="section-head">
-          <div>
-            <p className="eyebrow">On the water</p>
-            <h2 id="water-title">Show us your catch</h2>
-            <p>Send us a picture when you stick a good one. Customer catches will show up here.</p>
-          </div>
-          <a href={site.social.facebook} className="text-link" target="_blank" rel="noopener noreferrer">
-            Share on Facebook <Icon name="arrow-right" size={18} />
-          </a>
-        </div>
-        <ul className={styles.waterGrid}>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <li key={i} className={styles.waterTile}>
-              <Icon name="camera" size={30} strokeWidth={1.6} />
-              <span>Your catch here</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------------------------------------------ How ordering works */
 
 export function OrderSteps() {

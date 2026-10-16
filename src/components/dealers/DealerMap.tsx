@@ -145,14 +145,18 @@ export function DealerMap({ origin, selectedId, nearestId, onSelect }: Props) {
         Bear Creek
       </text>
 
-      {towns.map((t) => (
-        <g key={t.name}>
-          <circle cx={x(t.lon)} cy={y(t.lat)} r="2.6" className={styles.townDot} />
-          <text x={x(t.lon) + 6} y={y(t.lat) + 4} className={styles.townLabel}>
-            {t.name}
-          </text>
-        </g>
-      ))}
+      {towns.map((t) => {
+        // Label on the left of the dot near the right edge, so it isn't cut off (e.g. Muscle Shoals).
+        const left = x(t.lon) > W - 110;
+        return (
+          <g key={t.name}>
+            <circle cx={x(t.lon)} cy={y(t.lat)} r="2.6" className={styles.townDot} />
+            <text x={x(t.lon) + (left ? -6 : 6)} y={y(t.lat) + 4} textAnchor={left ? 'end' : 'start'} className={styles.townLabel}>
+              {t.name}
+            </text>
+          </g>
+        );
+      })}
 
       {showOrigin && (
         <g transform={`translate(${x(origin.lon).toFixed(1)} ${y(origin.lat).toFixed(1)})`}>

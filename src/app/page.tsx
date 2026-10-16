@@ -1,5 +1,5 @@
 import { Hero } from '@/components/home/Hero';
-import { Bench, ColorWall, Featured, FinalCta, LocalDealers, OnTheWater, OrderSteps, TodaysPour } from '@/components/home/Sections';
+import { Bench, ColorWall, Featured, FinalCta, LocalDealers, OrderSteps, TodaysPour } from '@/components/home/Sections';
 import { site } from '@/content/site';
 
 export default function HomePage() {
@@ -20,7 +20,6 @@ export default function HomePage() {
       <Bench />
       <ColorWall />
       <LocalDealers />
-      <OnTheWater />
       <FinalCta />
     </>
   );

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/flatten-rsc.mjs",
     "build:preview": "node scripts/build-preview.mjs",
     "start": "npx serve@latest out -l 3000",
     "lint": "tsc --noEmit"
