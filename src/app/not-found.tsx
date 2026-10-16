@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ProductArt } from '@/components/product/ProductArt';
+import { BaitPhoto } from '@/components/product/BaitPhoto';
 import styles from './pages.module.css';
 
 export default function NotFound() {
@@ -7,7 +7,7 @@ export default function NotFound() {
     <section className="section">
       <div className={`container ${styles.narrow} ${styles.center}`}>
         <div className={styles.lostArt} aria-hidden="true">
-          <ProductArt kind="grub" color="the-closer" angle={-30} />
+          <BaitPhoto product="curly-tail" color="the-closer" angle={-24} />
         </div>
         <h1 className={styles.h1}>Snagged</h1>
         <p className={styles.lead}>That page isn’t here. It may have moved, or the link is wrong.</p>

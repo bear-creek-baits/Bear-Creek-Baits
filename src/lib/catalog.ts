@@ -1,7 +1,7 @@
 import { products } from '@/data/products';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
-import type { CategorySlug, ColorFamily, Product, Variant } from './types';
+import type { CategorySlug, ColorFamily, Product, ProductImage, Variant } from './types';
 
 /**
  * Single access layer for catalog data. When moving to Shopify, re-implement these
@@ -94,6 +94,13 @@ export function productColorFamilies(product: Product): Set<ColorFamily> {
   const fams = new Set<ColorFamily>();
   opt?.values.forEach((id) => getColorway(id)?.families.forEach((f) => fams.add(f)));
   return fams;
+}
+
+/** The cut-out photo of one product in one color, if there is one. */
+export function colorPhoto(slug: string, color: string): ProductImage | undefined {
+  const product = getProduct(slug);
+  const opt = product && colorOption(product);
+  return opt ? product.variants.find((v) => v.options[opt.name] === color && v.image)?.image : undefined;
 }
 
 /** Other profiles in the same category. */

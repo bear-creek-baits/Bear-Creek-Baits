@@ -17,13 +17,9 @@ export interface Category {
   intro: string;
   seoTitle: string;
   seoDescription: string;
-  /** Which illustration represents the category until real photography exists. */
-  art: ArtKind;
-  artColor: string; // colorway id
+  /** Bait photo that represents the category: a product slug and one of its colors. */
+  photo: { product: string; color: string };
 }
-
-/** Illustration used when a product has no photo yet. */
-export type ArtKind = 'grub' | 'shad' | 'split-tail' | 'tube' | 'craw' | 'stick-worm';
 
 /** Broad color groups used for shop filtering. */
 export type ColorFamily =
@@ -88,9 +84,8 @@ export interface Product {
   details: string[];
   options: ProductOption[];
   variants: Variant[];
-  /** Product photos. Empty = illustrated placeholder is shown. */
+  /** Product photos (cut out, transparent background). Empty = a "photo coming soon" placeholder. */
   images: ProductImage[];
-  art: ArtKind;
   badge?: 'New' | 'Seasonal';
   /** Smallest quantity per size/color (e.g. 50 soft plastics). Defaults to 1. */
   minQty?: number;

@@ -1,19 +1,17 @@
 import Link from 'next/link';
-import { ProductArt } from '@/components/product/ProductArt';
+import { BaitPhoto } from '@/components/product/BaitPhoto';
 import { Icon } from '@/components/ui/Icon';
-import type { ArtKind } from '@/lib/types';
 import { brand } from '@/content/site';
 import styles from './Home.module.css';
 
-/** Baits arranged like they were dumped out on the tailgate. Positions are % of the art area. */
-const spread: { kind: ArtKind; color: string; x: number; y: number; size: number; angle: number }[] = [
-  { kind: 'shad', color: 'the-closer', x: -6, y: -10, size: 66, angle: -18 },
-  { kind: 'grub', color: 'laurence-grubs', x: 44, y: -12, size: 62, angle: 16 },
-  { kind: 'grub', color: 'blue-ice-lime', x: 46, y: 26, size: 60, angle: -28 },
-  { kind: 'stick-worm', color: 'blue-treuse', x: -4, y: 24, size: 52, angle: 10 },
-  { kind: 'split-tail', color: 'dynamite', x: 8, y: 44, size: 64, angle: -8 },
-  { kind: 'shad', color: 'silver-streak', x: 56, y: 56, size: 50, angle: 22 },
-  { kind: 'grub', color: 'monkey-snot', x: 28, y: 14, size: 40, angle: -40 },
+/** Real baits (cut-out photos) laid out like they were dumped on the tailgate. Positions and widths are % of the art area. */
+const spread: { product: string; color: string; x: number; y: number; size: number; angle: number }[] = [
+  { product: 'swim-bait', color: 'the-closer', x: 0, y: 6, size: 60, angle: -12 },
+  { product: 'curly-tail', color: 'laurence-grubs', x: 56, y: 0, size: 40, angle: 10 },
+  { product: 'crappie-crusher', color: 'blue-treuse', x: 2, y: 36, size: 54, angle: 7 },
+  { product: 'curly-tail', color: 'blue-ice-lime', x: 54, y: 34, size: 42, angle: -14 },
+  { product: 'flicker-minnow', color: 'the-closer', x: 4, y: 64, size: 50, angle: -5 },
+  { product: 'swim-bait', color: 'silver-streak', x: 46, y: 76, size: 52, angle: 13 },
 ];
 
 export function Hero() {
@@ -48,7 +46,7 @@ export function Hero() {
               className={styles.heroBait}
               style={{ left: `${b.x}%`, top: `${b.y}%`, width: `${b.size}%`, animationDelay: `${i * 60}ms` }}
             >
-              <ProductArt kind={b.kind} color={b.color} angle={b.angle} />
+              <BaitPhoto product={b.product} color={b.color} angle={b.angle} priority />
             </div>
           ))}
         </div>

@@ -3,10 +3,9 @@ import { getColorway } from '@/data/colors';
 import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { brand, ordering, site } from '@/content/site';
 import { getAllProducts, getFeaturedProducts } from '@/lib/catalog';
-import { ProductArt } from '@/components/product/ProductArt';
+import { BaitPhoto } from '@/components/product/BaitPhoto';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
-import type { ArtKind } from '@/lib/types';
 import { dealers } from '@/data/dealers';
 import { DealerMap } from '@/components/dealers/DealerMap';
 import dealerStyles from '@/components/dealers/Dealers.module.css';
@@ -35,15 +34,15 @@ export function Featured() {
 
 /* ------------------------------------------------------------------ Color wall */
 
-/** Colors and the profile each one is shown in on the wall (one it's photographed in). */
-const wallColors: { id: string; kind: ArtKind }[] = [
-  { id: 'the-closer', kind: 'shad' },
-  { id: 'silver-streak', kind: 'shad' },
-  { id: 'laurence-grubs', kind: 'grub' },
-  { id: 'blue-ice-lime', kind: 'grub' },
-  { id: 'dynamite', kind: 'grub' },
-  { id: 'monkey-snot', kind: 'grub' },
-  { id: 'blue-treuse', kind: 'stick-worm' },
+/** Colors and the profile whose photo shows each one on the wall. */
+const wallColors: { id: string; product: string }[] = [
+  { id: 'the-closer', product: 'swim-bait' },
+  { id: 'silver-streak', product: 'swim-bait' },
+  { id: 'laurence-grubs', product: 'curly-tail' },
+  { id: 'blue-ice-lime', product: 'curly-tail' },
+  { id: 'dynamite', product: 'curly-tail' },
+  { id: 'monkey-snot', product: 'curly-tail' },
+  { id: 'blue-treuse', product: 'crappie-crusher' },
 ];
 
 export function ColorWall() {
@@ -58,13 +57,13 @@ export function ColorWall() {
           </div>
         </div>
         <ul className={styles.wallGrid}>
-          {wallColors.map(({ id, kind }) => {
+          {wallColors.map(({ id, product }) => {
             const cw = getColorway(id)!;
             return (
               <li key={id}>
                 <Link href={`/search/?q=${encodeURIComponent(cw.name)}`} className={styles.wallTile}>
                   <span className={styles.wallArt}>
-                    <ProductArt kind={kind} color={id} angle={-14} />
+                    <BaitPhoto product={product} color={id} angle={-8} />
                   </span>
                   <span className={styles.wallName}>{cw.name}</span>
                 </Link>
@@ -97,10 +96,10 @@ export function Bench() {
       <div className={`container ${styles.benchGrid}`}>
         <div className={styles.benchVisual} aria-hidden="true">
           <div className={styles.benchPanel}>
-            <ProductArt kind="grub" color="laurence-grubs" angle={-16} />
+            <BaitPhoto product="curly-tail" color="laurence-grubs" angle={-10} />
           </div>
           <div className={`${styles.benchPanel} ${styles.benchPanelSm}`}>
-            <ProductArt kind="shad" color="the-closer" angle={-10} />
+            <BaitPhoto product="flicker-minnow" color="the-closer" angle={-14} />
           </div>
         </div>
         <div>

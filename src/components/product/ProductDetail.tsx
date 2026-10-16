@@ -102,7 +102,6 @@ export function ProductDetail({ product, category }: { product: Product; categor
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
           </div>
-          {product.images.length === 0 && <p className={styles.caption}>Illustration shown. Product photos coming soon.</p>}
         </div>
 
         <div className={styles.info}>

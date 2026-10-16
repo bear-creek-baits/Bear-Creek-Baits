@@ -12,8 +12,7 @@ export const categories: Category[] = [
     intro: 'Hand-poured crappie plastics: the Swim Bait, the Curly Tail, the Crappie Crusher and the Flicker Minnow. Pick a profile, then the size and color, and rig it on a jig head.',
     seoTitle: 'Crappie Soft Plastics',
     seoDescription: 'Shop crappie soft plastics from Bear Creek Baits. Browse body styles and colors and order online.',
-    art: 'shad',
-    artColor: 'the-closer',
+    photo: { product: 'swim-bait', color: 'the-closer' },
   },
 ];
 

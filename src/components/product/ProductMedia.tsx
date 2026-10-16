@@ -1,7 +1,5 @@
 import type { Product, Variant } from '@/lib/types';
-import { colorOption } from '@/lib/catalog';
 import { asset } from '@/lib/asset';
-import { ProductArt } from './ProductArt';
 
 interface Props {
   product: Product;
@@ -14,34 +12,35 @@ interface Props {
 }
 
 /**
- * Renders the real product photo when one exists (variant image first, then product image),
- * otherwise the illustrated placeholder in the variant's color.
+ * Renders the product photo (variant image first, then product image). Photos are cut out with a
+ * transparent background, so a soft shadow sets the bait on whatever panel it sits on.
+ * Products without a photo show a plain "photo coming soon" note.
  */
 export function ProductMedia({ product, variant, className, labelled = true, priority }: Props) {
   const photo = variant?.image ?? product.images[0];
-  if (photo) {
+  if (!photo) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={asset(photo.src)}
-        alt={labelled ? photo.alt : ''}
-        width={photo.width}
-        height={photo.height}
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
+      <span
         className={className}
-        style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-      />
+        role={labelled ? 'img' : undefined}
+        aria-label={labelled ? `${product.title}: photo coming soon` : undefined}
+        style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', color: 'var(--muted)', fontSize: 14 }}
+      >
+        Photo coming soon
+      </span>
     );
   }
-  const opt = colorOption(product);
-  const color = (variant && opt ? variant.options[opt.name] : undefined) ?? opt?.values[0];
   return (
-    <ProductArt
-      kind={product.art}
-      color={color}
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={asset(photo.src)}
+      alt={labelled ? photo.alt : ''}
+      width={photo.width}
+      height={photo.height}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
       className={className}
-      title={labelled ? `Illustration of ${product.title}` : undefined}
+      style={{ objectFit: 'contain', width: '100%', height: '100%', filter: 'drop-shadow(0 10px 12px rgba(0, 0, 0, 0.18))' }}
     />
   );
 }

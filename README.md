@@ -36,17 +36,17 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 | Order request page | `src/app/order/` |
 | **Product catalog** (one product per photo folder) | `src/data/products.ts` |
 | Colorways / swatches (sampled from the photos) | `src/data/colors.ts` |
-| Product photos (1600px WebP) | `public/products/<profile>/<color>.webp` |
+| Product photos (cut out, transparent, 1600px WebP) | `public/products/<profile>/<color>.webp` |
+| Bait photos in the hero, color wall and menus | `src/components/product/BaitPhoto.tsx` |
 | Categories and their copy | `src/data/categories.ts` |
 | Catalog access layer (swap this for Shopify later) | `src/lib/catalog.ts` |
 | Cart (localStorage) | `src/components/cart/CartProvider.tsx` |
-| Bait illustrations (hero, color wall, products without a photo) | `src/components/product/ProductArt.tsx` |
 | Original uploaded logo (untouched) | `assets/original/` |
 | Web logo and icons (cropped to drop stray text along the bottom edge; artwork unchanged) | `public/brand/` |
 
 ### Adding real product photos
 
-Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`). Copy each one to `public/products/<profile>/<color>.webp`, resized to 1600px on the longest side; only the web-sized copies are committed. Then add the color to the product's `Color` option and `photos(...)` list in `src/data/products.ts` (each color variant gets its photo as `variant.image`, so picking the color shows it), and add a colorway in `src/data/colors.ts` sampled from the photo.
+Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`, shot on pure white). Each one becomes `public/products/<profile>/<color>.webp`: background removed, trimmed to the bait, 1600px on the longest side. Only these web copies are committed. The site has no drawn bait illustrations; every bait shown is a photo. Then add the color to the product's `Color` option and `photos(...)` list in `src/data/products.ts` (each color variant gets its photo as `variant.image`, so picking the color shows it), and add a colorway in `src/data/colors.ts` sampled from the photo.
 
 ## Ordering (phase 1)
 

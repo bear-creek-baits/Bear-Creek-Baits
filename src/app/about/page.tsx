@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { categories } from '@/data/categories';
 import { brand, site } from '@/content/site';
-import { ProductArt } from '@/components/product/ProductArt';
+import { BaitPhoto } from '@/components/product/BaitPhoto';
 import { Icon } from '@/components/ui/Icon';
 import styles from '../pages.module.css';
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
                 <li key={c.slug}>
                   <Link href={`/shop/${c.slug}/`}>
                     <span className={styles.makeArt}>
-                      <ProductArt kind={c.art} color={c.artColor} />
+                      <BaitPhoto product={c.photo.product} color={c.photo.color} angle={-12} />
                     </span>
                     <span>
                       <strong>{c.name}</strong>

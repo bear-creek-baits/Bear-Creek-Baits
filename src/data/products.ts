@@ -38,11 +38,13 @@ function cartesian(options: ProductOption[]): Record<string, string>[] {
   );
 }
 
-/** Photo entries for one profile folder. Pass [width, height] for photos that aren't 1600 square. */
-function photos(slug: string, title: string, colors: Record<string, [number, number] | null>): Record<string, ProductImage> {
+/**
+ * Photo entries for one profile folder, with each photo's [width, height]. The photos are cut out
+ * (transparent background) and trimmed to the bait, so they sit on any page color.
+ */
+function photos(slug: string, title: string, colors: Record<string, [number, number]>): Record<string, ProductImage> {
   return Object.fromEntries(
-    Object.entries(colors).map(([color, size]) => {
-      const [width, height] = size ?? [1600, 1600];
+    Object.entries(colors).map(([color, [width, height]]) => {
       const name = getColorway(color)?.name ?? color;
       return [color, { src: `/products/${slug}/${color}.webp`, alt: `${title} in ${name}`, width, height }];
     }),
@@ -82,7 +84,6 @@ export const products: Product[] = [
     slug: 'swim-bait',
     title: 'Swim Bait',
     category: 'soft-plastics',
-    art: 'shad',
     badge: 'New',
     featured: true,
     summary: 'Paddle-tail swim bait in three sizes, now including the new 1.5".',
@@ -95,7 +96,7 @@ export const products: Product[] = [
       { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
       { name: 'Color', display: 'swatch', values: ['silver-streak', 'the-closer'] },
     ],
-    photos: photos('swim-bait', 'Swim Bait', { 'silver-streak': null, 'the-closer': null }),
+    photos: photos('swim-bait', 'Swim Bait', { 'silver-streak': [1600, 330], 'the-closer': [1600, 295] }),
     offered: (o) => swimBaitColors[o.Size].includes(o.Color),
     price: () => samplePrice,
   }),
@@ -103,7 +104,6 @@ export const products: Product[] = [
     slug: 'curly-tail',
     title: 'Curly Tail',
     category: 'soft-plastics',
-    art: 'grub',
     featured: true,
     summary: 'Ribbed grub with a curly tail that swims on the slowest retrieve.',
     description: [
@@ -119,12 +119,12 @@ export const products: Product[] = [
       },
     ],
     photos: photos('curly-tail', 'Curly Tail', {
-      'blue-ice-lime': null,
-      dynamite: null,
-      'laurence-grubs': null,
-      'monkey-snot': [1576, 1600],
-      'silver-streak': null,
-      'the-closer': [1509, 1600],
+      'blue-ice-lime': [1600, 769],
+      dynamite: [1600, 714],
+      'laurence-grubs': [1600, 850],
+      'monkey-snot': [1600, 829],
+      'silver-streak': [1600, 671],
+      'the-closer': [1600, 837],
     }),
     price: () => samplePrice,
   }),
@@ -132,7 +132,6 @@ export const products: Product[] = [
     slug: 'crappie-crusher',
     title: 'Crappie Crusher',
     category: 'soft-plastics',
-    art: 'stick-worm',
     featured: true,
     summary: 'Ribbed body with a long, thin tail that quivers on the fall.',
     description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick. Poured in 2" so far.'],
@@ -141,21 +140,20 @@ export const products: Product[] = [
       { name: 'Size', display: 'button', values: ['2"'] },
       { name: 'Color', display: 'swatch', values: ['blue-treuse'] },
     ],
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': null }),
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 298] }),
     price: () => samplePrice,
   }),
   build({
     slug: 'flicker-minnow',
     title: 'Flicker Minnow',
     category: 'soft-plastics',
-    art: 'split-tail',
     featured: true,
     summary: 'Ribbed minnow body with a split tail that flickers on the fall.',
     description: ['A ribbed minnow body with a thin split tail that flickers on the fall and on a slow swim.'],
     // PLACEHOLDER: size not confirmed yet, so there's no Size option. Add one (like the others) once it is.
     details: ['Hand-poured', 'Size to be confirmed', 'Sample price'],
     options: [{ name: 'Color', display: 'swatch', values: ['the-closer'] }],
-    photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': null }),
+    photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': [1600, 321] }),
     price: () => samplePrice,
   }),
 ];

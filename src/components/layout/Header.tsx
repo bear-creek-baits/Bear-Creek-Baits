@@ -8,7 +8,7 @@ import { site, orderingCopy } from '@/content/site';
 import { asset } from '@/lib/asset';
 import { useCart } from '@/components/cart/CartProvider';
 import { Icon } from '@/components/ui/Icon';
-import { ProductArt } from '@/components/product/ProductArt';
+import { BaitPhoto } from '@/components/product/BaitPhoto';
 import { SearchPanel } from './SearchPanel';
 import { useDialog } from './useDialog';
 import styles from './Header.module.css';
@@ -151,7 +151,7 @@ export function Header() {
               <li key={c.slug}>
                 <Link href={`/shop/${c.slug}/`}>
                   <span className={styles.drawerThumb}>
-                    <ProductArt kind={c.art} color={c.artColor} />
+                    <BaitPhoto product={c.photo.product} color={c.photo.color} angle={-20} />
                   </span>
                   <span>{c.name}</span>
                   <Icon name="chevron-right" size={20} className={styles.chev} />

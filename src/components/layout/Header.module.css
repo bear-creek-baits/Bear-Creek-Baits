@@ -320,9 +320,10 @@
   place-items: center;
   overflow: hidden;
 }
-.drawerThumb svg {
-  width: 120%;
-  height: 120%;
+.drawerThumb img {
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
 }
 .chev {
   margin-left: auto;
