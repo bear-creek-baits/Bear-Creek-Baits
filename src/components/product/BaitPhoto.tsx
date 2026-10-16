@@ -1,3 +1,7 @@
+'use client';
+
+// Client component on purpose: asset() needs the browser to know the preview build's sub-folder.
+// Rendered on the server only, the photo path would point at the host's root and 404 in the preview.
 import { colorPhoto } from '@/lib/catalog';
 import { asset } from '@/lib/asset';
 
