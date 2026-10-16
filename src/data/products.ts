@@ -107,9 +107,9 @@ export const products: Product[] = [
     featured: true,
     summary: 'Ribbed grub with a curly tail that swims on the slowest retrieve.',
     description: [
-      'A ribbed grub body with a single curly tail that kicks on the slowest retrieve and on the fall. Most colors are dipped, so the tail end is a different color from the body. Poured in 1.5", 2" and 2.2".',
+      'A ribbed grub body with a single curly tail that kicks on the slowest retrieve and on the fall. Most colors are two-tone, with the tail end a different color from the body. Poured in 1.5", 2" and 2.2".',
     ],
-    details: ['Sizes: 1.5", 2" and 2.2"', 'Hand-poured', 'Dipped tails', 'Sample price'],
+    details: ['Sizes: 1.5", 2" and 2.2"', 'Hand-poured', 'Sample price'],
     options: [
       // Every color can be poured in every size (all poured to order), so there's no `offered` rule.
       { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },

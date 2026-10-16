@@ -30,7 +30,7 @@ export function Hero() {
           </h1>
           <p className={styles.heroHandmade}>{brand.handmade}</p>
           <p className={styles.heroText}>
-            Hand-poured crappie plastics in laminates, dipped tails and loud colors, from a small shop that’s been chasing ’em for over 50 years.
+            Hand-poured crappie plastics in laminates and loud colors, from a small shop that’s been chasing ’em for over 50 years.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/shop/" className="btn">

@@ -6,7 +6,7 @@ import type { Colorway } from '@/lib/types';
  * One entry per color in the product photos (public/products/<profile>/<color>.webp). Names are the
  * photo file names. Hex values were sampled from the photos: `primary` is the body (the top layer
  * on a laminate), `secondary` the belly layer on a laminate (same as primary otherwise), `flake`
- * the glitter, `tail` the dipped tail. Swatches and illustrations use these; product pages show
+ * the glitter, `tail` the tail color when it differs from the body. Swatches and illustrations use these; product pages show
  * the photo itself.
  */
 export const colorways: Colorway[] = [

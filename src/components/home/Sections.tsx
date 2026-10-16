@@ -125,7 +125,7 @@ export function TodaysPour() {
 export function Bench() {
   const points = [
     { n: '01', title: 'Hand-poured', body: 'Soft plastics poured in small batches, in the colors crappie fishermen actually reach for.' },
-    { n: '02', title: 'Laminates and dipped tails', body: 'Two-tone laminates and dipped tails, done by hand on the bench.' },
+    { n: '02', title: 'Laminates', body: 'Two-tone laminates, poured by hand on the bench.' },
     { n: '03', title: 'Poured in runs', body: `We pour one or two colors at a time, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each size and color.` },
   ];
   return (

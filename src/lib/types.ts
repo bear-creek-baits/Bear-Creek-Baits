@@ -42,7 +42,7 @@ export interface Colorway {
   secondary: string;
   /** Optional glitter/flake color. */
   flake?: string;
-  /** Optional dipped tail color (e.g. a "Char. Tail"). Painted on the tail end of the bait. */
+  /** Optional tail color when the tail end is a different color from the body (e.g. a chartreuse tail). */
   tail?: string;
   families: ColorFamily[];
 }
