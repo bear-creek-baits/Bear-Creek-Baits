@@ -1,7 +1,7 @@
 import { products } from '@/data/products';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
-import type { CategorySlug, ColorFamily, Product, ProductImage, Variant } from './types';
+import type { CategorySlug, Product, ProductImage, Variant } from './types';
 
 /**
  * Single access layer for catalog data. When moving to Shopify, re-implement these
@@ -41,8 +41,8 @@ export function findVariant(product: Product, selected: Record<string, string>):
 }
 
 /**
- * Applies one option change. If that combination isn't made (a color not poured in the new size),
- * switches to the closest combination that is, preferring one in stock.
+ * Applies one option change. If that combination isn't made, switches to the closest combination
+ * that is, preferring one in stock.
  */
 export function resolveSelection(product: Product, current: Record<string, string>, name: string, value: string): Record<string, string> {
   const next = { ...current, [name]: value };
@@ -50,11 +50,6 @@ export function resolveSelection(product: Product, current: Record<string, strin
   const withValue = product.variants.filter((v) => v.options[name] === value);
   const match = withValue.find((v) => v.available) ?? withValue[0];
   return match ? { ...match.options } : next;
-}
-
-/** How the product is made, shown near the price. Every product in the shop today is a soft plastic. */
-export function handmadeLine(product: Product): string {
-  return product.category === 'soft-plastics' ? 'Hand-poured.' : 'Handmade.';
 }
 
 /** Quantity rules for one size/color of a product. */
@@ -84,16 +79,10 @@ export function colorOption(product: Product) {
   return product.options.find((o) => o.display === 'swatch');
 }
 
+/** Opens on a color that has a photo of this profile, so the page starts on a real picture. */
 export function defaultSelection(product: Product): Record<string, string> {
-  const first = product.variants.find((v) => v.available) ?? product.variants[0];
+  const first = product.variants.find((v) => v.available && v.image) ?? product.variants.find((v) => v.available) ?? product.variants[0];
   return { ...first.options };
-}
-
-export function productColorFamilies(product: Product): Set<ColorFamily> {
-  const opt = colorOption(product);
-  const fams = new Set<ColorFamily>();
-  opt?.values.forEach((id) => getColorway(id)?.families.forEach((f) => fams.add(f)));
-  return fams;
 }
 
 /** The cut-out photo of one product in one color, if there is one. */
@@ -103,18 +92,26 @@ export function colorPhoto(slug: string, color: string): ProductImage | undefine
   return opt ? product.variants.find((v) => v.options[opt.name] === color && v.image)?.image : undefined;
 }
 
+/** Color ids that have a photo of this profile, in the order the photos are listed. */
+export function photographedColors(product: Product): string[] {
+  const opt = colorOption(product);
+  if (!opt) return [];
+  const ids = new Set(product.variants.filter((v) => v.image).map((v) => v.options[opt.name]));
+  return product.images.map((img) => [...ids].find((id) => img.src.endsWith(`/${id}.webp`))).filter((id): id is string => !!id);
+}
+
 /** Other profiles in the same category. */
 export function relatedProducts(product: Product, limit = 4): Product[] {
   return products.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, limit);
 }
 
 export function searchProducts(query: string): Product[] {
-  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const terms = query.toLowerCase().replace(/'/g, '').trim().split(/\s+/).filter(Boolean);
   if (!terms.length) return [];
   return products
     .map((p) => {
       const category = categories.find((c) => c.slug === p.category)?.name ?? '';
-      const colorNames = (colorOption(p)?.values ?? []).map((id) => getColorway(id)?.name ?? '').join(' ');
+      const colorNames = (colorOption(p)?.values ?? []).map((id) => getColorway(id)?.name ?? '').join(' ').replace(/'/g, '');
       const haystack = [p.title, p.summary, category, colorNames, ...p.options.flatMap((o) => o.values)]
         .join(' ')
         .toLowerCase();
@@ -145,17 +142,18 @@ export function describeVariant(product: Product, variant: Variant): string {
   return product.options
     .filter((o) => o.values.length > 1 || o.display === 'swatch' || o.name === 'Size')
     .map((o) => {
-      const v = variant.options[o.name];
-      return o.display === 'swatch' ? getColorway(v)?.name ?? v : v;
+      return optionValueLabel(o.display, variant.options[o.name]);
     })
     .join(' · ');
 }
 
-/** The sizes a profile is poured in, e.g. '1.5" · 2" · 2.2"'. Empty when the product has no Size option. */
+/** The sizes a profile comes in, e.g. '1.5" · 2" · 2.2"'. Empty when the product has no Size option. */
 export function sizeList(product: Product): string {
   return product.options.find((o) => o.name === 'Size')?.values.join(' · ') ?? '';
 }
 
 export function optionValueLabel(display: string, value: string): string {
-  return display === 'swatch' ? getColorway(value)?.name ?? value : value;
+  if (display !== 'swatch') return value;
+  const cw = getColorway(value);
+  return cw ? `#${cw.n} ${cw.name}` : value;
 }

@@ -1,13 +1,14 @@
 import type { Product, ProductImage, ProductOption, Variant } from '@/lib/types';
-import { getColorway } from './colors';
+import { colorways, getColorway } from './colors';
 
 /**
  * ==========================================================================
  *  PRODUCT CATALOG
  * ==========================================================================
- * One product per folder of product photos (Product Photos/Edited/<profile>/<color>.jpg), copied to
- * public/products/<profile>/<color>.webp. Each color is the photo's file name, and picking that color
- * shows its photo.
+ * One product per bait profile. Customers pick the profile, then the size, then any color off the
+ * 60-color chart (src/data/colors.ts): every profile can be ordered in every chart color.
+ * Profile photos live in public/products/<profile>/<color>.webp. Picking a color that has a photo of
+ * that profile shows it; other colors show the profile's photo next to the chart color.
  *
  * Sizes come from Steve's Facebook posts (Sep–Oct 2026) where known. Still invented: every price
  * and stock status.
@@ -21,14 +22,12 @@ import { getColorway } from './colors';
 export const SOFT_PLASTIC_MIN = 50;
 
 type Draft = Omit<Product, 'variants' | 'sample' | 'images'> & {
-  /** Photo for each color id, shown when that color is picked. */
+  /** Photo of this profile for each color id that has one, shown when that color is picked. */
   photos: Record<string, ProductImage>;
   /** Price in cents for a given option combination. */
   price: (opts: Record<string, string>) => number;
   /** Return true for option combinations that should show as sold out. */
   soldOut?: (opts: Record<string, string>) => boolean;
-  /** Return false for combinations that aren't made at all (e.g. a color not poured in that size). */
-  offered?: (opts: Record<string, string>) => boolean;
 };
 
 function cartesian(options: ProductOption[]): Record<string, string>[] {
@@ -52,8 +51,8 @@ function photos(slug: string, title: string, colors: Record<string, [number, num
 }
 
 function build(d: Draft): Product {
-  const { price, soldOut, offered, photos, ...rest } = d;
-  const variants: Variant[] = cartesian(d.options).filter((opts) => offered?.(opts) ?? true).map((opts) => ({
+  const { price, soldOut, photos, ...rest } = d;
+  const variants: Variant[] = cartesian(d.options).map((opts) => ({
     id: [d.slug, ...Object.values(opts)].join('--').replace(/[^a-z0-9-]+/gi, '').toLowerCase(),
     options: opts,
     price: price(opts),
@@ -62,22 +61,14 @@ function build(d: Draft): Product {
   }));
   // Soft plastics are poured in runs: 50 minimum per size and color, sold per bait.
   const plastic = d.category === 'soft-plastics' ? { minQty: SOFT_PLASTIC_MIN, qtyStep: 10, unit: 'bait' } : {};
-  const colors = d.options.find((o) => o.name === 'Color')?.values ?? [];
-  const images = colors.map((c) => photos[c]).filter(Boolean);
+  const images = Object.values(photos);
   return { ...rest, ...plastic, variants, images, sample: true };
 }
 
 const samplePrice = 25; // PLACEHOLDER: sample price per bait (cents) until real prices are confirmed
 
-/**
- * Which colors are poured in each Swim Bait size. The Closer was posted in the 1.5"; Silver Streak's
- * size isn't known yet, so it's listed in every size until Steve confirms.
- */
-const swimBaitColors: Record<string, string[]> = {
-  '1.5"': ['silver-streak', 'the-closer'],
-  '2"': ['silver-streak'],
-  '2.2"': ['silver-streak'],
-};
+/** The color option every profile shares: the whole chart, in chart order. */
+const chartColors: ProductOption = { name: 'Color', display: 'swatch', values: colorways.map((c) => c.id) };
 
 export const products: Product[] = [
   build({
@@ -88,16 +79,15 @@ export const products: Product[] = [
     featured: true,
     summary: 'Paddle-tail swim bait in three sizes, now including the new 1.5".',
     description: [
-      'Three sizes, all with great tail action. The 2.2" is the most popular. The 2" is a custom bait that sometimes gets overlooked next to it. The 1.5" is the newest, and the hardest mold on the bench to shoot laminates in.',
+      'Three sizes, all with great tail action. The 2.2" is the most popular. The 2" is a custom bait that sometimes gets overlooked next to it. The 1.5" is the newest, and the hardest mold to shoot laminates in.',
       'Rig the 1.5" on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match.',
     ],
-    details: ['Sizes: 1.5", 2" and 2.2"', 'Not every color is poured in every size', 'Sample price'],
+    details: ['Sizes: 1.5", 2" and 2.2"', 'Any color on the chart', 'Sample price'],
     options: [
       { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
-      { name: 'Color', display: 'swatch', values: ['silver-streak', 'the-closer'] },
+      chartColors,
     ],
-    photos: photos('swim-bait', 'Swim Bait', { 'silver-streak': [1600, 426], 'the-closer': [1600, 393] }),
-    offered: (o) => swimBaitColors[o.Size].includes(o.Color),
+    photos: photos('swim-bait', 'Swim Bait', { 'the-closer': [1600, 393], 'silver-streak': [1600, 426] }),
     price: () => samplePrice,
   }),
   build({
@@ -109,23 +99,12 @@ export const products: Product[] = [
     description: [
       'A ribbed grub body with a single curly tail that kicks on the slowest retrieve and on the fall. Most colors are two-tone, with the tail end a different color from the body. Poured in 1.5", 2" and 2.2".',
     ],
-    details: ['Sizes: 1.5", 2" and 2.2"', 'Hand-poured', 'Sample price'],
-    options: [
-      // Every color can be poured in every size (all poured to order), so there's no `offered` rule.
-      { name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] },
-      {
-        name: 'Color',
-        display: 'swatch',
-        values: ['blue-ice-lime', 'dynamite', 'laurence-grubs', 'monkey-snot', 'silver-streak', 'the-closer'],
-      },
-    ],
+    details: ['Sizes: 1.5", 2" and 2.2"', 'Any color on the chart', 'Sample price'],
+    options: [{ name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"'] }, chartColors],
     photos: photos('curly-tail', 'Curly Tail', {
-      'blue-ice-lime': [1600, 832],
-      dynamite: [1600, 781],
-      'laurence-grubs': [1600, 907],
+      'the-closer': [1600, 894],
       'monkey-snot': [1600, 887],
       'silver-streak': [1600, 740],
-      'the-closer': [1600, 894],
     }),
     price: () => samplePrice,
   }),
@@ -136,12 +115,9 @@ export const products: Product[] = [
     featured: true,
     summary: 'Ribbed body with a long, thin tail that quivers on the fall.',
     description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick. Poured in 2" so far.'],
-    details: ['Hand-poured', 'Sample price'],
-    options: [
-      { name: 'Size', display: 'button', values: ['2"'] },
-      { name: 'Color', display: 'swatch', values: ['blue-treuse'] },
-    ],
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
+    details: ['Any color on the chart', 'Sample price'],
+    options: [{ name: 'Size', display: 'button', values: ['2"'] }, chartColors],
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-truce': [1600, 395] }),
     price: () => samplePrice,
   }),
   build({
@@ -152,8 +128,8 @@ export const products: Product[] = [
     summary: 'Ribbed minnow body with a split tail that flickers on the fall.',
     description: ['A ribbed minnow body with a thin split tail that flickers on the fall and on a slow swim.'],
     // PLACEHOLDER: size not confirmed yet, so there's no Size option. Add one (like the others) once it is.
-    details: ['Hand-poured', 'Size to be confirmed', 'Sample price'],
-    options: [{ name: 'Color', display: 'swatch', values: ['the-closer'] }],
+    details: ['Size to be confirmed', 'Any color on the chart', 'Sample price'],
+    options: [chartColors],
     photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': [1600, 417] }),
     price: () => samplePrice,
   }),

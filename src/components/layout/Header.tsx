@@ -77,6 +77,11 @@ export function Header() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/colors/" className={isActive('/colors') ? styles.active : undefined}>
+                  Color Chart
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -163,6 +168,9 @@ export function Header() {
             Shop all baits
           </Link>
           <ul className={styles.drawerLinks}>
+            <li>
+              <Link href="/colors/">Color chart</Link>
+            </li>
             <li>
               <Link href="/dealers/">Find a dealer</Link>
             </li>

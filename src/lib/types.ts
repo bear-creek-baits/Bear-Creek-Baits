@@ -24,6 +24,8 @@ export interface Category {
 /** Broad color groups used for shop filtering. */
 export type ColorFamily =
   | 'chartreuse'
+  | 'yellow'
+  | 'green'
   | 'pink'
   | 'white'
   | 'blue'
@@ -34,8 +36,12 @@ export type ColorFamily =
   | 'natural';
 
 export interface Colorway {
+  /** Number on the color chart (1–60). Customers can order by number or name. */
+  n: number;
   id: string;
   name: string;
+  /** Short chart description, e.g. "Black / chartreuse". */
+  description: string;
   /** Main body color. */
   primary: string;
   /** Belly color for laminates. Same as primary for solid colors. */
@@ -45,6 +51,8 @@ export interface Colorway {
   /** Optional tail color when the tail end is a different color from the body (e.g. a chartreuse tail). */
   tail?: string;
   families: ColorFamily[];
+  /** The color chart's photo of this color, if it has one. */
+  chartPhoto?: string;
 }
 
 export type OptionDisplay = 'swatch' | 'button';

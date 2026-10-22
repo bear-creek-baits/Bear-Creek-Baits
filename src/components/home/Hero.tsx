@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BaitPhoto } from '@/components/product/BaitPhoto';
 import { Icon } from '@/components/ui/Icon';
 import { brand } from '@/content/site';
+import { colorways } from '@/data/colors';
 import styles from './Home.module.css';
 
 /**
@@ -10,9 +11,9 @@ import styles from './Home.module.css';
  */
 const spread: { product: string; color: string; angle: number }[] = [
   { product: 'swim-bait', color: 'the-closer', angle: -7 },
-  { product: 'curly-tail', color: 'laurence-grubs', angle: 6 },
-  { product: 'crappie-crusher', color: 'blue-treuse', angle: 5 },
-  { product: 'curly-tail', color: 'blue-ice-lime', angle: -6 },
+  { product: 'curly-tail', color: 'monkey-snot', angle: 6 },
+  { product: 'crappie-crusher', color: 'blue-truce', angle: 5 },
+  { product: 'curly-tail', color: 'silver-streak', angle: -6 },
   { product: 'flicker-minnow', color: 'the-closer', angle: -4 },
   { product: 'swim-bait', color: 'silver-streak', angle: 7 },
 ];
@@ -28,9 +29,9 @@ export function Hero() {
             Bust ’Em
             <span>Right in the Mouth.</span>
           </h1>
-          <p className={styles.heroHandmade}>{brand.handmade}</p>
           <p className={styles.heroText}>
-            Hand-poured crappie plastics in laminates and loud colors, from a small shop that’s been chasing ’em for over 50 years.
+            Crappie plastics in laminates and loud colors from Bear Creek Baits, chasing ’em for over 50 years. Pick your profile, then
+            any of {colorways.length} colors off the chart.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/shop/" className="btn">

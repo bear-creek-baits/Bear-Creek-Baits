@@ -41,15 +41,6 @@
   display: block;
   color: var(--green);
 }
-.heroHandmade {
-  margin-top: 18px;
-  font-family: var(--font-label);
-  font-weight: 700;
-  font-size: clamp(16px, 1.8vw, 19px);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--green);
-}
 .heroText {
   margin-top: 20px;
   max-width: 46ch;
@@ -129,7 +120,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  /* 7 colors + "Every profile" = 8 tiles: 2 columns on phones, 4 above, so rows are always full. */
+  /* 11 colors + "All colors" = 12 tiles: 2 columns on phones, 4 above, so rows are always full. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
@@ -160,17 +151,32 @@
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 1 / 0.72;
-  padding: 10%;
+  aspect-ratio: 12 / 5;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
 }
-.wallArt img {
+.wallArt > * {
   width: 100%;
   height: 100%;
   object-fit: contain;
   transition: scale 0.3s var(--ease);
 }
-.wallTile:hover .wallArt img {
+.wallTile:hover .wallArt > * {
   scale: 1.06;
+}
+.wallN {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  margin-right: 4px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--green);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
 }
 .wallName {
   font-family: var(--font-label);

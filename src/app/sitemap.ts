@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     '',
     '/shop/',
+    '/colors/',
     '/about/',
     '/contact/',
     '/faq/',

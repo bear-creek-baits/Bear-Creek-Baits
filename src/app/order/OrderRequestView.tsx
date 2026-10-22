@@ -226,7 +226,7 @@ export function OrderRequestView() {
             ) : (
               <>
                 <span className={styles.protoBadge}>Orders paused</span>
-                <h2 className={styles.h3}>We’re catching up on the bench</h2>
+                <h2 className={styles.h3}>We’re catching up on orders</h2>
                 <p>{ordering.pausedMessage}</p>
                 <p>Your list is saved on this device, so it’ll be right here when we open back up.</p>
                 <a href={site.social.facebook} className="btn btn-dark" target="_blank" rel="noopener noreferrer">

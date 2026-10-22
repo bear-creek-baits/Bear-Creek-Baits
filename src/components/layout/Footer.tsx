@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { colorways } from '@/data/colors';
 import { categories } from '@/data/categories';
 import { brand, site } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
@@ -16,7 +17,7 @@ export function Footer() {
             <img src="/brand/logo.webp" alt="" width={474} height={464} loading="lazy" />
           </Link>
           <p className={styles.heritage}>{brand.heritage}</p>
-          <p className={styles.blurb}>Hand-poured crappie plastics: swim baits, curly tails and minnows.</p>
+          <p className={styles.blurb}>Crappie plastics: swim baits, curly tails and minnows in {colorways.length} colors.</p>
           <a href={site.social.facebook} className={styles.social} target="_blank" rel="noopener noreferrer">
             <Icon name="facebook" size={20} /> Follow on Facebook
           </a>
@@ -33,6 +34,9 @@ export function Footer() {
                 <Link href={`/shop/${c.slug}/`}>{c.name}</Link>
               </li>
             ))}
+            <li>
+              <Link href="/colors/">Color chart</Link>
+            </li>
           </ul>
         </nav>
 

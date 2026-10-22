@@ -2,7 +2,7 @@
 
 Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.1): home page, shop with category tabs, filters and sort, product pages with variant pickers, search, and an order list that is saved in the browser.
 
-**Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when the bench is backed up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
+**Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when orders back up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
 
 **Prices are sample data.** The site deliberately doesn't track or show stock: Steve pours in runs of one or two colors and posts each day's pour on Facebook, so every size and color is orderable and anything not already poured goes on his pour list. Nothing needs updating when a run is poured. The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
 
@@ -35,7 +35,7 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 | Brand taglines (use exactly as written) | `src/content/site.ts` → `brand` |
 | Order request page | `src/app/order/` |
 | **Product catalog** (one product per photo folder) | `src/data/products.ts` |
-| Colorways / swatches (sampled from the photos) | `src/data/colors.ts` |
+| Color chart (60 numbered colors, every profile comes in every color) | `src/data/colors.ts`, photos in `public/colors/` |
 | Product photos (cut out, transparent, 1600px WebP) | `public/products/<profile>/<color>.webp` |
 | Bait photos in the hero, color wall and menus | `src/components/product/BaitPhoto.tsx` |
 | Categories and their copy | `src/data/categories.ts` |
@@ -46,7 +46,7 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 
 ### Adding real product photos
 
-Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`, shot on pure white). Each one becomes `public/products/<profile>/<color>.webp`: background removed, trimmed to the bait, 1600px on the longest side. Only these web copies are committed. The site has no drawn bait illustrations; every bait shown is a photo. Then add the color to the product's `Color` option and `photos(...)` list in `src/data/products.ts` (each color variant gets its photo as `variant.image`, so picking the color shows it), and add a colorway in `src/data/colors.ts` sampled from the photo.
+Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`, shot on pure white). Each one becomes `public/products/<profile>/<color>.webp`: background removed, trimmed to the bait, 1600px on the longest side. Only these web copies are committed. The site has no drawn bait illustrations; every bait shown is a photo. Name the file after the chart color's id in `src/data/colors.ts` and add it to that product's `photos(...)` list in `src/data/products.ts`, so picking that color shows the photo. Colors without a photo of the profile show the profile in a photographed color, with the chosen chart color underneath. New chart colors go in `src/data/colors.ts`; every profile picks them up automatically.
 
 ## Ordering (phase 1)
 

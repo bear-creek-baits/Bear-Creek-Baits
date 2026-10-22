@@ -37,25 +37,6 @@
   color: var(--orange-ink);
 }
 
-.swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.swatchBtn {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  -webkit-tap-highlight-color: transparent;
-}
-.swatchBtn:hover > span:not([class*='selected']) {
-  box-shadow: 0 0 0 2px #9c988c;
-}
 
 .buttons {
   display: flex;
@@ -96,8 +77,7 @@
     linear-gradient(to top right, transparent calc(50% - 1px), #6b6d64 calc(50% - 1px), #6b6d64 calc(50% + 1px), transparent calc(50% + 1px)),
     var(--ink);
 }
-.btn:focus-visible,
-.swatchBtn:focus-visible {
+.btn:focus-visible {
   outline: 3px solid var(--green-ink);
   outline-offset: 2px;
 }

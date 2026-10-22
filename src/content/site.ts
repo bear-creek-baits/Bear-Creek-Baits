@@ -60,7 +60,7 @@ export const ordering = {
   open: true,
 
   /** Shown in the site-wide banner and on the order page while `open` is false. */
-  pausedMessage: 'Orders are paused while we catch up on the bench. Browse all you want; we’ll open back up soon.',
+  pausedMessage: 'Orders are paused while we catch up. Browse all you want; we’ll open back up soon.',
 
   /**
    * PLACEHOLDER — where order requests are sent. Any service that accepts a form POST works
@@ -107,6 +107,4 @@ export const brand = {
   heritage: 'Chasing ’Em for Over 50 Years.',
   /** About page, order confirmation, packing slips. */
   promise: 'We’re not a million-dollar company, but a million dollars’ worth of heart goes into every bait.',
-  /** Under the hero and near the price on every product page. */
-  handmade: 'Hand-poured. Hand-tied. Hand-painted.',
 };

@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { getColorway } from '@/data/colors';
+import { colorways } from '@/data/colors';
 import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { brand, ordering, site } from '@/content/site';
 import { getAllProducts, getFeaturedProducts } from '@/lib/catalog';
 import { BaitPhoto } from '@/components/product/BaitPhoto';
+import { ColorChip } from '@/components/product/ColorChip';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
 import { dealers } from '@/data/dealers';
@@ -32,18 +33,10 @@ export function Featured() {
   );
 }
 
-/* ------------------------------------------------------------------ Color wall */
+/* ------------------------------------------------------------------ Color chart teaser */
 
-/** Colors and the profile whose photo shows each one on the wall. */
-const wallColors: { id: string; product: string }[] = [
-  { id: 'the-closer', product: 'swim-bait' },
-  { id: 'silver-streak', product: 'swim-bait' },
-  { id: 'laurence-grubs', product: 'curly-tail' },
-  { id: 'blue-ice-lime', product: 'curly-tail' },
-  { id: 'dynamite', product: 'curly-tail' },
-  { id: 'monkey-snot', product: 'curly-tail' },
-  { id: 'blue-treuse', product: 'crappie-crusher' },
-];
+/** Chart numbers shown on the home page: photographed colors, picked for range. */
+const wallColors = [10, 27, 12, 30, 34, 3, 28, 13, 7, 20, 26];
 
 export function ColorWall() {
   return (
@@ -51,29 +44,31 @@ export function ColorWall() {
       <div className="container">
         <div className={`section-head ${styles.wallHead}`}>
           <div>
-            <p className="eyebrow">Shop by color</p>
-            <h2 id="wall-title">Pick your color</h2>
-            <p>Every color has a name. Tap a color to see every profile it’s poured in.</p>
+            <p className="eyebrow">The color chart</p>
+            <h2 id="wall-title">{colorways.length} colors. Pick yours.</h2>
+            <p>Pick a profile, then choose any color off the chart. Every profile comes in every color. Order by name or number.</p>
           </div>
         </div>
         <ul className={styles.wallGrid}>
-          {wallColors.map(({ id, product }) => {
-            const cw = getColorway(id)!;
+          {wallColors.map((n) => {
+            const cw = colorways[n - 1];
             return (
-              <li key={id}>
-                <Link href={`/search/?q=${encodeURIComponent(cw.name)}`} className={styles.wallTile}>
+              <li key={cw.id}>
+                <Link href={`/colors/#color-${cw.n}`} className={styles.wallTile}>
                   <span className={styles.wallArt}>
-                    <BaitPhoto product={product} color={id} angle={-8} />
+                    <ColorChip color={cw.id} />
                   </span>
-                  <span className={styles.wallName}>{cw.name}</span>
+                  <span className={styles.wallName}>
+                    <span className={styles.wallN}>{cw.n}</span> {cw.name}
+                  </span>
                 </Link>
               </li>
             );
           })}
           <li>
-            <Link href="/shop/soft-plastics/" className={`${styles.wallTile} ${styles.wallMore}`}>
+            <Link href="/colors/" className={`${styles.wallTile} ${styles.wallMore}`}>
               <span className={styles.wallMoreText}>
-                Every profile <Icon name="arrow-right" size={18} />
+                All {colorways.length} colors <Icon name="arrow-right" size={18} />
               </span>
             </Link>
           </li>
@@ -94,24 +89,24 @@ export function TodaysPour() {
     <section className={styles.pour} aria-labelledby="pour-title">
       <div className={`container ${styles.pourGrid}`}>
         <div className={styles.pourArt} aria-hidden="true">
-          <BaitPhoto product="curly-tail" color="blue-ice-lime" angle={-8} />
+          <BaitPhoto product="curly-tail" color="monkey-snot" angle={-8} />
           <BaitPhoto product="swim-bait" color="the-closer" angle={6} />
         </div>
         <div>
-          <p className={`eyebrow ${styles.pourEyebrow}`}>Fresh off the bench</p>
+          <p className={`eyebrow ${styles.pourEyebrow}`}>Today’s pour</p>
           <h2 id="pour-title" className={styles.pourTitle}>
             See what got poured today.
           </h2>
           <p className={styles.pourText}>
-            We pour one or two colors at a time and post each day’s run on Facebook. Want something else? Order any size and color here
-            and it goes on the pour list.
+            We pour one or two colors at a time and post each day’s run on Facebook. Want something else? Order any profile, size and
+            color here and it goes on the pour list.
           </p>
           <div className={styles.pourCtas}>
             <a href={site.social.facebook} className="btn btn-dark" target="_blank" rel="noopener noreferrer">
               <Icon name="facebook" size={20} /> Today’s pour on Facebook
             </a>
-            <Link href="/shop/" className={styles.pourLink}>
-              Shop all colors
+            <Link href="/colors/" className={styles.pourLink}>
+              See the color chart
             </Link>
           </div>
         </div>
@@ -120,12 +115,12 @@ export function TodaysPour() {
   );
 }
 
-/* ------------------------------------------------------------------ Bench / brand */
+/* ------------------------------------------------------------------ Brand */
 
 export function Bench() {
   const points = [
-    { n: '01', title: 'Hand-poured', body: 'Soft plastics poured in small batches, in the colors crappie fishermen actually reach for.' },
-    { n: '02', title: 'Laminates', body: 'Two-tone laminates, poured by hand on the bench.' },
+    { n: '01', title: `${colorways.length} named colors`, body: 'Pick a profile, then any color off the chart. Order by name or number.' },
+    { n: '02', title: 'Laminates', body: 'Two-tone laminates and glitter in the loud colors crappie fishermen actually reach for.' },
     { n: '03', title: 'Poured in runs', body: `We pour one or two colors at a time, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each size and color.` },
   ];
   return (
@@ -133,21 +128,22 @@ export function Bench() {
       <div className={`container ${styles.benchGrid}`}>
         <div className={styles.benchVisual} aria-hidden="true">
           <div className={styles.benchPanel}>
-            <BaitPhoto product="curly-tail" color="laurence-grubs" angle={-10} />
+            <BaitPhoto product="curly-tail" color="the-closer" angle={-10} />
           </div>
           <div className={`${styles.benchPanel} ${styles.benchPanelSm}`}>
             <BaitPhoto product="flicker-minnow" color="the-closer" angle={-14} />
           </div>
         </div>
         <div>
-          <p className="eyebrow">From the bench</p>
+          <p className="eyebrow">Why Bear Creek</p>
           <h2 id="bench-title" className={styles.benchTitle}>
-            Small shop.
+            Built to
             <br />
-            Big bite.
+            get bit.
           </h2>
           <p className={styles.benchLead}>
-            Baits made by hand, by people who fish, built to get bit. Nothing here is mass-produced. Every soft plastic is poured on the bench.
+            Crappie baits designed by people who fish, in the profiles and colors that put fish in the boat. Over 50 years of chasing ’em
+            goes into every one.
           </p>
           <ol className={styles.points}>
             {points.map((p) => (
@@ -201,8 +197,8 @@ export function LocalDealers() {
 export function OrderSteps() {
   if (ordering.mode !== 'request') return null;
   const steps = [
-    { title: 'Build your list', body: 'Pick any bait, size and color. If it isn’t already poured, it goes on the pour list.' },
-    { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to the bench.' },
+    { title: 'Build your list', body: 'Pick a profile and size, then any color off the chart. If it isn’t already poured, it goes on the pour list.' },
+    { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to us.' },
     { title: 'We confirm and ship', body: 'We reach out to confirm your total, shipping and timing, then pack it up once it’s poured.' },
   ];
   return (
@@ -211,9 +207,9 @@ export function OrderSteps() {
         <div className="section-head">
           <div>
             <p className="eyebrow">How ordering works</p>
-            <h2 id="steps-title">Made by hand. Ordered by request.</h2>
+            <h2 id="steps-title">Poured to order. Confirmed before you pay.</h2>
             <p>
-              We pour in small runs, one or two colors at a time, so we confirm each order before you pay. You only pay once we know when
+              We pour one or two colors at a time, so we confirm each order before you pay. You only pay once we know when
               it’ll be ready.
             </p>
           </div>

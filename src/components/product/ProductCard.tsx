@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { Product } from '@/lib/types';
 import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
-import { colorOption, formatPriceRange, isAvailable, sizeList } from '@/lib/catalog';
+import { colorOption, formatPriceRange, isAvailable, photographedColors, sizeList } from '@/lib/catalog';
 import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { ProductMedia } from './ProductMedia';
 import { Swatch } from './Swatch';
@@ -16,6 +16,8 @@ const MAX_DOTS = 5;
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   const opt = colorOption(product);
   const colors = opt?.values ?? [];
+  // Dots preview the colors this profile has been photographed in; the rest are on the chart.
+  const dots = photographedColors(product);
   const [preview, setPreview] = useState<string | null>(null);
   const available = isAvailable(product);
   const category = categories.find((c) => c.slug === product.category);
@@ -57,9 +59,9 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           {!available && <span className="visually-hidden"> — sold out</span>}
         </p>
 
-        {colors.length > 1 && (
+        {dots.length > 1 && (
           <div className={styles.dots} onMouseLeave={() => setPreview(null)}>
-            {colors.slice(0, MAX_DOTS).map((c) => (
+            {dots.slice(0, MAX_DOTS).map((c) => (
               <button
                 key={c}
                 type="button"
@@ -72,14 +74,14 @@ export function ProductCard({ product, priority }: { product: Product; priority?
                 <Swatch color={c} size={20} selected={preview === c} />
               </button>
             ))}
-            {colors.length > MAX_DOTS && (
-              <Link href={href} className={styles.more} aria-label={`${colors.length - MAX_DOTS} more colors`}>
-                +{colors.length - MAX_DOTS}
+            {colors.length > Math.min(dots.length, MAX_DOTS) && (
+              <Link href={href} className={styles.more} aria-label={`${colors.length - Math.min(dots.length, MAX_DOTS)} more colors`}>
+                +{colors.length - Math.min(dots.length, MAX_DOTS)}
               </Link>
             )}
           </div>
         )}
-        {colors.length > 1 && <p className={styles.colorCount}>{colors.length} colors</p>}
+        {colors.length > 1 && <p className={styles.colorCount}>Any of {colors.length} chart colors</p>}
       </div>
     </article>
   );

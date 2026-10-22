@@ -5,7 +5,7 @@ import { ShopView } from '@/components/shop/ShopView';
 
 export const metadata: Metadata = {
   title: 'Shop All Baits',
-  description: 'Shop Bear Creek Baits hand-poured crappie soft plastics: swim baits, curly tails, Crappie Crushers and Flicker Minnows.',
+  description: 'Shop Bear Creek Baits crappie soft plastics: swim baits, curly tails, Crappie Crushers and Flicker Minnows in 60 colors.',
   alternates: { canonical: '/shop/' },
 };
 
@@ -24,7 +24,7 @@ export default function ShopPage() {
             </ol>
           </nav>
           <h1>Shop all baits</h1>
-          <p>Hand-poured crappie plastics. Pick a profile, then the size and color. Filter by color to find what you fish.</p>
+          <p>Crappie plastics. Pick a profile, then the size, then any color off the color chart.</p>
         </div>
       </section>
       <ShopView products={products} counts={getCategoryCounts()} total={products.length} />

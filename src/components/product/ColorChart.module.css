@@ -1,0 +1,149 @@
+.chart {
+  display: grid;
+  gap: 12px;
+}
+
+.tools {
+  display: grid;
+  gap: 10px;
+}
+.search input {
+  width: 100%;
+}
+.families {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+@media (min-width: 700px) {
+  .families {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+.fam {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fam:hover {
+  border-color: var(--ink);
+}
+.famOn {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+.famDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+/* The chart scrolls inside its own box so the buy button stays close on long lists. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 8px;
+  max-height: 452px;
+  overflow-y: auto;
+  padding: 4px;
+  margin: -4px;
+  scrollbar-width: thin;
+}
+.tile {
+  display: grid;
+  gap: 6px;
+  padding: 6px 6px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s;
+}
+.tile:hover {
+  border-color: #9c988c;
+}
+.tile:focus-visible {
+  outline: 3px solid var(--green-ink);
+  outline-offset: 2px;
+}
+.sel,
+.sel:hover {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1.5px var(--ink);
+  background: #fff;
+}
+.art {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 12 / 5;
+  border-radius: 3px;
+  background: #fff;
+  overflow: hidden;
+}
+.chip {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.n {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--green);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.name {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.empty {
+  margin: 0;
+  color: var(--muted);
+}
+.empty button {
+  border: 0;
+  padding: 0;
+  background: none;
+  font-weight: 600;
+  text-decoration: underline;
+  color: var(--ink);
+}
+.foot {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}

@@ -21,24 +21,40 @@
   flex: none;
   position: absolute;
   left: 50%;
+  top: 6px;
   transform: translateX(-50%);
   border-radius: 6px;
   overflow: hidden;
   line-height: 0;
+  /* Taller than the bar: the logo hangs below it like a badge. */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 .logo img {
-  height: 50px;
+  height: 76px;
   width: auto;
+  transition: height 0.25s var(--ease);
+}
+.scrolled .logo img {
+  height: 52px;
 }
 
 @media (min-width: 1180px) {
+  /* Taller bar at the top of the page so the big logo only hangs a little below it; it drops back to
+     --header-h once the page scrolls and the logo shrinks. */
   .bar {
     position: relative;
     gap: 20px;
+    height: 134px;
+    transition: height 0.25s var(--ease);
+  }
+  .scrolled .bar {
+    height: var(--header-h);
   }
   .logo {
     position: relative;
     left: auto;
+    top: auto;
     transform: none;
     align-self: flex-start;
     margin-top: 10px;
@@ -48,15 +64,14 @@
     z-index: 2;
   }
   .logo img {
-    height: 92px;
-    transition: height 0.25s var(--ease);
+    height: 138px;
   }
   .scrolled .logo {
     margin-top: 8px;
     box-shadow: none;
   }
   .scrolled .logo img {
-    height: 60px;
+    height: 84px;
   }
 }
 
@@ -259,7 +274,7 @@
   line-height: 0;
 }
 .drawerLogo img {
-  height: 56px;
+  height: 84px;
   width: auto;
 }
 

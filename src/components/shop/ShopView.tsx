@@ -1,14 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useRef, useState } from 'react';
-import type { CategorySlug, ColorFamily, Product } from '@/lib/types';
+import { useMemo, useState } from 'react';
+import type { CategorySlug, Product } from '@/lib/types';
 import { categories } from '@/data/categories';
-import { colorFamilyLabels, colorFamilySwatch } from '@/data/colors';
-import { isAvailable, priceRange, productColorFamilies } from '@/lib/catalog';
+import { colorways } from '@/data/colors';
+import { isAvailable, priceRange } from '@/lib/catalog';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
-import { useDialog } from '@/components/layout/useDialog';
 import styles from './ShopView.module.css';
 
 type Sort = 'featured' | 'price-asc' | 'price-desc' | 'name';
@@ -20,63 +19,21 @@ interface Props {
   total: number;
 }
 
+/**
+ * The shop lists profiles. There's no color filter: every profile comes in every color on the chart,
+ * so the color is picked on the profile's page.
+ */
 export function ShopView({ products, activeCategory, counts, total }: Props) {
-  const [families, setFamilies] = useState<Set<ColorFamily>>(new Set());
   const [sort, setSort] = useState<Sort>('featured');
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const sheetRef = useRef<HTMLDivElement>(null);
-  const filterBtnRef = useRef<HTMLButtonElement>(null);
-  useDialog(sheetOpen, sheetRef, () => setSheetOpen(false), filterBtnRef);
-
-  const availableFamilies = useMemo(() => {
-    const s = new Set<ColorFamily>();
-    products.forEach((p) => productColorFamilies(p).forEach((f) => s.add(f)));
-    return (Object.keys(colorFamilyLabels) as ColorFamily[]).filter((f) => s.has(f));
-  }, [products]);
 
   const visible = useMemo(() => {
-    let list = products.filter((p) => {
-      if (families.size) {
-        const pf = productColorFamilies(p);
-        if (![...families].some((f) => pf.has(f))) return false;
-      }
-      return true;
-    });
+    let list = products;
     if (sort === 'price-asc') list = [...list].sort((a, b) => priceRange(a).min - priceRange(b).min);
     if (sort === 'price-desc') list = [...list].sort((a, b) => priceRange(b).min - priceRange(a).min);
     if (sort === 'name') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     if (sort === 'featured') list = [...list].sort((a, b) => Number(isAvailable(b)) - Number(isAvailable(a)));
     return list;
-  }, [products, families, sort]);
-
-  const toggleFamily = (f: ColorFamily) =>
-    setFamilies((prev) => {
-      const next = new Set(prev);
-      if (next.has(f)) next.delete(f);
-      else next.add(f);
-      return next;
-    });
-
-  const activeFilterCount = families.size;
-  const clear = () => setFamilies(new Set());
-
-  // No stock filter on purpose: every size and color can be ordered (it's poured to order).
-  const filters = () => (
-    <>
-      <fieldset className={styles.fgroup}>
-        <legend>Color</legend>
-        <div className={styles.famList}>
-          {availableFamilies.map((f) => (
-            <label key={f} className={styles.fam}>
-              <input type="checkbox" checked={families.has(f)} onChange={() => toggleFamily(f)} />
-              <span className={styles.famDot} style={{ background: colorFamilySwatch[f] }} aria-hidden="true" />
-              {colorFamilyLabels[f]}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-    </>
-  );
+  }, [products, sort]);
 
   return (
     <div className={`container ${styles.wrap}`}>
@@ -104,96 +61,47 @@ export function ShopView({ products, activeCategory, counts, total }: Props) {
         </nav>
       )}
 
-      <div className={styles.layout}>
-        <aside className={styles.sidebar} aria-label="Filters">
-          <div className={styles.sideHead}>
-            <h2>Filter</h2>
-            {activeFilterCount > 0 && (
-              <button type="button" className={styles.clear} onClick={clear}>
-                Clear all
-              </button>
-            )}
-          </div>
-          {filters()}
-        </aside>
+      <ol className={styles.steps} aria-label="How to pick your baits">
+        <li>
+          <span className={styles.stepN}>1</span>
+          <span>
+            <strong>Pick a profile</strong>
+            Swim bait, curly tail, crusher or minnow.
+          </span>
+        </li>
+        <li>
+          <span className={styles.stepN}>2</span>
+          <span>
+            <strong>Pick a size</strong>
+            On the profile’s page.
+          </span>
+        </li>
+        <li>
+          <span className={styles.stepN}>3</span>
+          <span>
+            <strong>Pick a color</strong>
+            Any of {colorways.length} on the <Link href="/colors/">color chart</Link>.
+          </span>
+        </li>
+      </ol>
 
-        <div className={styles.results}>
-          <div className={styles.toolbar}>
-            <button
-              ref={filterBtnRef}
-              type="button"
-              className={styles.filterBtn}
-              onClick={() => setSheetOpen(true)}
-              aria-haspopup="dialog"
-            >
-              <Icon name="filter" size={20} /> Filter{activeFilterCount > 0 && ` (${activeFilterCount})`}
-            </button>
-            <p className={styles.count} aria-live="polite">
-              {visible.length} product{visible.length === 1 ? '' : 's'}
-            </p>
-            <label className={styles.sort}>
-              <span className="visually-hidden">Sort by</span>
-              <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-                <option value="featured">Sort: Featured</option>
-                <option value="price-asc">Price: Low to high</option>
-                <option value="price-desc">Price: High to low</option>
-                <option value="name">Name: A–Z</option>
-              </select>
-              <Icon name="chevron-down" size={18} />
-            </label>
-          </div>
-
-          {activeFilterCount > 0 && (
-            <div className={styles.activeChips}>
-              {[...families].map((f) => (
-                <button key={f} type="button" onClick={() => toggleFamily(f)}>
-                  {colorFamilyLabels[f]} <Icon name="close" size={14} />
-                  <span className="visually-hidden">Remove filter</span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {visible.length ? (
-            <ProductGrid products={visible} columns={3} />
-          ) : (
-            <div className={styles.none}>
-              <p className={styles.noneTitle}>No matches</p>
-              <p>Nothing here fits those filters. Try removing one.</p>
-              <button type="button" className="btn btn-dark btn-sm" onClick={clear}>
-                Clear filters
-              </button>
-            </div>
-          )}
-        </div>
+      <div className={styles.toolbar}>
+        <p className={styles.count} aria-live="polite">
+          {visible.length} profile{visible.length === 1 ? '' : 's'}
+        </p>
+        <label className={styles.sort}>
+          <span className="visually-hidden">Sort by</span>
+          <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
+            <option value="featured">Sort: Featured</option>
+            <option value="price-asc">Price: Low to high</option>
+            <option value="price-desc">Price: High to low</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+          <Icon name="chevron-down" size={18} />
+        </label>
       </div>
 
-      {/* Mobile filter sheet */}
-      <div className={`${styles.scrim} ${sheetOpen ? styles.on : ''}`} onClick={() => setSheetOpen(false)} aria-hidden="true" />
-      <div
-        ref={sheetRef}
-        className={`${styles.sheet} ${sheetOpen ? styles.on : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="filter-title"
-        inert={!sheetOpen}
-      >
-        <div className={styles.sheetHead}>
-          <h2 id="filter-title">Filter</h2>
-          <button type="button" className={styles.sheetClose} onClick={() => setSheetOpen(false)} aria-label="Close filters">
-            <Icon name="close" size={24} />
-          </button>
-        </div>
-        <div className={styles.sheetBody}>{filters()}</div>
-        <div className={styles.sheetFoot}>
-          <button type="button" className="btn btn-outline" onClick={clear} disabled={!activeFilterCount}>
-            Clear
-          </button>
-          <button type="button" className="btn" onClick={() => setSheetOpen(false)}>
-            Show {visible.length} product{visible.length === 1 ? '' : 's'}
-          </button>
-        </div>
-      </div>
+      <ProductGrid products={visible} columns={4} />
     </div>
   );
 }

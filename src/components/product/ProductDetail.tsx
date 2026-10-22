@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
-import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, handmadeLine, isAvailable, orderRules, resolveSelection, unitNote } from '@/lib/catalog';
+import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable, orderRules, resolveSelection, unitNote } from '@/lib/catalog';
+import { getColorway } from '@/data/colors';
 import { useCart } from '@/components/cart/CartProvider';
 import { ordering, orderingCopy, site } from '@/content/site';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
+import { ColorChip } from './ColorChip';
 import { ProductMedia } from './ProductMedia';
 import { VariantPicker } from './VariantPicker';
 import styles from './ProductDetail.module.css';
@@ -24,6 +26,10 @@ export function ProductDetail({ product, category }: { product: Product; categor
   const variant = findVariant(product, selected) ?? product.variants[0];
   const productAvailable = isAvailable(product);
   const colorOpt = colorOption(product);
+  const chosenColor = colorOpt ? getColorway(variant.options[colorOpt.name]) : undefined;
+  // Most chart colors have no photo of this profile yet: show the profile in a photographed color
+  // and the chosen color off the chart underneath.
+  const shownColor = !variant.image && colorOpt ? product.variants.find((v) => v.image?.src === product.images[0]?.src)?.options[colorOpt.name] : undefined;
 
   // Preselect color from ?color= (used by product-card swatch previews and shareable links).
   useEffect(() => {
@@ -102,6 +108,20 @@ export function ProductDetail({ product, category }: { product: Product; categor
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
           </div>
+          {chosenColor && shownColor && (
+            <div className={styles.colorNote}>
+              <span className={styles.colorNoteChip}>
+                <ColorChip color={chosenColor.id} />
+              </span>
+              <p>
+                <strong>
+                  #{chosenColor.n} {chosenColor.name}
+                </strong>
+                <span>{chosenColor.description}</span>
+                <span className={styles.colorNoteShown}>Photo shows the {product.title} in {getColorway(shownColor)?.name}.</span>
+              </p>
+            </div>
+          )}
         </div>
 
         <div className={styles.info}>
@@ -112,7 +132,6 @@ export function ProductDetail({ product, category }: { product: Product; categor
             {unitNote(product) && <span className={styles.unitNote}>{unitNote(product)}</span>}
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>
-          <p className={styles.handmade}>{handmadeLine(product)}</p>
           <p className={styles.summary}>{product.summary}</p>
 
           <div className={styles.options}>
@@ -141,8 +160,8 @@ export function ProductDetail({ product, category }: { product: Product; categor
           )}
           {variant.available && ordering.open && (
             <p className={styles.pourNote}>
-              Poured in small runs, one or two colors at a time. If yours isn’t already poured, it goes on the pour list and we’ll confirm
-              timing before you pay.{' '}
+              Every profile comes in every color on the chart. We pour one or two colors at a time, so if yours isn’t already poured, it
+              goes on the pour list and we’ll confirm timing before you pay.{' '}
               <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
                 See today’s pour on Facebook
               </a>
@@ -151,7 +170,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
           )}
           {!variant.available ? (
             <p className={styles.soldNote}>
-              {productAvailable ? 'This option is' : 'This one is'} sold out. We make every bait by hand in small batches, so it’ll be back.{' '}
+              {productAvailable ? 'This option is' : 'This one is'} sold out. We pour in runs, so it’ll be back.{' '}
               <Link href="/contact/">Ask about a restock</Link>.
             </p>
           ) : (

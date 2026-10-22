@@ -6,7 +6,7 @@ import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'How ordering works at Bear Creek Baits: small-batch pours, the pour list, shipping and custom orders.',
+  description: 'How ordering works at Bear Creek Baits: picking a profile and color, the pour list, shipping and custom orders.',
   alternates: { canonical: '/faq/' },
 };
 
@@ -19,11 +19,11 @@ const orderingFaqs =
     ? [
         {
           q: 'How does ordering work?',
-          a: 'Add the baits you want to your order list and send it as an order request. Nothing is charged online. We check your list against what’s on the bench, then reach out by email, text or phone to confirm your total and shipping. Once you say go, we pack it up.',
+          a: 'Add the baits you want to your order list and send it as an order request. Nothing is charged online. We check your list against what’s already poured, then reach out by email, text or phone to confirm your total and shipping. Once you say go, we pack it up.',
         },
         {
           q: 'Why can’t I pay on the site?',
-          a: 'Every bait is made by hand in small batches. Confirming each order first means you only pay for baits that are ready to ship, and nobody waits on something that hasn’t been poured yet.',
+          a: 'We pour one or two colors at a time. Confirming each order first means you only pay for baits that are ready to ship, and nobody waits on something that hasn’t been poured yet.',
         },
         {
           q: 'How much is shipping?',
@@ -31,7 +31,7 @@ const orderingFaqs =
         },
         {
           q: 'What does “Orders paused” mean?',
-          a: 'When the bench gets busy, we pause new orders so we can keep up with the ones we have. You can still browse and build your list, and it stays saved on your device until we open back up.',
+          a: 'When orders stack up, we pause new ones so we can keep up with the ones we have. You can still browse and build your list, and it stays saved on your device until we open back up.',
         },
       ]
     : [
@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: 'Can I order any color?',
-    a: 'Yes. Every size and color on the site can be ordered. We pour in small runs, one or two colors at a time, so if yours isn’t already poured it goes on the pour list. We’ll tell you the timing when we confirm your order.',
+    a: 'Yes. Every size and color on the site can be ordered. Every profile comes in every color on the color chart. We pour one or two colors at a time, so if yours isn’t already poured it goes on the pour list. We’ll tell you the timing when we confirm your order.',
   },
   {
     q: 'How do I see what you poured today?',
