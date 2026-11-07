@@ -12,6 +12,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { colorways } from '@/data/colors';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    'Crappie soft plastics from Bear Creek Baits, chasing \'em for over 50 years. Pick a profile, then any of 60 colors.',
+    `Crappie soft plastics from Bear Creek Baits, chasing 'em for over 50 years. Pick a profile, then any of ${colorways.length} colors.`,
   applicationName: site.name,
   openGraph: {
     type: 'website',

@@ -192,33 +192,6 @@
   text-transform: uppercase;
   fill: rgba(243, 240, 232, 0.3);
 }
-.river {
-  fill: none;
-  stroke: #3d6f8f;
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.lake {
-  fill: none;
-  stroke: #3d6f8f;
-  stroke-width: 14;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.creek {
-  fill: none;
-  stroke: #3d6f8f;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.waterLabel {
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 13px;
-  fill: #8db5cf;
-}
 .townDot {
   fill: rgba(243, 240, 232, 0.45);
 }

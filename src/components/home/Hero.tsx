@@ -12,7 +12,7 @@ import styles from './Home.module.css';
 const spread: { product: string; color: string; angle: number }[] = [
   { product: 'swim-bait', color: 'the-closer', angle: -7 },
   { product: 'curly-tail', color: 'monkey-snot', angle: 6 },
-  { product: 'crappie-crusher', color: 'blue-truce', angle: 5 },
+  { product: 'crappie-crusher', color: 'blue-treuse', angle: 5 },
   { product: 'curly-tail', color: 'silver-streak', angle: -6 },
   { product: 'flicker-minnow', color: 'the-closer', angle: -4 },
   { product: 'swim-bait', color: 'silver-streak', angle: 7 },

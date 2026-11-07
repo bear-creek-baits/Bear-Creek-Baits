@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { ColorFamily } from '@/lib/types';
-import { colorFamilyLabels, colorFamilySwatch, getColorway } from '@/data/colors';
+import { colorFamilyLabels, colorFamilySwatch, getColorway, unphotographedColors } from '@/data/colors';
 import { ColorChip } from './ColorChip';
 import styles from './ColorChart.module.css';
 
@@ -120,7 +120,7 @@ export function ColorChart({ values, selected, onChange, labelledBy }: Props) {
         </div>
       )}
       <p className={styles.foot}>
-        Photos for colors 1–35. Colors 36–60 are drawn until they’re photographed.{' '}
+        {unphotographedColors() && `Colors ${unphotographedColors()} are drawn until they’re photographed. `}
         <Link href="/colors/">See the full color chart</Link>
       </p>
     </div>

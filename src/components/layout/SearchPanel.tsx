@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { navigate } from '@/lib/navigate';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { categories } from '@/data/categories';
-import { formatPriceRange, searchProducts } from '@/lib/catalog';
+import { formatPriceRange, getAllProducts, searchProducts } from '@/lib/catalog';
 import { ProductMedia } from '@/components/product/ProductMedia';
 import { Icon } from '@/components/ui/Icon';
 import { useDialog } from './useDialog';
@@ -77,13 +76,16 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
                     </button>
                   ))}
                 </div>
-                <p className={styles.label}>Categories</p>
+                <p className={styles.label}>Profiles</p>
                 <div className={styles.chips}>
-                  {categories.map((c) => (
-                    <Link key={c.slug} href={`/shop/${c.slug}/`} className={styles.chip} onClick={onClose}>
-                      {c.name}
+                  {getAllProducts().map((p) => (
+                    <Link key={p.slug} href={`/products/${p.slug}/`} className={styles.chip} onClick={onClose}>
+                      {p.title}
                     </Link>
                   ))}
+                  <Link href="/colors/" className={styles.chip} onClick={onClose}>
+                    Color chart
+                  </Link>
                 </div>
               </div>
             ) : results.length ? (

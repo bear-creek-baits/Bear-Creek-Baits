@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { categories, getCategory } from '@/data/categories';
-import { getAllProducts, getCategoryCounts, getProductsByCategory } from '@/lib/catalog';
+import { getProductsByCategory } from '@/lib/catalog';
 import { ShopView } from '@/components/shop/ShopView';
 
 export const dynamicParams = false;
@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   return {
     title: c.seoTitle,
     description: c.seoDescription,
-    alternates: { canonical: `/shop/${c.slug}/` },
+    // Only one category today, so this page shows the same thing as /shop/.
+    alternates: { canonical: categories.length > 1 ? `/shop/${c.slug}/` : '/shop/' },
     openGraph: { title: c.seoTitle, description: c.seoDescription },
   };
 }
@@ -46,12 +47,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           <p>{c.intro}</p>
         </div>
       </section>
-      <ShopView
-        products={getProductsByCategory(c.slug)}
-        activeCategory={c.slug}
-        counts={getCategoryCounts()}
-        total={getAllProducts().length}
-      />
+      <ShopView products={getProductsByCategory(c.slug)} />
     </>
   );
 }

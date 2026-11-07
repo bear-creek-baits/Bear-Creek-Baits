@@ -1,141 +1,105 @@
 .wrap {
-  padding-bottom: clamp(56px, 8vw, 96px);
-}
-
-/* Category tabs — horizontal scroll on phones */
-.cats {
-  margin-inline: calc(var(--gutter) * -1);
-  padding: 18px var(--gutter) 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.cats::-webkit-scrollbar {
-  display: none;
-}
-.cats ul {
-  display: flex;
-  gap: 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: max-content;
-}
-.cats a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  font-weight: 600;
-  font-size: 15px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: border-color 0.15s;
-}
-.cats a span {
-  font-size: 13px;
-  color: var(--muted);
-}
-.cats a:hover {
-  border-color: var(--ink);
-}
-.cats a.catOn {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
-}
-.cats a.catOn span {
-  color: var(--green);
-}
-
-
-/* Steps 1–3 of picking a bait, with the color chart link */
-.steps {
   display: grid;
-  gap: 8px;
-  margin: 24px 0 28px;
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
+  gap: clamp(40px, 6vw, 64px);
+  padding-block: clamp(32px, 5vw, 48px) clamp(56px, 8vw, 96px);
 }
-@media (min-width: 760px) {
-  .steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+
+.step {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
 }
-.steps li {
+.step > :global(ul) {
+  justify-self: stretch;
+}
+.stepHead {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--paper);
-  font-size: 15px;
+  align-items: flex-start;
+  gap: 16px;
+}
+.stepHead h2 {
+  font-size: clamp(32px, 4.5vw, 44px);
+}
+.stepHead p {
+  margin-top: 6px;
+  max-width: 62ch;
+  color: var(--muted);
 }
 .stepN {
   flex: none;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--ink);
   color: var(--green);
   font-family: var(--font-label);
   font-weight: 700;
-  font-size: 17px;
-}
-.steps strong {
-  display: block;
-  font-family: var(--font-label);
-  font-size: 17px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 22px;
 }
 
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+.colors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
-.count {
-  color: var(--muted);
-  font-size: 15px;
-}
-.sort {
-  position: relative;
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-}
-.sort select {
-  appearance: none;
-  min-height: 44px;
-  padding: 0 38px 0 14px;
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: #fff;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-}
-.sort select:hover {
-  border-color: var(--ink);
-}
-.sort svg {
-  position: absolute;
-  right: 12px;
-  pointer-events: none;
-}
-@media (max-width: 420px) {
-  .count {
-    display: none;
+@media (min-width: 640px) {
+  .colors {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-
+@media (min-width: 1000px) {
+  .colors {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+.color {
+  display: grid;
+  gap: 8px;
+  padding: 8px 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.color:hover {
+  border-color: var(--ink);
+}
+.colorArt {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 2 / 1;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+.colorArt > * {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.colorName {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.colorN {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  margin-right: 4px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}

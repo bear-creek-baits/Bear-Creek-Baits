@@ -24,10 +24,6 @@ export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured);
 }
 
-export function getCategoryCounts(): Record<string, number> {
-  return Object.fromEntries(categories.map((c) => [c.slug, getProductsByCategory(c.slug).length]));
-}
-
 export function findVariantById(id: string): { product: Product; variant: Variant } | undefined {
   for (const product of products) {
     const variant = product.variants.find((v) => v.id === id);

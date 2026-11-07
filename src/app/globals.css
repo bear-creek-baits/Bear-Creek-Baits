@@ -62,6 +62,9 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
+  /* The header changes height at the top of the page; scroll anchoring would nudge the page to
+     compensate, which re-triggers the header and makes the logo bounce. */
+  overflow-anchor: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

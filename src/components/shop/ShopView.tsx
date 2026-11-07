@@ -1,107 +1,87 @@
-'use client';
-
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
-import type { CategorySlug, Product } from '@/lib/types';
-import { categories } from '@/data/categories';
+import type { Product } from '@/lib/types';
 import { colorways } from '@/data/colors';
-import { isAvailable, priceRange } from '@/lib/catalog';
+import { SOFT_PLASTIC_MIN } from '@/data/products';
+import { ordering } from '@/content/site';
 import { ProductGrid } from '@/components/product/ProductGrid';
+import { ColorChip } from '@/components/product/ColorChip';
 import { Icon } from '@/components/ui/Icon';
 import styles from './ShopView.module.css';
 
-type Sort = 'featured' | 'price-asc' | 'price-desc' | 'name';
-
-interface Props {
-  products: Product[];
-  activeCategory?: CategorySlug;
-  counts: Record<string, number>;
-  total: number;
-}
+/** Colors previewed on the shop page: the first photographed ones on the chart. */
+const PREVIEW_COLORS = 12;
 
 /**
- * The shop lists profiles. There's no color filter: every profile comes in every color on the chart,
- * so the color is picked on the profile's page.
+ * The shop, laid out in the order customers buy: pick a profile, pick a color off the chart, send
+ * the order. There's no color filter or sort: every profile comes in every chart color, and there
+ * are only a few profiles.
  */
-export function ShopView({ products, activeCategory, counts, total }: Props) {
-  const [sort, setSort] = useState<Sort>('featured');
-
-  const visible = useMemo(() => {
-    let list = products;
-    if (sort === 'price-asc') list = [...list].sort((a, b) => priceRange(a).min - priceRange(b).min);
-    if (sort === 'price-desc') list = [...list].sort((a, b) => priceRange(b).min - priceRange(a).min);
-    if (sort === 'name') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
-    if (sort === 'featured') list = [...list].sort((a, b) => Number(isAvailable(b)) - Number(isAvailable(a)));
-    return list;
-  }, [products, sort]);
-
+export function ShopView({ products }: { products: Product[] }) {
+  const preview = colorways.filter((c) => c.chartPhoto).slice(0, PREVIEW_COLORS);
   return (
     <div className={`container ${styles.wrap}`}>
-      {/* Category tabs only help once there's more than one category. */}
-      {categories.length > 1 && (
-        <nav className={styles.cats} aria-label="Categories">
-          <ul>
-            <li>
-              <Link href="/shop/" className={!activeCategory ? styles.catOn : undefined} aria-current={!activeCategory ? 'page' : undefined}>
-                All <span>{total}</span>
+      <section className={styles.step} aria-labelledby="step-profile">
+        <div className={styles.stepHead}>
+          <span className={styles.stepN} aria-hidden="true">
+            1
+          </span>
+          <div>
+            <h2 id="step-profile">Pick your profile</h2>
+            <p>Sizes and price are on each card. Every profile comes in every color.</p>
+          </div>
+        </div>
+        <ProductGrid products={products} columns={4} />
+      </section>
+
+      <section className={styles.step} aria-labelledby="step-color">
+        <div className={styles.stepHead}>
+          <span className={styles.stepN} aria-hidden="true">
+            2
+          </span>
+          <div>
+            <h2 id="step-color">Pick your color</h2>
+            <p>
+              {colorways.length} colors on the chart. Choose yours on the profile’s page, by name or number. Custom colors available, just
+              ask.
+            </p>
+          </div>
+        </div>
+        <ul className={styles.colors}>
+          {preview.map((c) => (
+            <li key={c.id}>
+              <Link href={`/colors/#color-${c.n}`} className={styles.color}>
+                <span className={styles.colorArt}>
+                  <ColorChip color={c.id} />
+                </span>
+                <span className={styles.colorName}>
+                  <span className={styles.colorN}>{c.n}</span> {c.name}
+                </span>
               </Link>
             </li>
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link
-                  href={`/shop/${c.slug}/`}
-                  className={activeCategory === c.slug ? styles.catOn : undefined}
-                  aria-current={activeCategory === c.slug ? 'page' : undefined}
-                >
-                  {c.name} <span>{counts[c.slug]}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+          ))}
+        </ul>
+        <Link href="/colors/" className="btn btn-dark">
+          See all {colorways.length} colors <Icon name="arrow-right" size={20} />
+        </Link>
+      </section>
 
-      <ol className={styles.steps} aria-label="How to pick your baits">
-        <li>
-          <span className={styles.stepN}>1</span>
-          <span>
-            <strong>Pick a profile</strong>
-            Swim bait, curly tail, crusher or minnow.
+      <section className={styles.step} aria-labelledby="step-order">
+        <div className={styles.stepHead}>
+          <span className={styles.stepN} aria-hidden="true">
+            3
           </span>
-        </li>
-        <li>
-          <span className={styles.stepN}>2</span>
-          <span>
-            <strong>Pick a size</strong>
-            On the profile’s page.
-          </span>
-        </li>
-        <li>
-          <span className={styles.stepN}>3</span>
-          <span>
-            <strong>Pick a color</strong>
-            Any of {colorways.length} on the <Link href="/colors/">color chart</Link>.
-          </span>
-        </li>
-      </ol>
-
-      <div className={styles.toolbar}>
-        <p className={styles.count} aria-live="polite">
-          {visible.length} profile{visible.length === 1 ? '' : 's'}
-        </p>
-        <label className={styles.sort}>
-          <span className="visually-hidden">Sort by</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-            <option value="featured">Sort: Featured</option>
-            <option value="price-asc">Price: Low to high</option>
-            <option value="price-desc">Price: High to low</option>
-            <option value="name">Name: A–Z</option>
-          </select>
-          <Icon name="chevron-down" size={18} />
-        </label>
-      </div>
-
-      <ProductGrid products={visible} columns={4} />
+          <div>
+            <h2 id="step-order">{ordering.mode === 'request' ? 'Send your order request' : 'Check out'}</h2>
+            <p>
+              {SOFT_PLASTIC_MIN}-bait minimum for each size and color.{' '}
+              {ordering.mode === 'request'
+                ? 'Nothing is charged online: we confirm your total, shipping and timing before you pay.'
+                : 'Shipping and taxes are calculated at checkout.'}{' '}
+              <Link href="/faq/">How ordering works</Link>
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

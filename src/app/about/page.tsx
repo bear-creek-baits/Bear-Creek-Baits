@@ -9,7 +9,7 @@ import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Bear Creek Baits makes crappie soft plastics: swim baits, curly tails and minnows in 60 colors, chasing ’em for over 50 years.',
+  description: `Bear Creek Baits makes crappie soft plastics: swim baits, curly tails and minnows in ${colorways.length} colors, chasing ’em for over 50 years.`,
   alternates: { canonical: '/about/' },
 };
 

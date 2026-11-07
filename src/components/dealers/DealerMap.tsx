@@ -5,7 +5,8 @@ import styles from './Dealers.module.css';
 /**
  * Hand-drawn regional map of the Pickwick / Shoals area (where AL, MS and TN meet).
  * Drawn in SVG rather than loaded from a map service, so it works anywhere the site is hosted.
- * Geography is simplified: state lines, the Tennessee River with Pickwick Lake, and Bear Creek.
+ * Geography is simplified to state lines and a few towns for reference. No water is drawn: a
+ * hand-traced river and lake weren't accurate enough to show.
  */
 
 const BOUNDS = { latMin: 34.22, latMax: 35.15, lonMin: -88.88, lonMax: -87.48 };
@@ -35,37 +36,6 @@ const stateLines = [
     [34.89, -88.1],
     [BOUNDS.latMin, -88.15],
   ]),
-];
-
-const river: [number, number][] = [
-  [34.76, BOUNDS.lonMax],
-  [34.8, -87.6],
-  [34.79, -87.67],
-  [34.78, -87.73],
-  [34.8, -87.84],
-];
-const pickwick: [number, number][] = [
-  [34.8, -87.84],
-  [34.83, -87.95],
-  [34.86, -88.04],
-  [34.9, -88.12],
-  [34.97, -88.18],
-  [35.03, -88.22],
-  [35.065, -88.25],
-];
-const riverNorth: [number, number][] = [
-  [35.065, -88.25],
-  [35.11, -88.26],
-  [BOUNDS.latMax, -88.25],
-];
-const bearCreek: [number, number][] = [
-  [34.36, -87.72],
-  [34.42, -87.84],
-  [34.47, -87.97],
-  [34.55, -88.09],
-  [34.65, -88.15],
-  [34.76, -88.13],
-  [34.87, -88.11],
 ];
 
 const towns: { name: string; lat: number; lon: number }[] = [
@@ -119,7 +89,7 @@ export function DealerMap({ origin, selectedId, nearestId, onSelect }: Props) {
   };
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className={styles.map} role="img" aria-label="Map of Bear Creek Baits dealers around Pickwick Lake and the Shoals">
+    <svg viewBox={`0 0 ${W} ${H}`} className={styles.map} role="img" aria-label="Map of Bear Creek Baits dealers around Pickwick and the Shoals">
       <rect width={W} height={H} className={styles.mapBg} />
       {stateLines.map((d, i) => (
         <path key={i} d={d} className={styles.stateLine} />
@@ -132,17 +102,6 @@ export function DealerMap({ origin, selectedId, nearestId, onSelect }: Props) {
       </text>
       <text x={x(-87.86)} y={y(34.3)} className={styles.stateLabel}>
         Alabama
-      </text>
-
-      <path d={path(river)} className={styles.river} />
-      <path d={path(riverNorth)} className={styles.river} />
-      <path d={path(pickwick)} className={styles.lake} />
-      <text x={x(-88.08)} y={y(34.95)} className={styles.waterLabel}>
-        Pickwick Lake
-      </text>
-      <path d={path(bearCreek)} className={styles.creek} />
-      <text x={x(-88.06)} y={y(34.52)} className={styles.waterLabel} transform={`rotate(-38 ${x(-88.06)} ${y(34.52)})`}>
-        Bear Creek
       </text>
 
       {towns.map((t) => {

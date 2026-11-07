@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { categories } from '@/data/categories';
-import { describeVariant, formatPrice, orderRules } from '@/lib/catalog';
+import { describeVariant, formatPrice, getAllProducts, orderRules } from '@/lib/catalog';
 import { useCart } from './CartProvider';
 import { useDialog } from '@/components/layout/useDialog';
 import { ProductMedia } from '@/components/product/ProductMedia';
@@ -50,12 +49,12 @@ export function CartDrawer() {
               <Icon name="cart" size={34} strokeWidth={1.6} />
             </div>
             <p className={styles.emptyTitle}>Your {orderingCopy.listName.toLowerCase()} is empty</p>
-            <p className={styles.emptyText}>Pick a category to get started.</p>
+            <p className={styles.emptyText}>Pick a profile to get started.</p>
             <ul className={styles.emptyCats}>
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/shop/${c.slug}/`} onClick={close}>
-                    {c.name} <Icon name="arrow-right" size={18} />
+              {getAllProducts().map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/products/${p.slug}/`} onClick={close}>
+                    {p.title} <Icon name="arrow-right" size={18} />
                   </Link>
                 </li>
               ))}

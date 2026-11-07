@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { colorways } from '@/data/colors';
-import { categories } from '@/data/categories';
+import { getAllProducts } from '@/lib/catalog';
 import { brand, site } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
-import { NewsletterForm } from './NewsletterForm';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -29,9 +28,9 @@ export function Footer() {
             <li>
               <Link href="/shop/">All baits</Link>
             </li>
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/shop/${c.slug}/`}>{c.name}</Link>
+            {getAllProducts().map((p) => (
+              <li key={p.slug}>
+                <Link href={`/products/${p.slug}/`}>{p.title}</Link>
               </li>
             ))}
             <li>
@@ -58,11 +57,6 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className={styles.news}>
-          <h2 className={styles.colTitle}>New colors</h2>
-          <p>Get an email when a new color drops.</p>
-          <NewsletterForm />
-        </div>
       </div>
 
       <div className={`container ${styles.bottom}`}>

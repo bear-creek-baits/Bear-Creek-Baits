@@ -36,7 +36,7 @@ export type ColorFamily =
   | 'natural';
 
 export interface Colorway {
-  /** Number on the color chart (1–60). Customers can order by number or name. */
+  /** Number on the color chart. Customers can order by number or name. */
   n: number;
   id: string;
   name: string;

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { colorways } from '@/data/colors';
+import { colorways, unphotographedColors } from '@/data/colors';
 import { getAllProducts } from '@/lib/catalog';
 import { ColorChip } from '@/components/product/ColorChip';
 import { Icon } from '@/components/ui/Icon';
@@ -52,7 +52,8 @@ export default function ColorsPage() {
             ))}
           </ol>
           <p className={styles.note}>
-            Photos shown for colors 1–35. Colors 36–60 are drawn approximations until they’re photographed. Screen colors vary.
+            {unphotographedColors() && `Colors ${unphotographedColors()} are drawn approximations until they’re photographed. `}Screen
+            colors vary.
           </p>
         </div>
       </section>

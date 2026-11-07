@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { categories } from '@/data/categories';
+import { getAllProducts, photographedColors } from '@/lib/catalog';
 import { site, orderingCopy } from '@/content/site';
 import { asset } from '@/lib/asset';
 import { useCart } from '@/components/cart/CartProvider';
@@ -25,7 +25,9 @@ export function Header() {
   useDialog(menuOpen, menuRef, () => setMenuOpen(false), menuBtnRef);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    // Shrink past 80px, grow back only at the very top. The desktop bar changes height when it
+    // shrinks, so a single threshold would flip back and forth as the page shifts under it.
+    const onScroll = () => setScrolled((was) => (was ? window.scrollY > 4 : window.scrollY > 80));
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -37,7 +39,7 @@ export function Header() {
     setSearchOpen(false);
   }, [pathname]);
 
-  const isActive = (href: string) => (href === '/shop/' ? pathname === '/shop/' || pathname === '/shop' : pathname.startsWith(href));
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <>
@@ -63,20 +65,10 @@ export function Header() {
           <nav className={styles.nav} aria-label="Primary">
             <ul>
               <li>
-                <Link href="/shop/" className={isActive('/shop/') ? styles.active : undefined}>
-                  Shop All
+                <Link href="/shop/" className={isActive('/shop') || isActive('/products') ? styles.active : undefined}>
+                  Shop
                 </Link>
               </li>
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    href={`/shop/${c.slug}/`}
-                    className={isActive(`/shop/${c.slug}`) ? styles.active : undefined}
-                  >
-                    {c.name}
-                  </Link>
-                </li>
-              ))}
               <li>
                 <Link href="/colors/" className={isActive('/colors') ? styles.active : undefined}>
                   Color Chart
@@ -149,16 +141,16 @@ export function Header() {
           Search baits, colors…
         </button>
 
-        <nav aria-label="Shop categories">
+        <nav aria-label="Shop">
           <p className={styles.drawerLabel}>Shop</p>
           <ul className={styles.drawerCats}>
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/shop/${c.slug}/`}>
+            {getAllProducts().map((p) => (
+              <li key={p.slug}>
+                <Link href={`/products/${p.slug}/`}>
                   <span className={styles.drawerThumb}>
-                    <BaitPhoto product={c.photo.product} color={c.photo.color} angle={-20} />
+                    <BaitPhoto product={p.slug} color={photographedColors(p)[0]} angle={-20} />
                   </span>
-                  <span>{c.name}</span>
+                  <span>{p.title}</span>
                   <Icon name="chevron-right" size={20} className={styles.chev} />
                 </Link>
               </li>

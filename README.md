@@ -78,4 +78,3 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 2. Re-implement `src/lib/catalog.ts` against the Shopify Storefront API. The data shapes already mirror Shopify's product, option and variant model.
 3. Back `CartProvider` with the Storefront Cart API and send **Checkout** to `cart.checkoutUrl`.
 4. Set `ordering.mode = 'shopify'`. Buttons, drawer and shipping wording switch from "order request" to "cart / checkout" automatically. The `open` switch keeps working.
-5. Connect the newsletter form (Shopify Customer API, Klaviyo, etc.).

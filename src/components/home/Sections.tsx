@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { colorways } from '@/data/colors';
+import { colorways, getColorway } from '@/data/colors';
 import { SOFT_PLASTIC_MIN } from '@/data/products';
 import { brand, ordering, site } from '@/content/site';
 import { getAllProducts, getFeaturedProducts } from '@/lib/catalog';
@@ -35,8 +35,8 @@ export function Featured() {
 
 /* ------------------------------------------------------------------ Color chart teaser */
 
-/** Chart numbers shown on the home page: photographed colors, picked for range. */
-const wallColors = [10, 27, 12, 30, 34, 3, 28, 13, 7, 20, 26];
+/** Chart colors shown on the home page (by id, so renumbering the chart doesn't change them): photographed, picked for range. */
+const wallColors = ['the-closer', 'ole-faithful', 'purplicious', 'silver-streak', 'blue-treuse', 'monkey-snot', 'laurence-grubs', 'ole-red', 'dragon-fire', 'crappie-candy', 'blue-ice-lime'];
 
 export function ColorWall() {
   return (
@@ -50,8 +50,8 @@ export function ColorWall() {
           </div>
         </div>
         <ul className={styles.wallGrid}>
-          {wallColors.map((n) => {
-            const cw = colorways[n - 1];
+          {wallColors.map((id) => {
+            const cw = getColorway(id)!;
             return (
               <li key={cw.id}>
                 <Link href={`/colors/#color-${cw.n}`} className={styles.wallTile}>

@@ -93,9 +93,6 @@ export function ProductDetail({ product, category }: { product: Product; categor
           <li>
             <Link href="/shop/">Shop</Link>
           </li>
-          <li>
-            <Link href={`/shop/${category.slug}/`}>{category.name}</Link>
-          </li>
           <li aria-current="page">{product.title}</li>
         </ol>
       </nav>

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { Product } from '@/lib/types';
-import { categories } from '@/data/categories';
 import { getColorway } from '@/data/colors';
 import { colorOption, formatPriceRange, isAvailable, photographedColors, sizeList } from '@/lib/catalog';
 import { SOFT_PLASTIC_MIN } from '@/data/products';
@@ -20,7 +19,6 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const dots = photographedColors(product);
   const [preview, setPreview] = useState<string | null>(null);
   const available = isAvailable(product);
-  const category = categories.find((c) => c.slug === product.category);
   const href = `/products/${product.slug}/`;
   // Hovering a swatch shows that color's photo.
   const previewVariant = preview && opt ? product.variants.find((v) => v.options[opt.name] === preview && v.image) : undefined;
@@ -41,7 +39,6 @@ export function ProductCard({ product, priority }: { product: Product; priority?
       </Link>
 
       <div className={styles.body}>
-        <p className={styles.cat}>{category?.name}</p>
         <h3 className={styles.title}>
           <Link href={href} className={styles.link}>
             {product.title}

@@ -6,7 +6,7 @@ import { colorways, getColorway } from './colors';
  *  PRODUCT CATALOG
  * ==========================================================================
  * One product per bait profile. Customers pick the profile, then the size, then any color off the
- * 60-color chart (src/data/colors.ts): every profile can be ordered in every chart color.
+ * color chart (src/data/colors.ts): every profile can be ordered in every chart color.
  * Profile photos live in public/products/<profile>/<color>.webp. Picking a color that has a photo of
  * that profile shows it; other colors show the profile's photo next to the chart color.
  *
@@ -105,6 +105,9 @@ export const products: Product[] = [
       'the-closer': [1600, 894],
       'monkey-snot': [1600, 887],
       'silver-streak': [1600, 740],
+      'laurence-grubs': [1600, 907],
+      'blue-ice-lime': [1600, 832],
+      dynamite: [1600, 781],
     }),
     price: () => samplePrice,
   }),
@@ -117,7 +120,7 @@ export const products: Product[] = [
     description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick. Poured in 2" so far.'],
     details: ['Any color on the chart', 'Sample price'],
     options: [{ name: 'Size', display: 'button', values: ['2"'] }, chartColors],
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-truce': [1600, 395] }),
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
     price: () => samplePrice,
   }),
   build({
