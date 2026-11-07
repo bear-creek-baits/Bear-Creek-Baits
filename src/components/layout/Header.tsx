@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { getAllProducts, photographedColors } from '@/lib/catalog';
+import { getAllProducts } from '@/lib/catalog';
 import { site, orderingCopy } from '@/content/site';
 import { asset } from '@/lib/asset';
 import { useCart } from '@/components/cart/CartProvider';
@@ -148,7 +148,7 @@ export function Header() {
               <li key={p.slug}>
                 <Link href={`/products/${p.slug}/`}>
                   <span className={styles.drawerThumb}>
-                    <BaitPhoto product={p.slug} color={photographedColors(p)[0]} angle={-20} />
+                    <BaitPhoto product={p.slug} color={p.mainColor} angle={-20} />
                   </span>
                   <span>{p.title}</span>
                   <Icon name="chevron-right" size={20} className={styles.chev} />

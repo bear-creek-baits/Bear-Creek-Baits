@@ -92,7 +92,16 @@ export interface Product {
   details: string[];
   options: ProductOption[];
   variants: Variant[];
-  /** Product photos (cut out, transparent background). Empty = a "photo coming soon" placeholder. */
+  /**
+   * The profile's main color (a chart color id). Each profile is shown in its own main color; the
+   * color chart shows the variations.
+   */
+  mainColor: string;
+  /**
+   * Photos of this profile (cut out, transparent background), main color first. The product page
+   * shows only the main color's photo, or "photo coming soon" until it exists; the others are used
+   * as decoration around the site.
+   */
   images: ProductImage[];
   badge?: 'New' | 'Seasonal';
   /** Smallest quantity per size/color (e.g. 50 soft plastics). Defaults to 1. */

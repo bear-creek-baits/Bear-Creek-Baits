@@ -75,25 +75,23 @@ export function colorOption(product: Product) {
   return product.options.find((o) => o.display === 'swatch');
 }
 
-/** Opens on a color that has a photo of this profile, so the page starts on a real picture. */
+/** Opens on the profile's main color. */
 export function defaultSelection(product: Product): Record<string, string> {
-  const first = product.variants.find((v) => v.available && v.image) ?? product.variants.find((v) => v.available) ?? product.variants[0];
+  const opt = colorOption(product);
+  const inMain = (v: Variant) => !opt || v.options[opt.name] === product.mainColor;
+  const first =
+    product.variants.find((v) => v.available && inMain(v)) ?? product.variants.find((v) => v.available) ?? product.variants[0];
   return { ...first.options };
 }
 
-/** The cut-out photo of one product in one color, if there is one. */
+/** The cut-out photo of one product in one color, if there is one (for decoration around the site). */
 export function colorPhoto(slug: string, color: string): ProductImage | undefined {
-  const product = getProduct(slug);
-  const opt = product && colorOption(product);
-  return opt ? product.variants.find((v) => v.options[opt.name] === color && v.image)?.image : undefined;
+  return getProduct(slug)?.images.find((img) => img.src.endsWith(`/${color}.webp`));
 }
 
-/** Color ids that have a photo of this profile, in the order the photos are listed. */
-export function photographedColors(product: Product): string[] {
-  const opt = colorOption(product);
-  if (!opt) return [];
-  const ids = new Set(product.variants.filter((v) => v.image).map((v) => v.options[opt.name]));
-  return product.images.map((img) => [...ids].find((id) => img.src.endsWith(`/${id}.webp`))).filter((id): id is string => !!id);
+/** The profile's photo in its main color, if it has been photographed. */
+export function mainPhoto(product: Product): ProductImage | undefined {
+  return product.images.find((img) => img.src.endsWith(`/${product.mainColor}.webp`));
 }
 
 /** Other profiles in the same category. */

@@ -1,9 +1,10 @@
-import type { Product, Variant } from '@/lib/types';
+import type { Product } from '@/lib/types';
 import { asset } from '@/lib/asset';
+import { mainPhoto } from '@/lib/catalog';
+import { PhotoComingSoon } from './PhotoComingSoon';
 
 interface Props {
   product: Product;
-  variant?: Variant;
   className?: string;
   /** Pass false for decorative uses where adjacent text already names the product. */
   labelled?: boolean;
@@ -12,25 +13,15 @@ interface Props {
 }
 
 /**
- * Renders the product photo (variant image first, then product image). Photos are cut out with a
+ * Renders the profile's photo in its main color (the same photo whichever color is picked; the color
+ * chart shows the variations). Photos are cut out with a
  * transparent background and carry their own soft shadow. Don't add a CSS drop-shadow filter:
  * iOS Safari draws it in tiles on scaled or rotated images and leaves visible seams.
- * Products without a photo show a plain "photo coming soon" note.
+ * A profile not yet photographed in its main color shows the chart's "photo coming soon" box.
  */
-export function ProductMedia({ product, variant, className, labelled = true, priority }: Props) {
-  const photo = variant?.image ?? product.images[0];
-  if (!photo) {
-    return (
-      <span
-        className={className}
-        role={labelled ? 'img' : undefined}
-        aria-label={labelled ? `${product.title}: photo coming soon` : undefined}
-        style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', color: 'var(--muted)', fontSize: 14 }}
-      >
-        Photo coming soon
-      </span>
-    );
-  }
+export function ProductMedia({ product, className, labelled = true, priority }: Props) {
+  const photo = mainPhoto(product);
+  if (!photo) return <PhotoComingSoon className={className} label={labelled ? `${product.title}: photo coming soon` : undefined} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img

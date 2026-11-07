@@ -66,7 +66,7 @@ export function CartDrawer() {
               {lines.map((l) => (
                 <li key={l.variantId} className={`${styles.line} ${lastAdded === l.variantId ? styles.fresh : ''}`}>
                   <Link href={`/products/${l.slug}/`} className={styles.thumb} onClick={close} tabIndex={-1} aria-hidden="true">
-                    <ProductMedia product={l.product} variant={l.variant} labelled={false} />
+                    <ProductMedia product={l.product} labelled={false} />
                   </Link>
                   <div className={styles.info}>
                     <div className={styles.row}>

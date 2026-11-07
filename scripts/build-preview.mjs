@@ -74,6 +74,7 @@ for (const f of walk(OUT).filter((p) => p.endsWith('.html'))) {
     .replaceAll('/assets/_next/', `${up}assets/_next/`)
     .replaceAll('"/brand/', `"${up}brand/`)
     .replaceAll('src="/products/', `src="${up}products/`)
+    .replaceAll('src="/colors/', `src="${up}colors/`)
     .replaceAll('"/favicon.ico"', `"${up}favicon.ico"`)
     .replaceAll('"/manifest.webmanifest"', `"${up}manifest.webmanifest"`)
     .replace(/href="\/(?!\/)([^"]*)"/g, (_, p) => `href="${up}${toFile('/' + p)}"`)

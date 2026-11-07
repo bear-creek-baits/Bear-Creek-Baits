@@ -27,9 +27,6 @@ export function ProductDetail({ product, category }: { product: Product; categor
   const productAvailable = isAvailable(product);
   const colorOpt = colorOption(product);
   const chosenColor = colorOpt ? getColorway(variant.options[colorOpt.name]) : undefined;
-  // Most chart colors have no photo of this profile yet: show the profile in a photographed color
-  // and the chosen color off the chart underneath.
-  const shownColor = !variant.image && colorOpt ? product.variants.find((v) => v.image?.src === product.images[0]?.src)?.options[colorOpt.name] : undefined;
 
   // Preselect color from ?color= (used by product-card swatch previews and shareable links).
   useEffect(() => {
@@ -100,22 +97,24 @@ export function ProductDetail({ product, category }: { product: Product; categor
       <div className={styles.layout}>
         <div className={styles.gallery}>
           <div className={styles.mainImage}>
-            <div className={styles.artWrap} key={variant.image?.src ?? variant.id}>
-              <ProductMedia product={product} variant={variant} priority />
+            <div className={styles.artWrap}>
+              <ProductMedia product={product} priority />
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
           </div>
-          {chosenColor && shownColor && (
+          {chosenColor && (
             <div className={styles.colorNote}>
               <span className={styles.colorNoteChip}>
                 <ColorChip color={chosenColor.id} />
               </span>
               <p>
+                <span className={styles.colorNoteShown}>Your color</span>
                 <strong>
                   #{chosenColor.n} {chosenColor.name}
                 </strong>
-                <span>{chosenColor.description}</span>
-                <span className={styles.colorNoteShown}>Photo shows the {product.title} in {getColorway(shownColor)?.name}.</span>
+                {chosenColor.id !== product.mainColor && (
+                  <span className={styles.colorNoteShown}>Photo shows the {product.title} in {getColorway(product.mainColor)?.name}.</span>
+                )}
               </p>
             </div>
           )}

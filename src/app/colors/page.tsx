@@ -44,16 +44,14 @@ export default function ColorsPage() {
                   <span className={styles.n}>{c.n}</span>
                   <h2 className={styles.name}>{c.name}</h2>
                 </div>
-                <div className={`${styles.art} ${c.chartPhoto ? '' : styles.drawn}`}>
+                <div className={styles.art}>
                   <ColorChip color={c.id} />
                 </div>
-                <p className={styles.desc}>{c.description}</p>
               </li>
             ))}
           </ol>
           <p className={styles.note}>
-            {unphotographedColors() && `Colors ${unphotographedColors()} are drawn approximations until they’re photographed. `}Screen
-            colors vary.
+            {unphotographedColors() && `Photos coming soon for colors ${unphotographedColors()}. `}Screen colors vary.
           </p>
         </div>
       </section>

@@ -104,7 +104,7 @@ export function CheckoutView() {
               {lines.map((l) => (
                 <li key={l.variantId}>
                   <span className={styles.sumThumb}>
-                    <ProductMedia product={l.product} variant={l.variant} labelled={false} />
+                    <ProductMedia product={l.product} labelled={false} />
                     <span className={styles.sumQty}>{l.quantity}</span>
                   </span>
                   <span className={styles.sumInfo}>

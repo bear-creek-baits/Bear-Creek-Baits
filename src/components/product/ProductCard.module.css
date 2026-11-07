@@ -99,45 +99,12 @@
   font-size: 16px;
 }
 
-.dots {
-  position: relative;
-  z-index: 2;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-}
-.dot {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  background: none;
-  border-radius: 50%;
-}
-.more {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  text-decoration: none;
-  padding: 0 4px;
-}
 .colorCount {
+  margin-top: 4px;
   font-size: 14px;
   color: var(--muted);
 }
 
-/* On hover-capable devices show interactive swatches; on touch show a simple count. */
-@media (hover: hover) and (min-width: 700px) {
-  .dots {
-    display: flex;
-  }
-  .colorCount {
-    display: none;
-  }
-}
 
 @media (max-width: 480px) {
   .title {
