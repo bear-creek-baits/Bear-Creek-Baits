@@ -76,7 +76,7 @@
 .art {
   display: grid;
   place-items: center;
-  aspect-ratio: 12 / 5;
+  aspect-ratio: 2 / 1;
   border: 1px solid var(--stone);
   border-radius: 4px;
   background: #fff;

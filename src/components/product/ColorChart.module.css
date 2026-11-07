@@ -90,7 +90,7 @@
 .art {
   display: grid;
   place-items: center;
-  aspect-ratio: 12 / 5;
+  aspect-ratio: 2 / 1;
   border-radius: 3px;
   background: #fff;
   overflow: hidden;

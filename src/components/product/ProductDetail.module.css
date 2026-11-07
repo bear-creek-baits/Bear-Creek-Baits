@@ -57,7 +57,7 @@
   display: grid;
   place-items: center;
   width: 120px;
-  aspect-ratio: 12 / 5;
+  aspect-ratio: 2 / 1;
   border-radius: var(--radius-sm);
   background: #fff;
   overflow: hidden;

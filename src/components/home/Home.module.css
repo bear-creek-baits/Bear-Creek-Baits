@@ -151,7 +151,7 @@
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 12 / 5;
+  aspect-ratio: 2 / 1;
   margin-bottom: 10px;
   border-radius: 4px;
   background: #fff;
