@@ -9,13 +9,14 @@ import styles from './Home.module.css';
  * Real baits (cut-out photos) in a two-column grid, each tilted a little so it still looks laid out by
  * hand. A grid keeps them from overlapping or running off the screen at any width.
  */
+// One of each profile, in the color of its profile photo.
 const spread: { product: string; color: string; angle: number }[] = [
-  { product: 'swim-bait', color: 'the-closer', angle: -7 },
-  { product: 'curly-tail', color: 'monkey-snot', angle: 6 },
+  { product: 'swim-bait', color: 'blue-treuse', angle: -7 },
+  { product: 'curly-tail', color: 'blue-ice-lime', angle: 6 },
   { product: 'crappie-crusher', color: 'blue-treuse', angle: 5 },
-  { product: 'curly-tail', color: 'silver-streak', angle: -6 },
-  { product: 'flicker-minnow', color: 'the-closer', angle: -4 },
-  { product: 'swim-bait', color: 'silver-streak', angle: 7 },
+  { product: 'triple-tail', color: 'crown-royal', angle: -6 },
+  { product: 'flicker-minnow', color: 'delta-shad', angle: -4 },
+  { product: 'double-curly-tail', color: 'shiny-hiney', angle: 4 },
 ];
 
 export function Hero() {

@@ -49,7 +49,7 @@ The site builds to plain static files (`out/`), so it can be hosted on Netlify, 
 
 Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`, shot on pure white). Each one becomes `public/products/<profile>/<color>.webp`: background removed, trimmed to the bait, 1600px on the longest side. Only these web copies are committed. The site has no drawn bait illustrations; every bait shown is a photo. Name the file after the chart color's id in `src/data/colors.ts` and add it to that product's `photos(...)` list in `src/data/products.ts`.
 
-Each profile is shown in one **main color** (`mainColor` in `src/data/products.ts`: Swim Bait = Silver Streak, Curly Tail = The Closer, Crappie Crusher = Blue Treuse, Flicker Minnow = Delta Shad). The product photo stays on that color; picking a color off the chart shows it as "Your color" under the photo. A profile whose main color has no photo yet shows "Photo coming soon" (the Flicker Minnow, until a Delta Shad photo exists).
+Each profile is shown in one **main color** (`mainColor` in `src/data/products.ts`), the color in Steve's profile photo (`Product Photos/Edited/Profiles`): Swim Bait = Blue Treuse, Curly Tail = Blue Ice Lime, Double Curly Tail = Shiny Hiney, Triple Tail = Crown Royal, Crappie Crusher = Blue Treuse, Flicker Minnow = Delta Shad. The product photo stays on that color; picking a color off the chart shows it as "Your color" under the photo. A profile whose main color has no photo shows "Photo coming soon".
 
 Chart photos (`public/colors/`) are the small pictures on Steve's color chart. Colors without one show "Photo coming soon" on the chart. New chart colors go in `src/data/colors.ts`; every profile picks them up automatically, and the color counts update themselves.
 
@@ -72,7 +72,7 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 
 ## Path to launch (phase 1)
 
-1. Fill in real prices in `src/data/products.ts`, and add a Flicker Minnow photo in Delta Shad (its main color). Sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Crappie Crusher 2", Flicker Minnow 1.5".
+1. Fill in real prices in `src/data/products.ts`. Sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 1.5", Triple Tail 2.5", Crappie Crusher 2", Flicker Minnow 1.5".
 2. Set `ordering.formEndpoint` (and point the contact form at the same service).
 3. Fill in the real email/phone and domain in `site` (the Facebook link is in).
 4. Set `prototype: false` and deploy.

@@ -27,7 +27,7 @@ export function Featured() {
             View all <Icon name="arrow-right" size={18} />
           </Link>
         </div>
-        <ProductGrid products={getFeaturedProducts().slice(0, 4)} />
+        <ProductGrid products={getFeaturedProducts()} columns={3} />
       </div>
     </section>
   );

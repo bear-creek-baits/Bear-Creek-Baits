@@ -7,8 +7,9 @@ import { colorways, getColorway } from './colors';
  * ==========================================================================
  * One product per bait profile. Customers pick the profile, then the size, then any color off the
  * color chart (src/data/colors.ts): every profile can be ordered in every chart color.
- * Each profile is shown in one main color (`mainColor`, a different one per profile); the chart
- * shows the color variations. Profile photos live in public/products/<profile>/<color>.webp.
+ * Each profile is shown in one main color (`mainColor`): the color in Steve's profile photo
+ * (Product Photos/Edited/Profiles). The chart shows the color variations. Profile photos live in
+ * public/products/<profile>/<color>.webp.
  *
  * Sizes come from Steve's Facebook posts (Sep–Oct 2026) where known. Still invented: every price
  * and stock status.
@@ -85,8 +86,12 @@ export const products: Product[] = [
     ],
     details: ['Sizes: 1.5", 2", 2.2" and 2.5"', 'Any color on the chart', 'Sample price'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"', '2.5"'] }, chartColors],
-    mainColor: 'silver-streak',
-    photos: photos('swim-bait', 'Swim Bait', { 'the-closer': [1600, 393], 'silver-streak': [1600, 426] }),
+    mainColor: 'blue-treuse',
+    photos: photos('swim-bait', 'Swim Bait', {
+      'blue-treuse': [1600, 487],
+      'the-closer': [1600, 393],
+      'silver-streak': [1600, 426],
+    }),
     price: () => samplePrice,
   }),
   build({
@@ -100,7 +105,7 @@ export const products: Product[] = [
     ],
     details: ['Sizes: 1.5" and 2.2"', 'Any color on the chart', 'Sample price'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"', '2.2"'] }, chartColors],
-    mainColor: 'the-closer',
+    mainColor: 'blue-ice-lime',
     photos: photos('curly-tail', 'Curly Tail', {
       'the-closer': [1600, 894],
       'monkey-snot': [1600, 887],
@@ -133,10 +138,38 @@ export const products: Product[] = [
     description: ['A ribbed minnow body with a thin split tail that flickers on the fall and on a slow swim.'],
     details: ['Size: 1.5"', 'Any color on the chart', 'Sample price'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"'] }, chartColors],
-    // PLACEHOLDER: no Delta Shad photo yet, so the product page shows "photo coming soon". Add
-    // public/products/flicker-minnow/delta-shad.webp and list it here.
     mainColor: 'delta-shad',
-    photos: photos('flicker-minnow', 'Flicker Minnow', { 'the-closer': [1600, 417] }),
+    photos: photos('flicker-minnow', 'Flicker Minnow', { 'delta-shad': [1600, 438], 'the-closer': [1600, 417] }),
+    price: () => samplePrice,
+  }),
+  build({
+    slug: 'double-curly-tail',
+    title: 'Double Curly Tail',
+    category: 'soft-plastics',
+    badge: 'New',
+    featured: true,
+    summary: 'Two curly tails on a ribbed body for twice the kick.',
+    description: [
+      'A ribbed body with two curly tails. That extra tail action pays off when fish turn aggressive, and it still swims on a slow retrieve.',
+    ],
+    details: ['Size: 1.5"', 'Any color on the chart', 'Sample price'],
+    options: [{ name: 'Size', display: 'button', values: ['1.5"'] }, chartColors],
+    mainColor: 'shiny-hiney',
+    photos: photos('double-curly-tail', 'Double Curly Tail', { 'shiny-hiney': [1152, 1600] }),
+    price: () => samplePrice,
+  }),
+  build({
+    slug: 'triple-tail',
+    title: 'Triple Tail',
+    category: 'soft-plastics',
+    badge: 'New',
+    featured: true,
+    summary: 'Ribbed body with three curly tails, the most action of any profile.',
+    description: ['A ribbed body with three curly tails that all move on the fall and on a slow swim. The most tail action of any profile.'],
+    details: ['Size: 2.5"', 'Any color on the chart', 'Sample price'],
+    options: [{ name: 'Size', display: 'button', values: ['2.5"'] }, chartColors],
+    mainColor: 'crown-royal',
+    photos: photos('triple-tail', 'Triple Tail', { 'crown-royal': [1600, 821] }),
     price: () => samplePrice,
   }),
 ];

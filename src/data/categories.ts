@@ -8,11 +8,11 @@ export const categories: Category[] = [
   {
     slug: 'soft-plastics',
     name: 'Soft Plastics',
-    blurb: 'Swim baits, curly tails, Crappie Crushers and Flicker Minnows',
-    intro: 'Crappie plastics: the Swim Bait, the Curly Tail, the Crappie Crusher and the Flicker Minnow. Pick a profile and size, then any color off the color chart.',
+    blurb: 'Swim baits, curly tails (single, double and triple), Crappie Crushers and Flicker Minnows',
+    intro: 'Crappie plastics: the Swim Bait, the Curly Tail, the Double Curly Tail, the Triple Tail, the Crappie Crusher and the Flicker Minnow. Pick a profile and size, then any color off the color chart.',
     seoTitle: 'Crappie Soft Plastics',
     seoDescription: 'Shop crappie soft plastics from Bear Creek Baits. Browse body styles and colors and order online.',
-    photo: { product: 'swim-bait', color: 'the-closer' },
+    photo: { product: 'swim-bait', color: 'blue-treuse' },
   },
 ];
 

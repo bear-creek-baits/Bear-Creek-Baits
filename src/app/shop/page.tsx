@@ -6,7 +6,7 @@ import { colorways } from '@/data/colors';
 
 export const metadata: Metadata = {
   title: 'Shop Crappie Baits',
-  description: `Shop Bear Creek Baits crappie soft plastics: swim baits, curly tails, Crappie Crushers and Flicker Minnows in ${colorways.length} colors.`,
+  description: `Shop Bear Creek Baits crappie soft plastics: swim baits, single, double and triple curly tails, Crappie Crushers and Flicker Minnows in ${colorways.length} colors.`,
   alternates: { canonical: '/shop/' },
 };
 
