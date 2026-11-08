@@ -20,7 +20,8 @@ export const site = {
    * or email (Nov 2026); the phone shows as "Text", not "Call". Waiting on the number and the exact
    * email address.
    */
-  email: null as string | null,
+  /** VERIFIED (Nov 2026) */
+  email: 'bcb2024@mail.com' as string | null,
   phone: null as string | null,
   address: null as string | null,
 
