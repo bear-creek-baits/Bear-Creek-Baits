@@ -44,8 +44,8 @@ export default function AboutPage() {
             </p>
             <h2 className={styles.h2}>What we make</h2>
             <p>
-              Pick a profile, then any of the {colorways.length} colors on the <Link href="/colors/">color chart</Link>. We pour one or two
-              colors at a time, by the pack or in bulk bags of 50 and 100.
+              Pick a profile, then any of the {colorways.length} colors on the <Link href="/colors/">color chart</Link>, by the pack or in bulk
+              bags of 50 and 100. We pour one or two colors at a time.
             </p>
             <ul className={styles.makeList}>
               {categories.map((c) => (

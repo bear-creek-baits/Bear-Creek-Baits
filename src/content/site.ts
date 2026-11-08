@@ -10,7 +10,7 @@ export const site = {
   /** VERIFIED */
   legalName: 'Bear Creek Baits LLC',
   /** VERIFIED (from the brief): what the business sells. */
-  tagline: 'Crappie baits, hair jigs and jig heads',
+  tagline: 'Crappie soft plastics',
 
   /** PLACEHOLDER — production domain. Used for canonical URLs, sitemap and social cards. */
   url: 'https://bearcreekbaits.example',
@@ -37,7 +37,7 @@ export const site = {
   prototype: true,
 };
 
-export const prototypeNotice = 'Preview site · Sample products, prices & images';
+export const prototypeNotice = 'Preview site · Not taking orders yet';
 
 /**
  * ==========================================================================

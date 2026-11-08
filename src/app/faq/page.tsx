@@ -19,7 +19,7 @@ const orderingFaqs =
     ? [
         {
           q: 'How does ordering work?',
-          a: 'Add the baits you want to your order list and send it as an order request. Nothing is charged online. We check your list against what’s already poured, then reach out by email, text or phone to confirm your total and shipping. Once you say go, we pack it up.',
+          a: 'Add the baits you want to your order list and send it as an order request. Nothing is charged online. We check your list against what’s already poured, then reach out by email, text or phone to confirm your total, with Mississippi sales tax and shipping. Once you say go, we pack it up.',
         },
         {
           q: 'Why can’t I pay on the site?',
@@ -44,10 +44,6 @@ const orderingFaqs =
 const faqs = [
   ...orderingFaqs,
   {
-    q: 'What jig head should I rig these on?',
-    a: 'A light crappie jig head. For the 1.5" Swim Bait, use a #8 sickle hook; a #6 J hook will get by. If you’re unsure, send a message and we’ll point you in the right direction.',
-  },
-  {
     q: 'Can I order any color?',
     a: 'Yes. Every size and color on the site can be ordered. Every profile comes in every color on the color chart. We pour one or two colors at a time, so if yours isn’t already poured it goes on the pour list. We’ll tell you the timing when we confirm your order.',
   },
@@ -69,7 +65,7 @@ const faqs = [
   },
   {
     q: 'Do you take bulk or custom orders?',
-    a: 'Ask through the contact page with what you have in mind.',
+    a: 'Bulk bags of 50 and 100 can be ordered right on the site. For custom colors or anything else, ask through the contact page with what you have in mind.',
   },
 ];
 

@@ -199,7 +199,7 @@ export function OrderSteps() {
   const steps = [
     { title: 'Build your list', body: 'Pick a profile and size, then any color off the chart. If it isn’t already poured, it goes on the pour list.' },
     { title: 'Send the request', body: 'Nothing is charged online. Your list comes straight to us.' },
-    { title: 'We confirm and ship', body: 'We reach out to confirm your total, shipping and timing, then pack it up once it’s poured.' },
+    { title: 'We confirm and ship', body: 'We reach out to confirm your total (Mississippi sales tax plus shipping) and timing, then pack it up once it’s poured.' },
   ];
   return (
     <section className="section dark topo" aria-labelledby="steps-title">

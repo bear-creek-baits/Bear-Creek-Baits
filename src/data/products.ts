@@ -92,7 +92,6 @@ export const products: Product[] = [
     summary: 'Paddle-tail swim bait in three sizes, from the new 1.5" up to 2.5".',
     description: [
       'Three sizes, all with great tail action. The 1.5" is the newest, and the hardest mold to shoot laminates in.',
-      'Rig the 1.5" on a jig head with a #8 sickle hook. A #6 J hook will get by, but the sickle hook is the better match.',
     ],
     details: ['Sizes: 1.5", 2" and 2.5"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"', '2"', '2.5"'] }, packOption, chartColors],

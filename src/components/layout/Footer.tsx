@@ -63,7 +63,7 @@ export function Footer() {
         <p>
           © {year} {site.legalName}. All rights reserved.
         </p>
-        {site.prototype && <p>Preview build. Products, prices and images shown are samples.</p>}
+        {site.prototype && <p>Preview build. Order requests and messages sent from this preview aren’t delivered yet.</p>}
       </div>
     </footer>
   );

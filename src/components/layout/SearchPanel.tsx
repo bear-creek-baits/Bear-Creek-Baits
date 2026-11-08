@@ -117,7 +117,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
             ) : (
               <p className={styles.empty}>
                 Nothing matches “{q}”. Try a color like <button type="button" onClick={() => setQ('chartreuse')}>chartreuse</button> or a
-                bait type like <button type="button" onClick={() => setQ('jig')}>jig</button>.
+                bait type like <button type="button" onClick={() => setQ('grub')}>grub</button>.
               </p>
             )}
           </div>

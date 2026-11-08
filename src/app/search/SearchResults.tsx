@@ -62,7 +62,7 @@ export function SearchResults() {
           {q && results.length === 0 && (
             <div className={styles.noResults}>
               <p className={styles.h3}>No baits match “{q}”</p>
-              <p>Try a color (chartreuse, pink, blue) or a bait type (grub, jig, minnow). Or browse a category:</p>
+              <p>Try a color (chartreuse, pink, blue) or a bait type (grub, swim bait, minnow). Or browse a category:</p>
             </div>
           )}
           {(!q || results.length === 0) && (
