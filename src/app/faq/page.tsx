@@ -27,7 +27,7 @@ const orderingFaqs =
         },
         {
           q: 'How much is shipping?',
-          a: 'We’ll confirm shipping when we reach out about your order, before anything is charged.',
+          a: 'It depends on the size of the order and where it’s going. We’ll confirm shipping when we reach out about your order, before anything is charged.',
         },
         {
           q: 'What does “Orders paused” mean?',
@@ -56,12 +56,16 @@ const faqs = [
     a: 'We post each day’s run on our Facebook page. If something there catches your eye, add it to your order list and mention it in the notes.',
   },
   {
-    q: 'Is there a minimum order?',
-    a: 'Soft plastics are poured in runs, so there’s a 50-bait minimum for each size and color.',
+    q: 'How are they sold? Is there a minimum?',
+    a: 'By the pack for $4.15, or in bulk: $20 for 50 or $40 for 100. Bulk is 50 minimum per color. One pack of 10 will catch more fish than other brands’ packs of 15 or 20.',
+  },
+  {
+    q: 'Do you charge sales tax?',
+    a: 'Yes. Orders pay Mississippi sales tax plus shipping. We confirm the full total before you pay.',
   },
   {
     q: 'Can I buy Bear Creek Baits in a store?',
-    a: 'Yes. Several tackle shops around Pickwick and the Shoals carry them. Use the dealer finder to see the closest one to you.',
+    a: 'Yes. Tackle shops in Mississippi, Alabama and Tennessee carry them. Use the dealer finder to see the closest one to you.',
   },
   {
     q: 'Do you take bulk or custom orders?',

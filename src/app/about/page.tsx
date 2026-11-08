@@ -9,7 +9,7 @@ import styles from '../pages.module.css';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: `Bear Creek Baits makes crappie soft plastics: swim baits, curly tails and minnows in ${colorways.length} colors, chasing ’em for over 50 years.`,
+  description: `Bear Creek Baits makes crappie soft plastics: swim baits, curly tails, Crappie Crushers, Crappie Slayers and minnows in ${colorways.length} colors, chasing ’em for over 50 years.`,
   alternates: { canonical: '/about/' },
 };
 
@@ -31,14 +31,22 @@ export default function AboutPage() {
             <img src="/brand/logo.webp" alt="Bear Creek Baits LLC logo" width={474} height={464} />
           </div>
           <div className="prose">
-            {/* DRAFT COPY — limited to what the brand guide confirms. Replace with the story behind the 50 years, names and a photo. */}
+            {/* Story from Steve (Nov 2026). Still to come: a photo of him or the pouring setup. */}
             <blockquote className={styles.promise}>{brand.promise}</blockquote>
+            <h2 className={styles.h2}>Our story</h2>
+            <p>
+              We’ve crappie fished for over 50 years. After working with crappie guides across the country, we came up with the best lineup of
+              profiles and colors you can get.
+            </p>
+            <p>
+              Bear Creek Baits are built to last. One pack of 10 will catch more fish than other brands’ packs of 15 or 20, and the colors
+              won’t fade.
+            </p>
             <h2 className={styles.h2}>What we make</h2>
             <p>
-              Crappie soft plastics designed by people who fish, built to get bit. Pick a profile, then any of the {colorways.length} colors on
-              the <Link href="/colors/">color chart</Link>.
+              Pick a profile, then any of the {colorways.length} colors on the <Link href="/colors/">color chart</Link>. We pour one or two
+              colors at a time, by the pack or in bulk bags of 50 and 100.
             </p>
-            <p>Soft plastics are poured in runs, one or two colors at a time. Over 50 years of chasing fish goes into every bait.</p>
             <ul className={styles.makeList}>
               {categories.map((c) => (
                 <li key={c.slug}>

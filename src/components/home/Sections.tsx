@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { colorways, getColorway } from '@/data/colors';
-import { SOFT_PLASTIC_MIN } from '@/data/products';
+import { PACK_NOTE } from '@/data/products';
 import { brand, ordering, site } from '@/content/site';
 import { getAllProducts, getFeaturedProducts } from '@/lib/catalog';
 import { BaitPhoto } from '@/components/product/BaitPhoto';
@@ -121,7 +121,7 @@ export function Bench() {
   const points = [
     { n: '01', title: `${colorways.length} named colors`, body: 'Pick a profile, then any color off the chart. Order by name or number.' },
     { n: '02', title: 'Laminates', body: 'Two-tone laminates and glitter in the loud colors crappie fishermen actually reach for.' },
-    { n: '03', title: 'Poured in runs', body: `We pour one or two colors at a time, so there’s a ${SOFT_PLASTIC_MIN}-bait minimum for each size and color.` },
+    { n: '03', title: 'Packs or bulk', body: PACK_NOTE },
   ];
   return (
     <section className={`section ${styles.bench}`} aria-labelledby="bench-title">
@@ -174,7 +174,7 @@ export function LocalDealers() {
         <div>
           <p className="eyebrow">Local dealers</p>
           <h2 id="dealers-title" className={dealerStyles.teaserTitle}>Pick some up on the way to the lake.</h2>
-          <p className={dealerStyles.teaserLead}>Tackle shops around Pickwick and the Shoals carry Bear Creek Baits. Find the one closest to you.</p>
+          <p className={dealerStyles.teaserLead}>Tackle shops in Mississippi, Alabama and Tennessee carry Bear Creek Baits. Find the one closest to you.</p>
           <ul className={dealerStyles.teaserTowns}>
             {dealers.map((d) => (
               <li key={d.id}>{d.town.replace(/, [A-Z]{2}$/, '')}</li>

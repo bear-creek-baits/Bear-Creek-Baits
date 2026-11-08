@@ -4,7 +4,7 @@ Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.
 
 **Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when orders back up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
 
-**Prices are sample data.** The site deliberately doesn't track or show stock: Steve pours in runs of one or two colors and posts each day's pour on Facebook, so every size and color is orderable and anything not already poured goes on his pour list. Nothing needs updating when a run is poured. The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
+**Prices and sizes are Steve's** (Nov 2026): a pack is $4.15, bulk is $20 for 50 or $40 for 100 of one color (`PACKS` in `src/data/products.ts`). Orders pay Mississippi sales tax plus shipping, confirmed by Steve before payment. The site deliberately doesn't track or show stock: Steve pours in runs of one or two colors and posts each day's pour on Facebook, so every size and color is orderable and anything not already poured goes on his pour list. Nothing needs updating when a run is poured. The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
 
 ## Run it
 
@@ -72,9 +72,9 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 
 ## Path to launch (phase 1)
 
-1. Fill in real prices in `src/data/products.ts`. Sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 1.5", Triple Tail 2.5", Crappie Crusher 2", Flicker Minnow 1.5".
+1. Prices and sizes are set: Swim Bait 1.5"/2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 2", Triple Tail 2.75", Crappie Crusher 2", Crappie Slayer 1.2"/2", Flicker Minnow 1.5". Still needed: a Crappie Slayer photo and description.
 2. Set `ordering.formEndpoint` (and point the contact form at the same service).
-3. Fill in the real email/phone and domain in `site` (the Facebook link is in).
+3. Fill in the real email/phone and domain in `site` (the Facebook link is in). The phone shows as "Text": Steve wants texts, not calls.
 4. Set `prototype: false` and deploy.
 
 ## Moving to Shopify (phase 2, when Steve is ready)

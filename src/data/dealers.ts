@@ -15,9 +15,12 @@ export interface Dealer {
   city: string;
   state: 'AL' | 'MS' | 'TN';
   zip: string;
-  phone: string;
+  /** Left out when no number was found. */
+  phone?: string;
   lat: number;
   lon: number;
+  /** Put the map label on the left of the pin, where pins sit close together. */
+  labelLeft?: boolean;
   /** Internal note on what still needs confirming. Not shown on the site. */
   verify?: string;
 }
@@ -48,6 +51,7 @@ export const dealers: Dealer[] = [
     phone: '(662) 594-8687',
     lat: 34.931,
     lon: -88.565,
+    labelLeft: true,
     verify: 'Address and phone from gun-dealer directories; no official site found.',
   },
   {
@@ -86,7 +90,33 @@ export const dealers: Dealer[] = [
     phone: '(662) 620-6165',
     lat: 34.372,
     lon: -88.688,
-    verify: 'The only Scruggs address found is in Saltillo, just north of Tupelo. Confirm this is the store that carries the baits.',
+    verify: 'Steve calls it the Tupelo store. The street address is in Saltillo, just north of Tupelo.',
+  },
+  {
+    id: 'roys-store-lake-washington',
+    name: 'Roy’s Store',
+    town: 'Lake Washington, MS',
+    street: '7 Roys Store Rd',
+    city: 'Chatham',
+    state: 'MS',
+    zip: '38731',
+    phone: '(662) 827-2588',
+    lat: 33.06,
+    lon: -91.04,
+    verify:
+      'Added from Steve (Nov 2026). Address and phone are from an older listing for Roy’s Store, Cabins & Campground; one map listing marks it closed. Confirm both.',
+  },
+  {
+    id: 'dry-creek-marine-decatur',
+    name: 'Dry Creek Marine',
+    town: 'Decatur, AL',
+    street: '306 Beltline Rd NW',
+    city: 'Decatur',
+    state: 'AL',
+    zip: '35601',
+    lat: 34.598,
+    lon: -87.012,
+    verify: 'Added from Steve (Nov 2026). Address from Birdeye and Discover Boating (BBB shows 105 Beltline Rd NW). No phone found.',
   },
 ];
 

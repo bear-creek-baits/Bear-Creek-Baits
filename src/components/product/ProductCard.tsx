@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
 import { getColorway } from '@/data/colors';
-import { colorOption, formatPriceRange, isAvailable, sizeList } from '@/lib/catalog';
-import { SOFT_PLASTIC_MIN } from '@/data/products';
+import { colorOption, formatPriceRange, isAvailable, mainPhoto, sizeList } from '@/lib/catalog';
 import { ProductMedia } from './ProductMedia';
 import styles from './ProductCard.module.css';
 
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   const opt = colorOption(product);
   const colors = opt?.values ?? [];
-  const mainName = getColorway(product.mainColor)?.name;
+  // Only name the color when there's a photo of it.
+  const mainName = mainPhoto(product) ? getColorway(product.mainColor)?.name : undefined;
   const available = isAvailable(product);
   const href = `/products/${product.slug}/`;
 
@@ -37,12 +37,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         {sizeList(product) && <p className={styles.sizes}>{sizeList(product)}</p>}
         <p className={styles.price}>
           {formatPriceRange(product)}
-          {product.unit && (
-            <span className={styles.per}>
-              {' '}
-              / {product.unit} · {product.minQty ?? SOFT_PLASTIC_MIN} min
-            </span>
-          )}
+          <span className={styles.per}> / pack · bulk 50 or 100</span>
           {!available && <span className="visually-hidden"> — sold out</span>}
         </p>
 

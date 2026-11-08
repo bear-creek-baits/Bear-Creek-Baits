@@ -77,7 +77,7 @@ export function DealerFinder() {
             ? `Closest to ${origin!.zip}: ${nearest.dealer.name} in ${nearest.dealer.town}, about ${Math.round(nearest.miles!)} miles away.${
                 inMapBounds(origin!) ? '' : ' Your zip is off the map, so only the shops are shown.'
               }`
-            : `${dealers.length} shops around Pickwick Lake and the Shoals carry Bear Creek Baits.`}
+            : `${dealers.length} shops in Mississippi, Alabama and Tennessee carry Bear Creek Baits.`}
         </p>
       </div>
 
@@ -104,9 +104,11 @@ export function DealerFinder() {
                   </span>
                 </button>
                 <span className={styles.cardActions}>
-                  <a href={`tel:${d.phone.replace(/\D/g, '')}`} className={styles.phone}>
-                    {d.phone}
-                  </a>
+                  {d.phone && (
+                    <a href={`tel:${d.phone.replace(/\D/g, '')}`} className={styles.phone}>
+                      {d.phone}
+                    </a>
+                  )}
                   <a href={directionsUrl(d)} target="_blank" rel="noopener noreferrer" className={styles.directions}>
                     Directions <Icon name="arrow-right" size={16} />
                   </a>

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import type { Category, Product } from '@/lib/types';
-import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable, orderRules, resolveSelection, unitNote } from '@/lib/catalog';
+import { colorOption, defaultSelection, describeVariant, findVariant, formatPrice, isAvailable, orderRules, resolveSelection } from '@/lib/catalog';
 import { getColorway } from '@/data/colors';
 import { useCart } from '@/components/cart/CartProvider';
 import { ordering, orderingCopy, site } from '@/content/site';
@@ -112,7 +112,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
                 <strong>
                   #{chosenColor.n} {chosenColor.name}
                 </strong>
-                {chosenColor.id !== product.mainColor && (
+                {chosenColor.id !== product.mainColor && product.images.length > 0 && (
                   <span className={styles.colorNoteShown}>Photo shows the {product.title} in {getColorway(product.mainColor)?.name}.</span>
                 )}
               </p>
@@ -125,7 +125,9 @@ export function ProductDetail({ product, category }: { product: Product; categor
           <h1 className={styles.title}>{product.title}</h1>
           <div className={styles.priceRow}>
             <span className={styles.price}>{formatPrice(variant.price)}</span>
-            {unitNote(product) && <span className={styles.unitNote}>{unitNote(product)}</span>}
+            {variant.options.Pack && (
+              <span className={styles.unitNote}>{variant.options.Pack === 'Pack' ? 'per pack' : `for ${variant.options.Pack.replace('Bulk ', '')} of one color`}</span>
+            )}
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>
           <p className={styles.summary}>{product.summary}</p>

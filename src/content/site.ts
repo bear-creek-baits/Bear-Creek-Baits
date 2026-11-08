@@ -15,7 +15,11 @@ export const site = {
   /** PLACEHOLDER — production domain. Used for canonical URLs, sitemap and social cards. */
   url: 'https://bearcreekbaits.example',
 
-  /** PLACEHOLDER — no public email/phone/address supplied. Leave null to hide them in the UI. */
+  /**
+   * PLACEHOLDER — leave null to hide them in the UI. Steve wants customers to order direct by text
+   * or email (Nov 2026); the phone shows as "Text", not "Call". Waiting on the number and the exact
+   * email address.
+   */
   email: null as string | null,
   phone: null as string | null,
   address: null as string | null,
@@ -81,9 +85,9 @@ export const orderingCopy =
         added: 'Added to order',
         goToOrder: 'Send order request',
         orderHref: '/order/',
-        listNote: "Nothing is charged online. We'll confirm stock, your total and shipping before you pay.",
+        listNote: "Nothing is charged online. We'll confirm your total, with Mississippi sales tax and shipping, before you pay.",
         shippingNote:
-          "We'll confirm shipping when we reach out about your order. Nothing is charged online.",
+          "We'll confirm shipping and Mississippi sales tax when we reach out about your order. Nothing is charged online.",
       }
     : {
         listName: 'Cart',

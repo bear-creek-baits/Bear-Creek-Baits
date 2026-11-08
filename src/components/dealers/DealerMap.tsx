@@ -3,15 +3,15 @@ import type { Point } from '@/lib/geo';
 import styles from './Dealers.module.css';
 
 /**
- * Hand-drawn regional map of the Pickwick / Shoals area (where AL, MS and TN meet).
+ * Hand-drawn regional map of north Mississippi, north Alabama and west Tennessee, from the Delta to Decatur.
  * Drawn in SVG rather than loaded from a map service, so it works anywhere the site is hosted.
- * Geography is simplified to state lines and a few towns for reference. No water is drawn: a
- * hand-traced river and lake weren't accurate enough to show.
+ * Geography is simplified to state lines (the Mississippi River line is approximate) and a few
+ * towns for reference. No water is drawn.
  */
 
-const BOUNDS = { latMin: 34.22, latMax: 35.15, lonMin: -88.88, lonMax: -87.48 };
+const BOUNDS = { latMin: 32.85, latMax: 35.35, lonMin: -91.45, lonMax: -86.55 };
 const W = 640;
-const K = Math.cos((34.7 * Math.PI) / 180); // shrink longitude so distances look right at this latitude
+const K = Math.cos((34.1 * Math.PI) / 180); // shrink longitude so distances look right at this latitude
 const SCALE = W / ((BOUNDS.lonMax - BOUNDS.lonMin) * K);
 const H = Math.round((BOUNDS.latMax - BOUNDS.latMin) * SCALE);
 
@@ -29,20 +29,32 @@ const stateLines = [
     [34.995, BOUNDS.lonMin],
     [34.995, BOUNDS.lonMax],
   ]),
-  // Mississippi / Alabama line: down the Tennessee River, then nearly due south
+  // Mississippi / Alabama line: down the Tennessee River, then south, edging west
   path([
     [34.995, -88.2],
     [34.93, -88.15],
     [34.89, -88.1],
-    [BOUNDS.latMin, -88.15],
+    [34.0, -88.2],
+    [BOUNDS.latMin, -88.42],
+  ]),
+  // Mississippi River: Arkansas and Louisiana to the west
+  path([
+    [BOUNDS.latMax, -90.07],
+    [35.0, -90.2],
+    [34.53, -90.59],
+    [33.85, -91.05],
+    [33.4, -91.11],
+    [33.0, -91.17],
+    [BOUNDS.latMin, -91.14],
   ]),
 ];
 
 const towns: { name: string; lat: number; lon: number }[] = [
-  { name: 'Muscle Shoals', lat: 34.744, lon: -87.668 },
-  { name: 'Iuka', lat: 34.811, lon: -88.19 },
-  { name: 'Booneville', lat: 34.658, lon: -88.567 },
-  { name: 'Red Bay', lat: 34.44, lon: -88.141 },
+  { name: 'Memphis', lat: 35.149, lon: -90.049 },
+  { name: 'Oxford', lat: 34.366, lon: -89.519 },
+  { name: 'Greenville', lat: 33.41, lon: -91.06 },
+  { name: 'Columbus', lat: 33.496, lon: -88.427 },
+  { name: 'Birmingham', lat: 33.52, lon: -86.81 },
 ];
 
 interface Props {
@@ -58,7 +70,7 @@ export function DealerMap({ origin, selectedId, nearestId, onSelect }: Props) {
     const active = d.id === selectedId || (!selectedId && d.id === nearestId);
     const px = x(d.lon);
     const py = y(d.lat);
-    const labelLeft = px > W - 150;
+    const labelLeft = d.labelLeft || px > W - 150;
     return (
       <g
         key={d.id}
@@ -89,23 +101,26 @@ export function DealerMap({ origin, selectedId, nearestId, onSelect }: Props) {
   };
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className={styles.map} role="img" aria-label="Map of Bear Creek Baits dealers around Pickwick and the Shoals">
+    <svg viewBox={`0 0 ${W} ${H}`} className={styles.map} role="img" aria-label="Map of Bear Creek Baits dealers in Mississippi, Alabama and Tennessee">
       <rect width={W} height={H} className={styles.mapBg} />
       {stateLines.map((d, i) => (
         <path key={i} d={d} className={styles.stateLine} />
       ))}
-      <text x={x(-88.82)} y={y(35.09)} className={styles.stateLabel}>
+      <text x={x(-87.4)} y={y(35.2)} className={styles.stateLabel}>
         Tennessee
       </text>
-      <text x={x(-88.82)} y={y(34.5)} className={styles.stateLabel}>
+      <text x={x(-90.0)} y={y(33.75)} className={styles.stateLabel}>
         Mississippi
       </text>
-      <text x={x(-87.86)} y={y(34.3)} className={styles.stateLabel}>
+      <text x={x(-87.9)} y={y(33.15)} className={styles.stateLabel}>
         Alabama
+      </text>
+      <text x={x(-91.4)} y={y(34.3)} className={styles.stateLabel}>
+        Ark.
       </text>
 
       {towns.map((t) => {
-        // Label on the left of the dot near the right edge, so it isn't cut off (e.g. Muscle Shoals).
+        // Label on the left of the dot near the right edge, so it isn't cut off (e.g. Birmingham).
         const left = x(t.lon) > W - 110;
         return (
           <g key={t.name}>

@@ -24,7 +24,7 @@ const contactOptions = ['Email', 'Text message', 'Phone call'];
 
 function orderSummary(lines: ResolvedLine[], subtotal: number): string {
   const rows = lines.map((l) => `${l.quantity} × ${l.product.title} (${describeVariant(l.product, l.variant)}) @ ${formatPrice(l.variant.price)}`);
-  return [...rows, '', `Estimated subtotal: ${formatPrice(subtotal)} (before shipping)`].join('\n');
+  return [...rows, '', `Estimated subtotal: ${formatPrice(subtotal)} (before Mississippi sales tax and shipping)`].join('\n');
 }
 
 export function OrderRequestView() {
@@ -149,7 +149,7 @@ export function OrderRequestView() {
                 <ol className={styles.steps}>
                   <li>Send us your list. Nothing is charged online.</li>
                   <li>Anything not already poured goes on the pour list. We pour one or two colors at a time.</li>
-                  <li>We reach out to confirm your total, shipping and timing.</li>
+                  <li>We reach out to confirm your total (Mississippi sales tax plus shipping) and timing.</li>
                   <li>Once you say go, we pack it and send it your way.</li>
                 </ol>
 
@@ -261,6 +261,10 @@ export function OrderRequestView() {
             <dl>
               <div>
                 <dt>Shipping</dt>
+                <dd>We’ll confirm</dd>
+              </div>
+              <div>
+                <dt>MS sales tax</dt>
                 <dd>We’ll confirm</dd>
               </div>
               <div className={styles.sumTotal}>

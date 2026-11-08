@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
 import { colorways } from '@/data/colors';
-import { SOFT_PLASTIC_MIN } from '@/data/products';
+import { PACK_NOTE } from '@/data/products';
 import { ordering } from '@/content/site';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { ColorChip } from '@/components/product/ColorChip';
@@ -73,9 +73,9 @@ export function ShopView({ products }: { products: Product[] }) {
           <div>
             <h2 id="step-order">{ordering.mode === 'request' ? 'Send your order request' : 'Check out'}</h2>
             <p>
-              {SOFT_PLASTIC_MIN}-bait minimum for each size and color.{' '}
+              {PACK_NOTE}{' '}
               {ordering.mode === 'request'
-                ? 'Nothing is charged online: we confirm your total, shipping and timing before you pay.'
+                ? 'Nothing is charged online: we confirm your total with Mississippi sales tax and shipping, and the timing, before you pay.'
                 : 'Shipping and taxes are calculated at checkout.'}{' '}
               <Link href="/faq/">How ordering works</Link>
             </p>

@@ -44,11 +44,11 @@ export default function ContactPage() {
               </a>
             )}
             {site.phone && (
-              <a href={`tel:${site.phone}`} className={styles.contactLink}>
+              <a href={`sms:${site.phone.replace(/\D/g, '')}`} className={styles.contactLink}>
                 <span className={styles.contactIcon}>☎</span>
                 <span>
-                  <strong>Phone</strong>
-                  <span>{site.phone}</span>
+                  <strong>Text</strong>
+                  <span>{site.phone} · texts are best, please don’t call</span>
                 </span>
               </a>
             )}
