@@ -53,6 +53,14 @@ Each profile is shown in one **main color** (`mainColor` in `src/data/products.t
 
 Chart photos (`public/colors/`) are the small pictures on Steve's color chart. Colors without one show "Photo coming soon" on the chart. New chart colors go in `src/data/colors.ts`; every profile picks them up automatically, and the color counts update themselves.
 
+## Customer catches
+
+Catch photos live in `src/data/catches.ts` (web copies in `public/catches/`). They show on the **Customer Catches** page (`/catches/`, with a filter by profile), on each profile's page when the catch names that profile, and on the home page for the ones marked `home: true` (first four).
+
+To add one: `node scripts/catch-photo.mjs "<photo.jpg>" public/catches/<name>.webp` (turns it upright, shrinks it to 1400px and strips location data), then add an entry with the name, and optionally the profile, size, color and lake or state. Nothing goes up by itself.
+
+Customers send theirs from `/catches/submit/`: one or two photos, name, lake or state (optional), profile and size, color, optional email and notes, and a permission checkbox. Submissions go to `catchForm.endpoint` in `src/content/site.ts`, which must accept file uploads (Formspree's paid plan, Basin, or a small Cloudflare function that emails Steve). While it's `null`, the form works but nothing is delivered.
+
 ## Ordering (phase 1)
 
 Everything lives in the `ordering` block of `src/content/site.ts`:

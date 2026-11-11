@@ -1,0 +1,318 @@
+/* ================================================================ Grid of catches */
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.chip {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--ink);
+}
+.chip[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (min-width: 760px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+}
+.card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+.photoBtn {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--stone);
+  cursor: zoom-in;
+}
+.photoBtn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.3s var(--ease);
+}
+.photoBtn:hover img {
+  scale: 1.04;
+}
+.count {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(21, 22, 19, 0.8);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.caption {
+  display: grid;
+  gap: 2px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.caption strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+.bait {
+  color: var(--green-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.bait:hover {
+  text-decoration: underline;
+}
+.place {
+  font-size: 14px;
+}
+
+/* On dark sections */
+:global(.dark) .caption {
+  color: var(--muted-on-dark);
+}
+:global(.dark) .caption strong {
+  color: #fff;
+}
+:global(.dark) .bait {
+  color: var(--green);
+}
+:global(.dark) .photoBtn {
+  background: var(--ink-2);
+}
+
+/* ================================================================ Photo viewer */
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 56px max(16px, env(safe-area-inset-right)) 24px max(16px, env(safe-area-inset-left));
+  background: rgba(10, 11, 9, 0.92);
+}
+.viewerClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.viewerFig {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  max-width: 100%;
+}
+.viewerFig img {
+  display: block;
+  max-width: min(100%, 1000px);
+  max-height: calc(100dvh - 140px);
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+}
+.viewerFig figcaption {
+  color: #e9e8e2;
+  font-size: 16px;
+  text-align: center;
+}
+.viewerFig figcaption strong {
+  color: #fff;
+}
+.viewerNav {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: 12px;
+}
+.viewerNav button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.viewerNav button[aria-pressed='true'] {
+  background: #fff;
+  color: var(--ink);
+}
+
+/* ================================================================ Section around a grid */
+
+.sectionActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* ================================================================ Submission form */
+
+.formWrap {
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 960px) {
+  .formWrap {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    gap: 64px;
+    align-items: start;
+  }
+}
+.form {
+  display: grid;
+  gap: 20px;
+}
+.row {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.hint {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.drop {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 24px 16px;
+  border: 2px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  text-align: center;
+  cursor: pointer;
+}
+.drop:hover,
+.drop:focus-within {
+  border-color: var(--green-ink);
+}
+.drop input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.drop strong {
+  font-size: 17px;
+}
+.drop span {
+  font-size: 14px;
+  color: var(--muted);
+}
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.thumb {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--stone);
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(21, 22, 19, 0.85);
+  color: #fff;
+  cursor: pointer;
+}
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15px;
+}
+.check input {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex: none;
+  accent-color: var(--green-ink);
+}
+.aside {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bone);
+}
+.aside ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}

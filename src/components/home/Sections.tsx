@@ -11,6 +11,37 @@ import { dealers } from '@/data/dealers';
 import { DealerMap } from '@/components/dealers/DealerMap';
 import dealerStyles from '@/components/dealers/Dealers.module.css';
 import styles from './Home.module.css';
+import { homeCatches, toCards } from '@/data/catches';
+import { CatchGrid } from '@/components/catches/CatchGrid';
+import catchStyles from '@/components/catches/Catches.module.css';
+
+/* ------------------------------------------------------------------ Customer catches */
+
+export function CustomerCatches() {
+  const list = homeCatches();
+  if (!list.length) return null;
+  return (
+    <section className="section" aria-labelledby="catches-title">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Customer catches</p>
+            <h2 id="catches-title">Caught on Bear Creek</h2>
+          </div>
+          <Link href="/catches/" className="text-link">
+            See all catches <Icon name="arrow-right" size={18} />
+          </Link>
+        </div>
+        <CatchGrid catches={toCards(list)} />
+        <div className={catchStyles.sectionActions}>
+          <Link href="/catches/submit/" className="btn btn-outline">
+            <Icon name="camera" size={20} /> Send in your catch
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ------------------------------------------------------------------ Featured profiles */
 

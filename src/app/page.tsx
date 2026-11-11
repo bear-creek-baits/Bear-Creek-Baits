@@ -1,5 +1,5 @@
 import { Hero } from '@/components/home/Hero';
-import { Bench, ColorWall, Featured, FinalCta, LocalDealers, OrderSteps, TodaysPour } from '@/components/home/Sections';
+import { Bench, ColorWall, CustomerCatches, Featured, FinalCta, LocalDealers, OrderSteps, TodaysPour } from '@/components/home/Sections';
 import { site } from '@/content/site';
 
 export default function HomePage() {
@@ -15,6 +15,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <Hero />
       <Featured />
+      <CustomerCatches />
       <TodaysPour />
       <OrderSteps />
       <Bench />

@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contact/',
     '/faq/',
     '/dealers/',
+    '/catches/',
+    '/catches/submit/',
     ...(categories.length > 1 ? categories.map((c) => `/shop/${c.slug}/`) : []),
     ...getAllProducts().map((p) => `/products/${p.slug}/`),
   ].map((path) => ({ url: `${base}${path || '/'}` }));

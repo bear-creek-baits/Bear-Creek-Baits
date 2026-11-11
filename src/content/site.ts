@@ -76,6 +76,19 @@ export const ordering = {
   formEndpoint: null as string | null,
 };
 
+/**
+ * PLACEHOLDER — where "Send us your catch" submissions go (photos included). The service has to accept
+ * file uploads (Formspree on a paid plan, Basin, or a small Cloudflare function that emails Steve).
+ * While null, the form checks everything and shows the thank-you screen, but nothing is delivered.
+ * Submissions never go on the site by themselves: Steve adds the ones he likes to src/data/catches.ts.
+ */
+export const catchForm = {
+  endpoint: null as string | null,
+  /** Most photos a customer can attach, and the largest each may be. */
+  maxPhotos: 2,
+  maxMb: 10,
+};
+
 /** Wording that changes with the ordering mode, so the UI never says "checkout" when nothing is charged. */
 export const orderingCopy =
   ordering.mode === 'request'

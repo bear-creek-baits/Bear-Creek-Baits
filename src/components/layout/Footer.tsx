@@ -43,6 +43,9 @@ export function Footer() {
           <h2 className={styles.colTitle}>Bear Creek</h2>
           <ul>
             <li>
+              <Link href="/catches/">Customer catches</Link>
+            </li>
+            <li>
               <Link href="/dealers/">Find a dealer</Link>
             </li>
             <li>
