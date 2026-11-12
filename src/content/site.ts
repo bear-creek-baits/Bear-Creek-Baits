@@ -21,7 +21,7 @@ export const site = {
    * email address.
    */
   /** VERIFIED (Nov 2026) */
-  email: 'bcb2024@mail.com' as string | null,
+  email: 'steve.green@bearcreekbaits.com' as string | null,
   phone: null as string | null,
   address: null as string | null,
 
