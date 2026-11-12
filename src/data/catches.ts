@@ -48,6 +48,7 @@ export const catches: Catch[] = [
   {
     id: 'steve-evans-swim-bait',
     name: 'Steve Evans',
+    place: 'Pickwick Lake',
     product: 'swim-bait',
     color: 'junebug',
     photos: [photo('steve-evans-swim-bait', 1050, 1400)],
@@ -56,6 +57,7 @@ export const catches: Catch[] = [
   {
     id: 'laurence-harrell-swim-bait',
     name: 'Laurence Harrell',
+    place: 'Pickwick Lake',
     product: 'swim-bait',
     color: 'junebug',
     photos: [photo('laurence-harrell-swim-bait', 1050, 1400)],
@@ -64,6 +66,7 @@ export const catches: Catch[] = [
   {
     id: 'jon-shotts',
     name: 'Jon Shotts',
+    place: 'Little Bear',
     product: 'flicker-minnow',
     size: '1.5"',
     color: 'delta-shad',
@@ -75,13 +78,13 @@ export const catches: Catch[] = [
     name: 'James Callaway',
     product: 'curly-tail',
     size: '2.2"',
-    color: 'Pepto Pink',
+    color: 'special-pink',
     photos: [photo('james-callaway', 1050, 1400)],
     home: true,
   },
   { id: 'roger-and-billy-don', name: 'Roger and Billy Don', photos: [photo('roger-and-billy-don', 945, 945)] },
-  { id: 'steve-evans', name: 'Steve Evans', photos: [photo('steve-evans', 1050, 1400)] },
-  { id: 'laurence-harrell', name: 'Laurence Harrell', photos: [photo('laurence-harrell', 1050, 1400)] },
+  { id: 'steve-evans', name: 'Steve Evans', place: 'Pickwick Lake', photos: [photo('steve-evans', 1050, 1400)] },
+  { id: 'laurence-harrell', name: 'Laurence Harrell', place: 'Pickwick Lake', photos: [photo('laurence-harrell', 1050, 1400)] },
   { id: 'eric-and-tonya', name: 'Eric and Tonya', photos: [photo('eric-and-tonya', 663, 1089)] },
 ];
 
