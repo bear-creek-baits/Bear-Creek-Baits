@@ -26,7 +26,7 @@ export function CustomerCatches() {
         <div className="section-head">
           <div>
             <p className="eyebrow">Customer catches</p>
-            <h2 id="catches-title">Caught on Bear Creek</h2>
+            <h2 id="catches-title">Caught on Bear Creek Baits</h2>
           </div>
           <Link href="/catches/" className="text-link">
             See all catches <Icon name="arrow-right" size={18} />

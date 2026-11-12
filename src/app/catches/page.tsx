@@ -16,7 +16,7 @@ export default function CatchesPage() {
     <>
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Caught on Bear Creek</p>
+          <p className="eyebrow">Caught on Bear Creek Baits</p>
           <h1>Customer Catches</h1>
           <p>Slabs caught on Bear Creek Baits, sent in by the folks who caught them. Got one? Send it in and it might end up here.</p>
           <p style={{ marginTop: 20 }}>
