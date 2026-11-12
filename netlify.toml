@@ -1,0 +1,22 @@
+# Netlify build settings. The site is a static export (next.config.ts: output 'export'), so
+# Netlify just runs the build and serves the out/ folder. No server or Next.js runtime is needed.
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Built JS/CSS file names change on every build, so they can be cached forever.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
