@@ -7,13 +7,14 @@ import { ProductMedia } from '@/components/product/ProductMedia';
 import { Icon } from '@/components/ui/Icon';
 import { brand, ordering, site } from '@/content/site';
 import { describeVariant, formatPrice, orderRules } from '@/lib/catalog';
+import { sendForm } from '@/lib/forms';
 import styles from '../pages.module.css';
 
 /**
  * Phase 1 ordering: the customer sends their list as a request. Nothing is charged here.
  * Steve confirms stock, total and shipping, then takes payment the way he does today.
  *
- * Requests are POSTed to `ordering.formEndpoint` (Formspree or any form service). While that is null,
+ * Requests are sent to Netlify Forms (`ordering.formEndpoint`, form "order"). While that is null,
  * the form validates and confirms but nothing is delivered.
  */
 
@@ -101,13 +102,11 @@ export function OrderRequestView() {
     if (short.length) return;
 
     data.set('order', orderSummary(lines, subtotal));
-    data.set('_subject', `Order request from ${val('name')}`);
 
     if (ordering.formEndpoint) {
       setStatus('sending');
       try {
-        const res = await fetch(ordering.formEndpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-        if (!res.ok) throw new Error(String(res.status));
+        await sendForm(ordering.formEndpoint, 'order', data);
       } catch {
         setStatus('failed');
         return;

@@ -46,6 +46,15 @@ export const prototypeNotice = 'Preview site · Not taking orders yet';
  */
 export type OrderingMode = 'request' | 'shopify';
 
+/**
+ * Where the order, contact and catch forms are sent: Netlify Forms, which emails each submission
+ * (set the address under Forms → Form notifications in Netlify). The forms Netlify looks for are
+ * defined in public/__forms.html. The value comes from netlify.toml, so it is only set on Netlify:
+ * on a local build or the claude.ai preview it is null, and the forms check everything and show the
+ * thank-you screen, but nothing is delivered.
+ */
+const formEndpoint: string | null = process.env.NEXT_PUBLIC_FORM_ENDPOINT || null;
+
 export const ordering = {
   /**
    * 'request' — Phase 1. Customers build an order list and send it as a request.
@@ -67,27 +76,23 @@ export const ordering = {
   /** Shown in the site-wide banner and on the order page while `open` is false. */
   pausedMessage: 'Orders are paused while we catch up. Browse all you want; we’ll open back up soon.',
 
-  /**
-   * PLACEHOLDER — where order requests are sent. Any service that accepts a form POST works
-   * (Formspree, Basin, Netlify Forms, a Google Apps Script, Shopify Forms...). Formspree, for
-   * example, gives you a URL like 'https://formspree.io/f/abcdwxyz' and emails each request to Steve.
-   * While null, the form validates and shows the thank-you screen but nothing is delivered.
-   */
-  formEndpoint: null as string | null,
+  /** Where order requests are sent (see `formEndpoint` below). */
+  formEndpoint,
 };
 
 /**
- * PLACEHOLDER — where "Send us your catch" submissions go (photos included). The service has to accept
- * file uploads (Formspree on a paid plan, Basin, or a small Cloudflare function that emails Steve).
- * While null, the form checks everything and shows the thank-you screen, but nothing is delivered.
- * Submissions never go on the site by themselves: Steve adds the ones he likes to src/data/catches.ts.
+ * Catch submissions (photos included) go to the same Netlify Forms endpoint. Photos are shrunk in the
+ * browser before sending (Netlify takes about 8 MB per submission). Submissions never go on the site
+ * by themselves: Steve adds the ones he likes to src/data/catches.ts.
  */
 export const catchForm = {
-  endpoint: null as string | null,
-  /** Most photos a customer can attach, and the largest each may be. */
+  endpoint: formEndpoint,
+  /** Most photos a customer can attach, and the largest each may be before shrinking. */
   maxPhotos: 2,
-  maxMb: 10,
+  maxMb: 25,
 };
+
+export const contactForm = { endpoint: formEndpoint };
 
 /** Wording that changes with the ordering mode, so the UI never says "checkout" when nothing is charged. */
 export const orderingCopy =

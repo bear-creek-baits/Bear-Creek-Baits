@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { catchForm } from '@/content/site';
+import { sendForm, shrinkPhoto } from '@/lib/forms';
 import { Icon } from '@/components/ui/Icon';
 import styles from '@/components/catches/Catches.module.css';
 
@@ -15,10 +16,12 @@ type Field = 'name' | 'email' | 'photos' | 'ok';
 type Errors = Partial<Record<Field, string>>;
 
 const NOT_SURE = '';
+/** Netlify Forms takes about 8 MB per submission; leave room for the text fields. */
+const MAX_UPLOAD = 7.5 * 1024 * 1024;
 
 /**
  * "Send in your catch": name, email (optional), lake or state (optional), profile and size, color,
- * one or two photos, and permission to post. Sends multipart form data to `catchForm.endpoint`.
+ * one or two photos, and permission to post. Sends to Netlify Forms (form "catch") as multipart data.
  */
 export function CatchForm({ profiles, colors }: Props) {
   const [errors, setErrors] = useState<Errors>({});
@@ -91,8 +94,9 @@ export function CatchForm({ profiles, colors }: Props) {
       form.querySelector<HTMLElement>(first === 'photos' ? '#photos' : `[name="${first}"]`)?.focus();
       return;
     }
+    // Honeypot: real people never fill this hidden field.
+    if (String(data.get('_gotcha') ?? '')) return;
     data.delete('photos');
-    files.forEach((f, i) => data.append(`photo${i + 1}`, f, f.name));
     const p = profiles.find((x) => x.slug === profile);
     data.set('profile', p ? p.title : 'Not sure');
     if (!catchForm.endpoint) {
@@ -100,9 +104,17 @@ export function CatchForm({ profiles, colors }: Props) {
       return;
     }
     setStatus('sending');
+    // Shrink photos in the browser (smaller upload, no GPS or camera details), then check the total fits.
+    const photos = await Promise.all(files.map((f) => shrinkPhoto(f)));
+    if (photos.reduce((n, f) => n + f.size, 0) > MAX_UPLOAD) {
+      setStatus('idle');
+      setErrors({ photos: 'Those photos are too big to send. Try a smaller copy, or send them to us on Facebook.' });
+      return;
+    }
+    photos.forEach((f, i) => data.append(`photo${i + 1}`, f, f.name));
     try {
-      const res = await fetch(catchForm.endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-      setStatus(res.ok ? 'sent' : 'failed');
+      await sendForm(catchForm.endpoint, 'catch', data);
+      setStatus('sent');
     } catch {
       setStatus('failed');
     }
@@ -229,6 +241,7 @@ export function CatchForm({ profiles, colors }: Props) {
         {err('ok')}
       </div>
 
+      <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" className="visually-hidden" aria-hidden="true" />
       {status === 'failed' && (
         <p className="field-error" role="alert">
           That didn’t go through. Try again, or send the photos to us on Facebook.

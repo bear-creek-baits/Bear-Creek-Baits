@@ -7,6 +7,8 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # The order, contact and catch forms post here (Netlify Forms; definitions in public/__forms.html).
+  NEXT_PUBLIC_FORM_ENDPOINT = "/__forms.html"
 
 # Built JS/CSS file names change on every build, so they can be cached forever.
 [[headers]]
