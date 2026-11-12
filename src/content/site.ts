@@ -12,8 +12,8 @@ export const site = {
   /** VERIFIED (from the brief): what the business sells. */
   tagline: 'Crappie soft plastics',
 
-  /** PLACEHOLDER — production domain. Used for canonical URLs, sitemap and social cards. */
-  url: 'https://bearcreekbaits.example',
+  /** VERIFIED (Nov 2026) — production domain. Used for canonical URLs, sitemap and social cards. */
+  url: 'https://bearcreekbaits.com',
 
   /**
    * PLACEHOLDER — leave null to hide them in the UI. Steve wants customers to order direct by text
