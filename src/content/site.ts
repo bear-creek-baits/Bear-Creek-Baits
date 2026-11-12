@@ -81,12 +81,13 @@ export const ordering = {
 };
 
 /**
- * Catch submissions (photos included) go to the same Netlify Forms endpoint. Photos are shrunk in the
- * browser before sending (Netlify takes about 8 MB per submission). Submissions never go on the site
- * by themselves: Steve adds the ones he likes to src/data/catches.ts.
+ * Catch submissions go to the catch approval function (netlify/functions/catch-submit.ts), which emails
+ * Steve the photos with Approve / Reject. Nothing goes on the site until he approves it. Photos are shrunk
+ * in the browser before sending (Netlify functions take about 6 MB per request). Set in netlify.toml,
+ * so it is null (nothing delivered) on local builds and the claude.ai preview.
  */
 export const catchForm = {
-  endpoint: formEndpoint,
+  endpoint: (process.env.NEXT_PUBLIC_CATCH_ENDPOINT || null) as string | null,
   /** Most photos a customer can attach, and the largest each may be before shrinking. */
   maxPhotos: 2,
   maxMb: 25,

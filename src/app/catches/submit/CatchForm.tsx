@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { catchForm } from '@/content/site';
-import { sendForm, shrinkPhoto } from '@/lib/forms';
+import { shrinkPhoto } from '@/lib/forms';
 import { Icon } from '@/components/ui/Icon';
 import styles from '@/components/catches/Catches.module.css';
 
@@ -16,12 +16,13 @@ type Field = 'name' | 'email' | 'photos' | 'ok';
 type Errors = Partial<Record<Field, string>>;
 
 const NOT_SURE = '';
-/** Netlify Forms takes about 8 MB per submission; leave room for the text fields. */
-const MAX_UPLOAD = 7.5 * 1024 * 1024;
+/** The catch function takes about 6 MB per request; leave room for the text fields. */
+const MAX_UPLOAD = 5 * 1024 * 1024;
 
 /**
  * "Send in your catch": name, email (optional), lake or state (optional), profile and size, color,
- * one or two photos, and permission to post. Sends to Netlify Forms (form "catch") as multipart data.
+ * one or two photos, and permission to post. Sends multipart data to the catch approval function
+ * (`catchForm.endpoint`), which emails Steve the photos to approve or reject.
  */
 export function CatchForm({ profiles, colors }: Props) {
   const [errors, setErrors] = useState<Errors>({});
@@ -104,17 +105,22 @@ export function CatchForm({ profiles, colors }: Props) {
       return;
     }
     setStatus('sending');
-    // Shrink photos in the browser (smaller upload, no GPS or camera details), then check the total fits.
-    const photos = await Promise.all(files.map((f) => shrinkPhoto(f)));
-    if (photos.reduce((n, f) => n + f.size, 0) > MAX_UPLOAD) {
+    // Shrink photos in the browser (smaller upload, no GPS or camera details), then check they'll go through.
+    const photos = await Promise.all(files.map((f) => shrinkPhoto(f, 1600)));
+    const unreadable = photos.some((f) => !/^image\/(jpeg|png|webp)$/.test(f.type));
+    if (unreadable || photos.reduce((n, f) => n + f.size, 0) > MAX_UPLOAD) {
       setStatus('idle');
-      setErrors({ photos: 'Those photos are too big to send. Try a smaller copy, or send them to us on Facebook.' });
+      setErrors({
+        photos: unreadable
+          ? 'We couldn’t read that photo. Try a JPG, or take a screenshot of it and send that.'
+          : 'Those photos are too big to send. Try a smaller copy, or send them to us on Facebook.',
+      });
       return;
     }
     photos.forEach((f, i) => data.append(`photo${i + 1}`, f, f.name));
     try {
-      await sendForm(catchForm.endpoint, 'catch', data);
-      setStatus('sent');
+      const res = await fetch(catchForm.endpoint, { method: 'POST', body: data });
+      setStatus(res.ok ? 'sent' : 'failed');
     } catch {
       setStatus('failed');
     }
@@ -214,9 +220,11 @@ export function CatchForm({ profiles, colors }: Props) {
         <select id="color" name="color" className="input" defaultValue="">
           <option value="">Not sure</option>
           {colors.map((c) => (
-            <option key={c.id}>{c.label}</option>
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
           ))}
-          <option>Not on the chart (tell us below)</option>
+          <option value="other">Not on the chart (tell us below)</option>
         </select>
       </div>
 

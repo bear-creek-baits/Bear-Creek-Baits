@@ -1,9 +1,9 @@
 <!doctype html>
 <!--
   Netlify Forms reads these at deploy time to learn each form's name and fields. Nobody sees this page:
-  the real forms are the React ones on /order/, /contact/ and /catches/submit/, which post here
-  (see src/lib/forms.ts). A field missing from this file is dropped from submissions, so add any new
-  field here too.
+  the real forms are the React ones on /order/ and /contact/, which post here (see src/lib/forms.ts).
+  A field missing from this file is dropped from submissions, so add any new field here too.
+  Catch photos don't use Netlify Forms: they go to the catch approval function (netlify/functions/catch-submit.ts).
 -->
 <html lang="en">
   <head>
@@ -28,21 +28,6 @@
       <input name="email" type="email" />
       <input name="topic" />
       <textarea name="message"></textarea>
-      <input name="_gotcha" />
-    </form>
-
-    <form name="catch" data-netlify="true" netlify-honeypot="_gotcha" enctype="multipart/form-data" hidden>
-      <input name="photo1" type="file" />
-      <input name="photo2" type="file" />
-      <input name="name" />
-      <input name="place" />
-      <input name="profile" />
-      <input name="profileSlug" />
-      <input name="size" />
-      <input name="color" />
-      <input name="email" type="email" />
-      <input name="notes" />
-      <input name="ok" />
       <input name="_gotcha" />
     </form>
   </body>

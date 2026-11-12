@@ -59,7 +59,27 @@ Catch photos live in `src/data/catches.ts` (web copies in `public/catches/`). Th
 
 To add one: `node scripts/catch-photo.mjs "<photo.jpg>" public/catches/<name>.webp` (turns it upright, shrinks it to 1400px and strips location data), then add an entry with the name, and optionally the profile, size, color and lake or state. Nothing goes up by itself.
 
-Customers send theirs from `/catches/submit/`: one or two photos, name, lake or state (optional), profile and size, color, optional email and notes, and a permission checkbox. Submissions go to `catchForm.endpoint` in `src/content/site.ts`, which must accept file uploads (Formspree's paid plan, Basin, or a small Cloudflare function that emails Steve). While it's `null`, the form works but nothing is delivered.
+Customers send theirs from `/catches/submit/`: one or two photos, name, lake or state (optional), profile and size, color, optional email and notes, and a permission checkbox. The browser shrinks each photo to 1600px (dropping GPS and camera details) before sending.
+
+### Catch approvals
+
+Submissions go to Netlify Functions in `netlify/functions/` (shared code in `netlify/lib/catches.ts`):
+
+1. **`/api/catch`** saves the catch (Netlify Blobs) and emails the reviewer the photos as attachments, with a **Review** button.
+2. **`/api/catch/review`** is the review page. Fix the name, lake, bait, size or color, tick "home page" if wanted, then **Approve** (goes up overnight), **Approve and post now**, or **Reject** (deleted). Opening the page changes nothing; only the buttons do. Links are signed, so they can't be guessed.
+3. **`catch-publish`** runs nightly (08:00 UTC). It commits every approved catch to GitHub in one commit: photos into `public/catches/` and details into `src/data/catches-approved.json`, newest first. Netlify rebuilds from that commit. Approved catches show before the hand-picked ones in `catches.ts`. Edit or remove them in the JSON like any other entry.
+
+Settings, in Netlify → Project configuration → Environment variables (scope: Functions):
+
+| Variable | What |
+| --- | --- |
+| `RESEND_API_KEY` | Sends the review emails ([resend.com](https://resend.com), free plan) |
+| `CATCH_FROM` | Sender, e.g. `Bear Creek Baits <catches@bearcreekbaits.com>`. The domain must be verified in Resend. |
+| `CATCH_REVIEW_TO` | Who gets the review emails. Use commas for more than one. |
+| `CATCH_SECRET` | Any long random text (32+ characters). Signs the review links. Changing it breaks links already sent. |
+| `GITHUB_TOKEN` | Fine-grained GitHub token: repo `bear-creek-baits/Bear-Creek-Baits`, permission **Contents: Read and write** |
+
+Local and preview builds leave `catchForm.endpoint` empty (it's set in `netlify.toml`), so the form works there but nothing is sent. `tools/fntest/run.mjs` (outside the repo) tests the functions against fake storage, GitHub and email.
 
 ## Ordering (phase 1)
 

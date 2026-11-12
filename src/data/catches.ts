@@ -1,14 +1,19 @@
 import { getColorway } from './colors';
 import { products } from './products';
+import approvedCatches from './catches-approved.json';
 
 /**
  * ==========================================================================
  *  CUSTOMER CATCHES
  * ==========================================================================
  * Photos customers sent in (first ones came from the Bear Creek Baits Facebook page, Nov 2026).
- * Nothing here is automatic: Steve picks which catches go up.
+ * Nothing goes up by itself: Steve picks which catches go up.
  *
- * To add one:
+ * Catches sent through the website's form are added automatically once Steve approves them on the
+ * review page (see netlify/lib/catches.ts). They land in catches-approved.json, newest first, and show
+ * before the hand-picked ones below. Edit or delete them there like any other entry.
+ *
+ * To add one by hand:
  *   1. Make a web copy of the photo: `node scripts/catch-photo.mjs "<photo.jpg>" public/catches/<name>.webp`
  *      (it turns the photo upright, shrinks it and strips location data).
  *   2. Add an entry below, newest first. `photos` takes one or two photos with the [width, height]
@@ -44,7 +49,8 @@ export interface Catch {
 
 const photo = (file: string, width: number, height: number): CatchPhoto => ({ src: `/catches/${file}.webp`, width, height });
 
-export const catches: Catch[] = [
+/** Hand-picked catches (the first ones came from Facebook). */
+const handPicked: Catch[] = [
   {
     id: 'steve-evans-swim-bait',
     name: 'Steve Evans',
@@ -87,6 +93,9 @@ export const catches: Catch[] = [
   { id: 'laurence-harrell', name: 'Laurence Harrell', place: 'Pickwick Lake', photos: [photo('laurence-harrell', 1050, 1400)] },
   { id: 'eric-and-tonya', name: 'Eric and Tonya', photos: [photo('eric-and-tonya', 663, 1089)] },
 ];
+
+/** Approved website submissions first (newest first), then the hand-picked ones. */
+export const catches: Catch[] = [...(approvedCatches as Catch[]), ...handPicked];
 
 export const homeCatches = () => catches.filter((c) => c.home).slice(0, 4);
 

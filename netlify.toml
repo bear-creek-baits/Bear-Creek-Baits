@@ -9,6 +9,12 @@
   NODE_VERSION = "24"
   # The order, contact and catch forms post here (Netlify Forms; definitions in public/__forms.html).
   NEXT_PUBLIC_FORM_ENDPOINT = "/__forms.html"
+  # Catch photos go to the approval function instead (netlify/functions/catch-submit.ts).
+  NEXT_PUBLIC_CATCH_ENDPOINT = "/api/catch"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 # Built JS/CSS file names change on every build, so they can be cached forever.
 [[headers]]
