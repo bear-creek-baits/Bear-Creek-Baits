@@ -88,7 +88,6 @@ export const products: Product[] = [
     perPack: 10,
     title: 'Swim Bait',
     category: 'soft-plastics',
-    badge: 'New',
     featured: true,
     summary: 'Paddle-tail swim bait in four sizes, from the new 1.5" up to 2.5".',
     description: [
@@ -133,12 +132,14 @@ export const products: Product[] = [
     title: 'Crappie Crusher',
     category: 'soft-plastics',
     featured: true,
-    summary: 'Ribbed body with a long, thin tail that quivers on the fall.',
-    description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick.'],
+    summary: 'The Crappie Slayer body with a split tail.',
+    description: [
+      'Same ribbed body as the Crappie Slayer, but the tail splits into two thin tips at the end. The tips flutter apart on the fall and kick on a slow swim.',
+    ],
     details: ['Size: 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['2"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 860] }),
     price: packPrice,
   }),
   build({
@@ -160,7 +161,6 @@ export const products: Product[] = [
     perPack: 12,
     title: 'Double Curly Tail',
     category: 'soft-plastics',
-    badge: 'New',
     featured: true,
     summary: 'Two curly tails on a ribbed body for twice the kick.',
     description: [
@@ -177,7 +177,6 @@ export const products: Product[] = [
     perPack: 12,
     title: 'Triple Tail',
     category: 'soft-plastics',
-    badge: 'New',
     featured: true,
     summary: 'Ribbed body with three curly tails, the most action of any profile.',
     description: ['A ribbed body with three curly tails that all move on the fall and on a slow swim. The most tail action of any profile.'],
@@ -192,15 +191,14 @@ export const products: Product[] = [
     perPack: 12,
     title: 'Crappie Slayer',
     category: 'soft-plastics',
-    badge: 'New',
     featured: true,
-    summary: 'The Crappie Slayer, poured in 1.2" and 2".',
-    // DRAFT: no photo or description from Steve yet.
-    description: ['Poured in 1.2" and 2", in any color on the chart.'],
+    summary: 'Ribbed body with a long, thin tail that quivers on the fall.',
+    description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick. Poured in 1.2" and 2".'],
     details: ['Sizes: 1.2" and 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.2"', '2"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
-    photos: {},
+    // Same side profile as the Crappie Crusher (only the tail differs), so it shares that photo.
+    photos: photos('crappie-slayer', 'Crappie Slayer', { 'blue-treuse': [1600, 395] }),
     price: packPrice,
   }),
 ];

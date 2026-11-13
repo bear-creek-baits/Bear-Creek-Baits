@@ -127,7 +127,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
               </span>
               {sampleShown && !isCurlyTail && (
                 <span className={styles.colorNoteSub}>
-                  The big photo shows the {product.title}{mainColor ? ` in ${mainColor.name}` : ''}. The small one shows your color on a Curly Tail.
+                  The big photo shows the {product.title}{mainColor ? ` in ${mainColor.name}` : ''}. The small box labeled #{chosenColor.n} {chosenColor.name} shows your color on a Curly Tail.
                   Every profile comes in every color.
                 </span>
               )}
