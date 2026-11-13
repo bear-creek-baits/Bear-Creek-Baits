@@ -103,3 +103,13 @@
   color: var(--green);
   font-variant-numeric: tabular-nums;
 }
+
+/* iPhone Safari can mis-size percentage heights inside aspect-ratio boxes after a rotation, which crops
+   the image. Positioning the image to fill its box avoids that. */
+.colorArt {
+  position: relative;
+}
+.colorArt > * {
+  position: absolute;
+  inset: 0;
+}

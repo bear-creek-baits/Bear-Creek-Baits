@@ -360,3 +360,30 @@
     bottom: auto;
   }
 }
+
+/* iPhone Safari can mis-size percentage heights inside aspect-ratio boxes after a rotation, which crops
+   the image. Positioning the image to fill its box avoids that. */
+.sampleChip {
+  position: relative;
+  padding: 0;
+}
+.sampleChip > *,
+.detail .sampleChip img {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 8px);
+}
+/* A phone turned sideways: keep the photo shorter than the screen instead of a full-width square. */
+@media (orientation: landscape) and (max-height: 540px) {
+  .mainImage {
+    width: 78svh;
+    height: 78svh;
+    margin-inline: auto;
+    border-radius: var(--radius-lg);
+  }
+  .sample {
+    width: 37%;
+  }
+}
