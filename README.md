@@ -79,6 +79,10 @@ Settings, in Netlify → Project configuration → Environment variables (scope:
 | `CATCH_SECRET` | Any long random text (32+ characters). Signs the review links. Changing it breaks links already sent. |
 | `GITHUB_TOKEN` | Fine-grained GitHub token: repo `bear-creek-baits/Bear-Creek-Baits`, permission **Contents: Read and write** |
 
+### Order and contact alerts
+
+Order requests and contact messages are saved in Netlify Forms (form definitions in `public/__forms.html`). After each one that passes Netlify's spam filter, `netlify/functions/submission-created.ts` emails the details through Resend with Reply-To set to the customer, so replying answers them directly. It uses the same `RESEND_API_KEY` and `CATCH_FROM`, and sends to `FORMS_NOTIFY_TO` (comma-separated) if set, otherwise to `CATCH_REVIEW_TO`. Submissions marked as spam send nothing: check Netlify → Forms → Spam now and then.
+
 Local and preview builds leave `catchForm.endpoint` empty (it's set in `netlify.toml`), so the form works there but nothing is sent. `tools/fntest/run.mjs` (outside the repo) tests the functions against fake storage, GitHub and email.
 
 ## Ordering (phase 1)

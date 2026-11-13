@@ -181,9 +181,10 @@ export function inspectPhoto(data: Uint8Array): { ext: string; type: string; wid
 export const esc = (s: unknown) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
-export async function sendEmail(msg: { subject: string; html: string; text: string; replyTo?: string; attachments?: { filename: string; content: string }[] }) {
+/** Sends through Resend. Goes to `to` (comma-separated) when given, otherwise to CATCH_REVIEW_TO. */
+export async function sendEmail(msg: { subject: string; html: string; text: string; to?: string; replyTo?: string; attachments?: { filename: string; content: string }[] }) {
   const key = process.env.RESEND_API_KEY;
-  const to = (process.env.CATCH_REVIEW_TO || '').split(',').map((s) => s.trim()).filter(Boolean);
+  const to = (msg.to || process.env.CATCH_REVIEW_TO || '').split(',').map((s) => s.trim()).filter(Boolean);
   if (!key || !to.length) throw new Error('RESEND_API_KEY or CATCH_REVIEW_TO is not set');
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
