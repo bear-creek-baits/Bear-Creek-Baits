@@ -18,6 +18,9 @@ interface Props {
  * the options chosen above them are hidden.
  */
 export function VariantPicker({ product, selected, onChange }: Props) {
+  // "Pack of 10" (or 12) instead of just "Pack", so the button says how many baits you get.
+  const labelFor = (name: string, display: string, value: string) =>
+    name === 'Pack' && value === 'Pack' ? `Pack of ${product.perPack}` : optionValueLabel(display, value);
   const isValueAvailable = (name: string, value: string) =>
     product.variants.some(
       (v) => v.available && v.options[name] === value && product.options.every((o) => o.name === name || v.options[o.name] === selected[o.name]),
@@ -37,7 +40,7 @@ export function VariantPicker({ product, selected, onChange }: Props) {
         return (
           <fieldset key={opt.name} className={styles.group}>
             <legend className={styles.legend} id={groupId}>
-              <span className={styles.name}>{opt.name}:</span> <span className={styles.value}>{optionValueLabel(opt.display, current)}</span>
+              <span className={styles.name}>{opt.name}:</span> <span className={styles.value}>{labelFor(opt.name, opt.display, current)}</span>
               {!isValueAvailable(opt.name, current) && <span className={styles.so}>Sold out</span>}
             </legend>
             {opt.display === 'swatch' ? (
@@ -47,7 +50,7 @@ export function VariantPicker({ product, selected, onChange }: Props) {
                 {values.map((value) => {
                   const isSel = value === current;
                   const avail = isValueAvailable(opt.name, value);
-                  const label = optionValueLabel(opt.display, value);
+                  const label = labelFor(opt.name, opt.display, value);
                   return (
                     <button
                       key={value}
