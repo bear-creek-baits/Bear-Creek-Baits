@@ -98,7 +98,7 @@ export function SearchPanel({ open, onClose }: { open: boolean; onClose: () => v
                     <li key={p.slug}>
                       <Link href={`/products/${p.slug}/`} className={styles.result} onClick={onClose}>
                         <span className={styles.thumb}>
-                          <ProductMedia product={p} labelled={false} />
+                          <ProductMedia product={p} labelled={false} thumb />
                         </span>
                         <span>
                           <span className={styles.rTitle}>{p.title}</span>

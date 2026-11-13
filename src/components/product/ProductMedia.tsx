@@ -14,6 +14,8 @@ interface Props {
   labelled?: boolean;
   sizes?: string;
   priority?: boolean;
+  /** Small thumbnail: uses the product's detail.thumb photo when it has one (e.g. the Crusher seen from above, split tail showing). */
+  thumb?: boolean;
 }
 
 /**
@@ -23,8 +25,10 @@ interface Props {
  * iOS Safari draws it in tiles on scaled or rotated images and leaves visible seams.
  * A profile not yet photographed in its main color shows the chart's "photo coming soon" box.
  */
-export function ProductMedia({ product, className, labelled = true, priority }: Props) {
-  const photo = mainPhoto(product);
+export function ProductMedia({ product, className, labelled = true, priority, thumb }: Props) {
+  const t = thumb ? product.detail?.thumb : undefined;
+  const main = mainPhoto(product);
+  const photo = t && main ? { ...main, ...t } : main;
   if (!photo) return <PhotoComingSoon className={className} label={labelled ? `${product.title}: photo coming soon` : undefined} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element

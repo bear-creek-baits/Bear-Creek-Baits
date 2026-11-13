@@ -104,7 +104,15 @@ export interface Product {
    */
   images: ProductImage[];
   /** A close-up shown in the top-right corner of the product photo (e.g. the Crappie Crusher's split tail). */
-  detail?: { src: string; alt: string; label: string; width: number; height: number };
+  detail?: {
+    src: string;
+    alt: string;
+    label: string;
+    width: number;
+    height: number;
+    /** Whole-bait photo used instead of the main photo in small thumbnails (menu, search, order list), where a corner close-up would be too small to read. */
+    thumb?: { src: string; width: number; height: number };
+  };
   /** Baits in one pack (Steve, Nov 2026: 10 for Swim Bait and Curly Tail, 12 for the rest). */
   perPack: number;
   badge?: 'New' | 'Seasonal';

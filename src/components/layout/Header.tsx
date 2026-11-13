@@ -9,6 +9,7 @@ import { asset } from '@/lib/asset';
 import { useCart } from '@/components/cart/CartProvider';
 import { Icon } from '@/components/ui/Icon';
 import { BaitPhoto } from '@/components/product/BaitPhoto';
+import { ProductMedia } from '@/components/product/ProductMedia';
 import { SearchPanel } from './SearchPanel';
 import { useDialog } from './useDialog';
 import styles from './Header.module.css';
@@ -153,7 +154,7 @@ export function Header() {
               <li key={p.slug}>
                 <Link href={`/products/${p.slug}/`}>
                   <span className={styles.drawerThumb}>
-                    <BaitPhoto product={p.slug} color={p.mainColor} angle={-20} />
+                    {p.detail?.thumb ? <ProductMedia product={p} labelled={false} thumb /> : <BaitPhoto product={p.slug} color={p.mainColor} angle={-20} />}
                   </span>
                   <span>{p.title}</span>
                   <Icon name="chevron-right" size={20} className={styles.chev} />

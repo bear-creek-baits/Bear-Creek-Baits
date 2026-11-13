@@ -141,7 +141,7 @@ export const products: Product[] = [
     mainColor: 'blue-treuse',
     photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
     // Top view of the split tail (the only difference from the Crappie Slayer), shown in the photo's corner.
-    detail: { src: '/products/crappie-crusher/split-tail.webp', alt: 'Top view of the Crappie Crusher’s split tail', label: 'Split tail', width: 900, height: 414 },
+    detail: { src: '/products/crappie-crusher/split-tail.webp', alt: 'Top view of the Crappie Crusher’s split tail', label: 'Split tail', width: 900, height: 414, thumb: { src: '/products/crappie-crusher/top.webp', width: 1600, height: 414 } },
     price: packPrice,
   }),
   build({

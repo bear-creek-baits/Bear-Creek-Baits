@@ -26,6 +26,16 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             product.badge && <span className={styles.flag}>{product.badge}</span>
           )}
         </div>
+        {/* The Crusher's split tail (or another product's close-up), framed like on the product page. */}
+        {product.detail && (
+          <span className={styles.detail}>
+            <span className={styles.detailLabel}>{product.detail.label}</span>
+            <span className={styles.detailImg}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={product.detail.src} alt="" width={product.detail.width} height={product.detail.height} loading="lazy" decoding="async" />
+            </span>
+          </span>
+        )}
       </Link>
 
       <div className={styles.body}>
