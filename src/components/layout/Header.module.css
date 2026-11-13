@@ -185,20 +185,22 @@
   }
 }
 
+/* Sits on the cart's top-right corner, clear of the basket, so the cart still reads as a cart. */
 .badge {
   position: absolute;
-  top: 4px;
-  right: 1px;
-  min-width: 21px;
-  height: 21px;
-  padding: 0 5px;
-  border-radius: 11px;
+  top: -3px;
+  right: -7px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 10px;
   background: var(--green);
   color: var(--ink);
   font-family: var(--font-label);
   font-weight: 700;
-  font-size: 13px;
-  line-height: 21px;
+  font-size: 12px;
+  line-height: 18px;
+  pointer-events: none;
   text-align: center;
   border: 2px solid var(--ink);
   box-sizing: content-box;
