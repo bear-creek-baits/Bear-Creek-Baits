@@ -27,6 +27,10 @@ export function ProductDetail({ product, category }: { product: Product; categor
   const productAvailable = isAvailable(product);
   const colorOpt = colorOption(product);
   const chosenColor = colorOpt ? getColorway(variant.options[colorOpt.name]) : undefined;
+  const mainColor = getColorway(product.mainColor);
+  const isCurlyTail = product.slug === 'curly-tail';
+  /** The corner sample shows when the big photo isn't already the picked color. */
+  const sampleShown = !!chosenColor && (chosenColor.id !== product.mainColor || product.images.length === 0);
 
   // Preselect color from ?color= (used by product-card swatch previews and shareable links).
   useEffect(() => {
@@ -101,22 +105,33 @@ export function ProductDetail({ product, category }: { product: Product; categor
               <ProductMedia product={product} priority />
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
+            {/* The chart photos all show the color on a Curly Tail, so the picked color is a small labeled
+                sample in the corner; the big photo always shows this profile's shape. */}
+            {chosenColor && sampleShown && (
+              <div className={styles.sample} aria-hidden="true">
+                <span className={styles.sampleLabel}>
+                  #{chosenColor.n} {chosenColor.name}
+                </span>
+                <span className={styles.sampleChip}>
+                  <ColorChip color={chosenColor.id} />
+                </span>
+                {!isCurlyTail && <span className={styles.sampleOn}>Color shown on a Curly Tail</span>}
+              </div>
+            )}
           </div>
           {chosenColor && (
-            <div className={styles.colorNote}>
-              <span className={styles.colorNoteChip}>
-                <ColorChip color={chosenColor.id} />
+            <p className={styles.colorNote} role="status">
+              <span className={styles.colorNoteKicker}>You’ll get</span>
+              <span className={styles.colorNoteMain}>
+                {product.title} in <strong>#{chosenColor.n} {chosenColor.name}</strong>
               </span>
-              <p>
-                <span className={styles.colorNoteShown}>Your color</span>
-                <strong>
-                  #{chosenColor.n} {chosenColor.name}
-                </strong>
-                {chosenColor.id !== product.mainColor && product.images.length > 0 && (
-                  <span className={styles.colorNoteShown}>Photo shows the {product.title} in {getColorway(product.mainColor)?.name}.</span>
-                )}
-              </p>
-            </div>
+              {sampleShown && !isCurlyTail && (
+                <span className={styles.colorNoteSub}>
+                  The big photo shows the {product.title}{mainColor ? ` in ${mainColor.name}` : ''}. The small one shows your color on a Curly Tail.
+                  Every profile comes in every color.
+                </span>
+              )}
+            </p>
           )}
         </div>
 

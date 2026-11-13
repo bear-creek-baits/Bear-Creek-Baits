@@ -24,6 +24,9 @@ export default function ColorsPage() {
             {colorways.length} colors, and every profile comes in every one. Pick your profile first, then choose a color off the chart. Order
             by number or name. Custom colors available, just ask.
           </p>
+          <p className={styles.shownOn}>
+            <strong>Every color is shown on a Curly Tail.</strong> Pick any profile and you get that profile in the color you choose.
+          </p>
           <ul className={styles.profiles} aria-label="Pick a profile">
             {profiles.map((p) => (
               <li key={p.slug}>
