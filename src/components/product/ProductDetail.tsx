@@ -141,7 +141,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
           <div className={styles.priceRow}>
             <span className={styles.price}>{formatPrice(variant.price)}</span>
             {variant.options.Pack && (
-              <span className={styles.unitNote}>{variant.options.Pack === 'Pack' ? 'per pack' : `for ${variant.options.Pack.replace('Bulk ', '')} of one color`}</span>
+              <span className={styles.unitNote}>{variant.options.Pack === 'Pack' ? `per pack of ${product.perPack}` : `for ${variant.options.Pack.replace('Bulk ', '')} of one color`}</span>
             )}
             {!variant.available && <span className={styles.soldTag}>Sold out</span>}
           </div>

@@ -88,6 +88,14 @@
   text-underline-offset: 4px;
 }
 
+.legal {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal:hover {
+  color: var(--bone);
+}
 .bottom {
   display: flex;
   flex-wrap: wrap;

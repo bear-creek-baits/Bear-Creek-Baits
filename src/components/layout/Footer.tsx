@@ -64,7 +64,10 @@ export function Footer() {
 
       <div className={`container ${styles.bottom}`}>
         <p>
-          © {year} {site.legalName}. All rights reserved.
+          © {year} {site.legalName}. All rights reserved. ·{' '}
+          <Link href="/privacy/" className={styles.legal}>
+            Privacy
+          </Link>
         </p>
         {site.prototype && <p>Preview build. Order requests and messages sent from this preview aren’t delivered yet.</p>}
       </div>

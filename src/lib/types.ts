@@ -103,6 +103,8 @@ export interface Product {
    * as decoration around the site.
    */
   images: ProductImage[];
+  /** Baits in one pack (Steve, Nov 2026: 10 for Swim Bait and Curly Tail, 12 for the rest). */
+  perPack: number;
   badge?: 'New' | 'Seasonal';
   /** Smallest quantity per size/color (e.g. 50 soft plastics). Defaults to 1. */
   minQty?: number;

@@ -136,6 +136,8 @@ export function describeVariant(product: Product, variant: Variant): string {
   return product.options
     .filter((o) => o.values.length > 1 || o.display === 'swatch' || o.name === 'Size')
     .map((o) => {
+      // "Pack of 10" rather than just "Pack", so the order list and Steve's email say how many baits.
+      if (o.name === 'Pack' && variant.options[o.name] === 'Pack') return `Pack of ${product.perPack}`;
       return optionValueLabel(o.display, variant.options[o.name]);
     })
     .join(' · ');

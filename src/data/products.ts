@@ -30,7 +30,7 @@ export const PACKS = [
 ] as const;
 
 /** One line describing the packs, used around the site. */
-export const PACK_NOTE = 'Packs are $4.15. Bulk is $20 for 50 or $40 for 100 of one color (50 per color minimum).';
+export const PACK_NOTE = 'Packs are $4.15 (10 baits for Swim Baits and Curly Tails, 12 for the rest). Bulk is $20 for 50 or $40 for 100 of one color (50 per color minimum).';
 
 type Draft = Omit<Product, 'variants' | 'sample' | 'images'> & {
   /** Photos of this profile by color id. The main color's is the product photo; the rest are decoration. */
@@ -85,6 +85,7 @@ const chartColors: ProductOption = { name: 'Color', display: 'swatch', values: c
 export const products: Product[] = [
   build({
     slug: 'swim-bait',
+    perPack: 10,
     title: 'Swim Bait',
     category: 'soft-plastics',
     badge: 'New',
@@ -93,7 +94,7 @@ export const products: Product[] = [
     description: [
       'Four sizes, all with great tail action. The 1.5" is the newest, and the hardest mold to shoot laminates in.',
     ],
-    details: ['Sizes: 1.5", 2", 2.2" and 2.5"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Sizes: 1.5", 2", 2.2" and 2.5"', 'Any color on the chart', 'Packs of 10, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"', '2"', '2.2"', '2.5"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
     photos: photos('swim-bait', 'Swim Bait', {
@@ -105,6 +106,7 @@ export const products: Product[] = [
   }),
   build({
     slug: 'curly-tail',
+    perPack: 10,
     title: 'Curly Tail',
     category: 'soft-plastics',
     featured: true,
@@ -112,7 +114,7 @@ export const products: Product[] = [
     description: [
       'A ribbed grub body with a single curly tail that kicks on the slowest retrieve and on the fall. Most colors are two-tone, with the tail end a different color from the body. Poured in 1.5" and 2.2".',
     ],
-    details: ['Sizes: 1.5" and 2.2"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Sizes: 1.5" and 2.2"', 'Any color on the chart', 'Packs of 10, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"', '2.2"'] }, packOption, chartColors],
     mainColor: 'blue-ice-lime',
     photos: photos('curly-tail', 'Curly Tail', {
@@ -127,12 +129,13 @@ export const products: Product[] = [
   }),
   build({
     slug: 'crappie-crusher',
+    perPack: 12,
     title: 'Crappie Crusher',
     category: 'soft-plastics',
     featured: true,
     summary: 'Ribbed body with a long, thin tail that quivers on the fall.',
     description: ['A ribbed body that tapers to a long, thin tail. It shimmies on the drop and on a dead stick.'],
-    details: ['Size: 2"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Size: 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['2"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
     photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
@@ -140,12 +143,13 @@ export const products: Product[] = [
   }),
   build({
     slug: 'flicker-minnow',
+    perPack: 12,
     title: 'Flicker Minnow',
     category: 'soft-plastics',
     featured: true,
     summary: 'Ribbed minnow body with a split tail that flickers on the fall.',
     description: ['A ribbed minnow body with a thin split tail that flickers on the fall and on a slow swim.'],
-    details: ['Size: 1.5"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Size: 1.5"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.5"'] }, packOption, chartColors],
     mainColor: 'delta-shad',
     photos: photos('flicker-minnow', 'Flicker Minnow', { 'delta-shad': [1600, 438], 'the-closer': [1600, 417] }),
@@ -153,6 +157,7 @@ export const products: Product[] = [
   }),
   build({
     slug: 'double-curly-tail',
+    perPack: 12,
     title: 'Double Curly Tail',
     category: 'soft-plastics',
     badge: 'New',
@@ -161,7 +166,7 @@ export const products: Product[] = [
     description: [
       'A ribbed body with two curly tails. That extra tail action pays off when fish turn aggressive, and it still swims on a slow retrieve.',
     ],
-    details: ['Size: 2"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Size: 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['2"'] }, packOption, chartColors],
     mainColor: 'shiny-hiney',
     photos: photos('double-curly-tail', 'Double Curly Tail', { 'shiny-hiney': [1152, 1600] }),
@@ -169,13 +174,14 @@ export const products: Product[] = [
   }),
   build({
     slug: 'triple-tail',
+    perPack: 12,
     title: 'Triple Tail',
     category: 'soft-plastics',
     badge: 'New',
     featured: true,
     summary: 'Ribbed body with three curly tails, the most action of any profile.',
     description: ['A ribbed body with three curly tails that all move on the fall and on a slow swim. The most tail action of any profile.'],
-    details: ['Size: 2.75"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Size: 2.75"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['2.75"'] }, packOption, chartColors],
     mainColor: 'crown-royal',
     photos: photos('triple-tail', 'Triple Tail', { 'crown-royal': [1600, 821] }),
@@ -183,6 +189,7 @@ export const products: Product[] = [
   }),
   build({
     slug: 'crappie-slayer',
+    perPack: 12,
     title: 'Crappie Slayer',
     category: 'soft-plastics',
     badge: 'New',
@@ -190,7 +197,7 @@ export const products: Product[] = [
     summary: 'The Crappie Slayer, poured in 1.2" and 2".',
     // DRAFT: no photo or description from Steve yet.
     description: ['Poured in 1.2" and 2", in any color on the chart.'],
-    details: ['Sizes: 1.2" and 2"', 'Any color on the chart', 'Packs, or bulk bags of 50 and 100'],
+    details: ['Sizes: 1.2" and 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['1.2"', '2"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
     photos: {},

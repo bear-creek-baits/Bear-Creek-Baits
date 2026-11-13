@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: 'How are they sold? Is there a minimum?',
-    a: 'By the pack for $4.15, or in bulk: $20 for 50 or $40 for 100. Bulk is 50 minimum per color. One pack of 10 will catch more fish than other brands’ packs of 15 or 20.',
+    a: 'By the pack for $4.15, or in bulk: $20 for 50 or $40 for 100. A pack is 10 baits for Swim Baits and Curly Tails, and 12 for every other profile. Bulk is 50 minimum per color. One of our packs will catch more fish than other brands’ packs of 15 or 20.',
   },
   {
     q: 'Do you charge sales tax?',
