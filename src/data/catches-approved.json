@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "bevan-berry-20261113-54kd",
+    "name": "Bevan Berry",
+    "product": "crappie-slayer",
+    "size": "2\"",
+    "color": "monkey-snot",
+    "photos": [
+      {
+        "src": "/catches/bevan-berry-20261113-54kd.jpg",
+        "width": 1200,
+        "height": 1600
+      }
+    ]
+  }
+]
