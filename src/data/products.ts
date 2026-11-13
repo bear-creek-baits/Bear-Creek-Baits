@@ -139,7 +139,9 @@ export const products: Product[] = [
     details: ['Size: 2"', 'Any color on the chart', 'Packs of 12, or bulk bags of 50 and 100'],
     options: [{ name: 'Size', display: 'button', values: ['2"'] }, packOption, chartColors],
     mainColor: 'blue-treuse',
-    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 860] }),
+    photos: photos('crappie-crusher', 'Crappie Crusher', { 'blue-treuse': [1600, 395] }),
+    // Top view of the split tail (the only difference from the Crappie Slayer), shown in the photo's corner.
+    detail: { src: '/products/crappie-crusher/split-tail.webp', alt: 'Top view of the Crappie Crusher’s split tail', label: 'Split tail', width: 900, height: 414 },
     price: packPrice,
   }),
   build({

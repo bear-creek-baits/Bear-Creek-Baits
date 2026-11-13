@@ -106,7 +106,7 @@ Set `prototype: false` in `src/content/site.ts`. That removes the sample-content
 
 ## Path to launch (phase 1)
 
-1. Prices and sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 2", Triple Tail 2.75", Crappie Crusher 2", Crappie Slayer 1.2"/2", Flicker Minnow 1.5". The Crappie Slayer shares the Crappie Crusher's side photo (same body; the Crusher adds a split tail, shown as a close-up in its photo, built by `tools/crusher/make.js` outside the repo).
+1. Prices and sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 2", Triple Tail 2.75", Crappie Crusher 2", Crappie Slayer 1.2"/2", Flicker Minnow 1.5". The Crappie Slayer shares the Crappie Crusher's side photo (same body; the Crusher adds a split tail, shown as a "Split tail" close-up in the top-right corner of its photo: `detail` in `products.ts`, image `public/products/crappie-crusher/split-tail.webp`).
 2. Set `ordering.formEndpoint` (and point the contact form at the same service).
 3. Fill in the real email/phone and domain in `site` (the Facebook link is in). The phone shows as "Text": Steve wants texts, not calls.
 4. Set `prototype: false` and deploy.

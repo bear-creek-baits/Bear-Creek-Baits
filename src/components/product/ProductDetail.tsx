@@ -11,6 +11,7 @@ import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
 import { ColorChip } from './ColorChip';
 import { ProductMedia } from './ProductMedia';
+import { asset } from '@/lib/asset';
 import { VariantPicker } from './VariantPicker';
 import styles from './ProductDetail.module.css';
 
@@ -105,6 +106,16 @@ export function ProductDetail({ product, category }: { product: Product; categor
               <ProductMedia product={product} priority />
             </div>
             {product.badge && productAvailable && <span className={styles.badge}>{product.badge}</span>}
+            {/* A close-up (e.g. the Crusher's split tail), top right, framed like the color sample. */}
+            {product.detail && (
+              <figure className={`${styles.sample} ${styles.detail}`}>
+                <figcaption className={styles.sampleLabel}>{product.detail.label}</figcaption>
+                <span className={styles.sampleChip}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={asset(product.detail.src)} alt={product.detail.alt} width={product.detail.width} height={product.detail.height} />
+                </span>
+              </figure>
+            )}
             {/* The chart photos all show the color on a Curly Tail, so the picked color is a small labeled
                 sample in the corner; the big photo always shows this profile's shape. */}
             {chosenColor && sampleShown && (
