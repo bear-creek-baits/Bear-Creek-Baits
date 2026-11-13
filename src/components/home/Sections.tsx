@@ -8,7 +8,6 @@ import { ColorChip } from '@/components/product/ColorChip';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
 import { dealers } from '@/data/dealers';
-import { DealerMap } from '@/components/dealers/DealerMap';
 import dealerStyles from '@/components/dealers/Dealers.module.css';
 import styles from './Home.module.css';
 import { homeCatches, toCards } from '@/data/catches';
@@ -215,8 +214,18 @@ export function LocalDealers() {
             Find a dealer <Icon name="arrow-right" size={20} />
           </Link>
         </div>
-        <Link href="/dealers/" className={dealerStyles.mapWrap} aria-label="Open the dealer finder">
-          <DealerMap />
+        {/* Steve's photo of a dealer's rack (price tags and store edited out). The map lives on /dealers/. */}
+        <Link href="/dealers/" className={dealerStyles.rack} aria-label="Find a dealer near you">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/home/dealer-rack.webp"
+            alt="A store rack full of Bear Creek Baits packs in every color"
+            width={745}
+            height={540}
+            loading="lazy"
+            decoding="async"
+          />
+          <span className={dealerStyles.rackTag}>On the rack at a local dealer</span>
         </Link>
       </div>
     </section>
