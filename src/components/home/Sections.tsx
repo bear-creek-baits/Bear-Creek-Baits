@@ -220,8 +220,8 @@ export function LocalDealers() {
           <img
             src="/home/dealer-rack.webp"
             alt="A store rack full of Bear Creek Baits packs in every color"
-            width={745}
-            height={540}
+            width={738}
+            height={835}
             loading="lazy"
             decoding="async"
           />
