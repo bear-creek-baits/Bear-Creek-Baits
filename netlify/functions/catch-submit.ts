@@ -10,7 +10,6 @@ import {
   clean,
   colorLabel,
   colorOptions,
-  esc,
   inspectPhoto,
   newId,
   profileOptions,
@@ -20,6 +19,7 @@ import {
   saveRecord,
   sendEmail,
 } from '../lib/catches';
+import { button, fields, layout, nextStep, section } from '../lib/email';
 
 const json = (status: number, body: object) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
@@ -87,16 +87,19 @@ export default async (req: Request) => {
     ['Email (not shown)', record.email],
     ['Notes (not shown)', record.notes],
   ];
-  const html = `<div style="font-family:Arial,sans-serif;font-size:16px;color:#151613;max-width:560px">
-<h2 style="margin:0 0 12px">New catch from ${esc(record.name)}</h2>
-<p style="margin:0 0 16px">The photo${files.length > 1 ? 's are' : ' is'} attached. Nothing goes on the website until you approve it.</p>
-<table style="border-collapse:collapse;margin:0 0 20px">${rows
-    .filter(([, v]) => v)
-    .map(([k, v]) => `<tr><td style="padding:4px 16px 4px 0;color:#5c5d57">${esc(k)}</td><td style="padding:4px 0"><strong>${esc(v)}</strong></td></tr>`)
-    .join('')}</table>
-<p style="margin:0 0 20px"><a href="${esc(link)}" style="display:inline-block;background:#9BCB3B;color:#151613;padding:14px 22px;border-radius:8px;font-weight:bold;text-decoration:none">Review: approve or reject</a></p>
-<p style="margin:0;color:#5c5d57;font-size:14px">On the review page you can fix the name, lake, bait or color before it goes up.</p>
-</div>`;
+  const shown = rows.filter(([, v]) => v) as [string, string][];
+  const n = files.length;
+  const html = layout({
+    tone: 'catch',
+    title: `New catch from ${record.name}`,
+    preview: `${shown.slice(1, 4).map(([, v]) => v).join(' · ')} · tap Review to approve or reject`,
+    body:
+      nextStep(
+        `<strong>Take a look and decide.</strong> The photo${n > 1 ? 's are' : ' is'} attached below. Nothing goes on the website until you approve it, and you can fix the name, lake, bait or color first.`,
+        button('Review: approve or reject', link, true),
+      ) + section('Details', `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${fields(shown)}</table>`),
+    footer: 'Only you see their email and notes. A catch nobody approves just waits.',
+  });
   const text = [
     `New catch from ${record.name}`,
     '',

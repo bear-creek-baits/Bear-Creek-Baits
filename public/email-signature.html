@@ -1,0 +1,87 @@
+<!doctype html>
+<!--
+  Steve's email signature. Open bearcreekbaits.com/email-signature.html on a computer, click "Copy signature",
+  then paste it into Gmail → Settings → See all settings → General → Signature.
+  The logo loads from the website, so keep public/brand/logo.png where it is.
+  To add a phone number later, copy the email line and change it.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Email signature · Bear Creek Baits</title>
+    <style>
+      body { margin: 0; background: #f1efe8; font-family: Arial, Helvetica, sans-serif; color: #151613; }
+      main { max-width: 640px; margin: 0 auto; padding: 32px 16px 48px; }
+      h1 { font-size: 24px; margin: 0 0 6px; }
+      p, li { font-size: 16px; line-height: 1.55; }
+      .card { background: #fff; border-radius: 12px; padding: 24px 20px; margin: 20px 0; }
+      button { font: bold 17px Arial, Helvetica, sans-serif; background: #8dbb2c; color: #151613; border: 0; border-radius: 10px; padding: 13px 22px; cursor: pointer; }
+      button:focus-visible { outline: 3px solid #151613; outline-offset: 2px; }
+      #status { margin-left: 12px; font-weight: bold; color: #3f5f0b; }
+      ol { padding-left: 22px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Email signature</h1>
+      <p>Click <strong>Copy signature</strong>, then paste it into Gmail.</p>
+
+      <div class="card">
+        <!-- signature: everything inside #sig is what gets copied -->
+        <div id="sig">
+          <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#151613">
+            <tr>
+              <td style="padding:0 14px 0 0;vertical-align:top">
+                <a href="https://bearcreekbaits.com" style="text-decoration:none"><img src="https://bearcreekbaits.com/brand/logo.png" width="76" height="75" alt="Bear Creek Baits" style="display:block;border:0;border-radius:8px" /></a>
+              </td>
+              <td style="padding:0 0 0 14px;border-left:3px solid #8dbb2c;vertical-align:top">
+                <div style="font-size:17px;font-weight:bold;line-height:1.3;color:#151613">Steve Green</div>
+                <div style="font-size:14px;font-weight:bold;line-height:1.4;color:#3f5f0b">Bear Creek Baits</div>
+                <div style="font-size:13px;line-height:1.4;color:#5c5d57;margin:0 0 6px">Crappie soft plastics · Chasing ’Em for Over 50 Years.</div>
+                <div style="font-size:13px;line-height:1.6"><a href="mailto:steve.green@bearcreekbaits.com" style="color:#151613;text-decoration:none">steve.green@bearcreekbaits.com</a></div>
+                <div style="font-size:13px;line-height:1.6"><a href="https://bearcreekbaits.com" style="color:#3f5f0b;font-weight:bold;text-decoration:none">bearcreekbaits.com</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.facebook.com/share/1C8CKEeAuP/" style="color:#3f5f0b;font-weight:bold;text-decoration:none">Facebook</a></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <p><button type="button" id="copy">Copy signature</button><span id="status" role="status"></span></p>
+
+      <h2 style="font-size:18px;margin:28px 0 6px">Put it in Gmail (on a computer)</h2>
+      <ol>
+        <li>In Gmail, click the <strong>gear</strong> (top right), then <strong>See all settings</strong>.</li>
+        <li>On the <strong>General</strong> tab, scroll down to <strong>Signature</strong> and click <strong>Create new</strong>. Name it <em>Bear Creek Baits</em>.</li>
+        <li>Click in the big box and paste (<strong>Ctrl+V</strong>).</li>
+        <li>Under <strong>Signature defaults</strong>, pick it for both <strong>new emails</strong> and <strong>on reply/forward</strong>.</li>
+        <li>Tick <strong>Insert signature before quoted text in replies</strong>, then scroll to the bottom and click <strong>Save Changes</strong>.</li>
+      </ol>
+      <p style="color:#5c5d57;font-size:14px">The Gmail phone app uses its own plain-text signature (in the app’s settings). Emails sent from a computer get this one.</p>
+    </main>
+    <script>
+      const sig = document.getElementById('sig');
+      const status = document.getElementById('status');
+      document.getElementById('copy').addEventListener('click', async () => {
+        const html = sig.innerHTML;
+        const text = sig.innerText;
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([text], { type: 'text/plain' }) }),
+          ]);
+        } catch {
+          // Older browsers: select it and copy the old way.
+          const range = document.createRange();
+          range.selectNodeContents(sig);
+          const sel = getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          document.execCommand('copy');
+          sel.removeAllRanges();
+        }
+        status.textContent = 'Copied. Now paste it into Gmail.';
+      });
+    </script>
+  </body>
+</html>

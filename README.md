@@ -83,6 +83,8 @@ Settings, in Netlify → Project configuration → Environment variables (scope:
 
 Order requests and contact messages are saved in Netlify Forms (form definitions in `public/__forms.html`). After each one that passes Netlify's spam filter, `netlify/functions/submission-created.ts` emails the details through Resend with Reply-To set to the customer, so replying answers them directly. It uses the same `RESEND_API_KEY` and `CATCH_FROM`, and sends to `FORMS_NOTIFY_TO` (comma-separated) if set, otherwise to `CATCH_REVIEW_TO`. Submissions marked as spam send nothing: check Netlify → Forms → Spam now and then.
 
+All alert emails (orders, messages, catches) share one look in `netlify/lib/email.ts`: the logo, a colored label, the next step with one-tap Text/Call/Review buttons, then large label-over-value details, built to read easily on a phone. Steve's Gmail signature is at `/email-signature.html` (not linked from the site): open it on a computer, click **Copy signature** and paste it into Gmail's signature settings.
+
 Local and preview builds leave `catchForm.endpoint` empty (it's set in `netlify.toml`), so the form works there but nothing is sent. `tools/fntest/run.mjs` (outside the repo) tests the functions against fake storage, GitHub and email.
 
 ## Ordering (phase 1)
