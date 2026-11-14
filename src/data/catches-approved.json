@@ -1,5 +1,19 @@
 [
   {
+    "id": "bevan-berry-20261114-fdol",
+    "name": "Bevan Berry",
+    "place": "Pickwick",
+    "product": "swim-bait",
+    "color": "junebug",
+    "photos": [
+      {
+        "src": "/catches/bevan-berry-20261114-fdol.jpg",
+        "width": 476,
+        "height": 476
+      }
+    ]
+  },
+  {
     "id": "bevan-berry-20261114-xz0e",
     "name": "Bevan Berry",
     "place": "Pickwick",
