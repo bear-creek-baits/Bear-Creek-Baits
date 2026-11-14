@@ -1,5 +1,19 @@
 [
   {
+    "id": "bevan-berry-20261114-xz0e",
+    "name": "Bevan Berry",
+    "place": "Pickwick",
+    "product": "swim-bait",
+    "color": "delta-shad",
+    "photos": [
+      {
+        "src": "/catches/bevan-berry-20261114-xz0e.jpg",
+        "width": 1200,
+        "height": 1600
+      }
+    ]
+  },
+  {
     "id": "bevan-berry-20261113-54kd",
     "name": "Bevan Berry",
     "product": "crappie-slayer",
