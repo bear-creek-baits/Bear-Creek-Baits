@@ -54,13 +54,6 @@ export function orderRules(product: Product) {
   return { min, step: product.qtyStep ?? 1, max: product.unit ? 5000 : 99, unit: product.unit };
 }
 
-/** "per bait · 50 minimum" for products sold by the piece, otherwise empty. */
-export function unitNote(product: Product): string {
-  const { min, unit } = orderRules(product);
-  if (!unit) return '';
-  return min > 1 ? `per ${unit} · ${min} minimum` : `per ${unit}`;
-}
-
 export function isAvailable(product: Product): boolean {
   return product.variants.some((v) => v.available);
 }

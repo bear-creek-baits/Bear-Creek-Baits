@@ -1,119 +1,144 @@
-# Bear Creek Baits — storefront prototype
+# Bear Creek Baits
 
-Website for Bear Creek Baits LLC, built on the Bear Creek Baits brand guide (v1.1): home page, a shop laid out as pick a profile → pick a color → send the order, product pages with a size picker and a searchable color chart, a full color chart page, a dealer finder, search, and an order list that is saved in the browser.
+The website for Bear Creek Baits LLC (crappie soft plastics): **https://bearcreekbaits.com**
 
-**Phase 1 is order-by-request.** Customers build an order list and send it as a request. Nothing is charged online: Steve confirms stock, total and shipping, then takes payment the way he does today. One switch pauses ordering across the whole site when orders back up. The code is set up so the same order list can become a Shopify cart later without a rebuild.
+Customers pick a profile, a size and any color off the chart, build an order list and send it as an **order request**. Nothing is charged online: Steve confirms the total (Mississippi sales tax plus shipping) and the timing, then takes payment the way he always has. Customers can also send in catch photos, which go on the site once Steve approves them.
 
-**Prices and sizes are Steve's** (Nov 2026): a pack is $4.15, bulk is $20 for 50 or $40 for 100 of one color (`PACKS` in `src/data/products.ts`). Orders pay Mississippi sales tax plus shipping, confirmed by Steve before payment. The site deliberately doesn't track or show stock: Steve pours in runs of one or two colors and posts each day's pour on Facebook, so every size and color is orderable and anything not already poured goes on his pour list. Nothing needs updating when a run is poured. The baits, colors and photos come from Steve's product photos (one folder per profile, one photo per color); sizes come from his Facebook posts where known. Other verified inputs: the business name, the product types it sells, and the official logo.
+## Quick start
 
-## Run it
+Needs Node 22 or newer.
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # static export to ./out
-npm start          # serve ./out on http://localhost:3000
 ```
 
-`npm run build:preview` makes a copy for the claude.ai preview link (https://claude.ai/artifact/6u6VASChyKheqchTahkRVp). That host won't take top-level folders starting with `_`, so this build serves Next's files from `/assets/_next/`.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Local site with live reload |
+| `npm run typecheck` | TypeScript check |
+| `npm test` | Tests the Netlify Functions (catch approvals, alert emails) against stand-ins. Sends nothing. |
+| `npm run build` | Builds the static site into `out/` |
+| `npm run check` | All three of the above. Run it before pushing. |
+| `npm start` | Serves `out/` on http://localhost:3000 |
 
-The site builds to plain static files (`out/`), so it can be hosted on Netlify, Vercel, Cloudflare Pages, GitHub Pages or S3 without a server.
+On a local build the forms check everything and show their thank-you screens, but nothing is sent (the endpoints are only set on Netlify; see `netlify.toml`).
+
+## How it's hosted
+
+| Piece | Where | Notes |
+| --- | --- | --- |
+| Code | GitHub: `bear-creek-baits/Bear-Creek-Baits` (public) | **Pushing to `main` deploys the site.** |
+| Hosting, forms, functions | Netlify, project `clinquant-kitten-6464ac` | Builds with `npm run build`, serves `out/`. Settings in `netlify.toml`. |
+| Domain and DNS | Cloudflare | `bearcreekbaits.com`; DNS records point at Netlify (DNS only, not proxied). |
+| Incoming email | Cloudflare Email Routing | `steve.green@bearcreekbaits.com` forwards to the business Gmail. |
+| Outgoing email | Resend | Sends the alert emails; also lets Gmail "send as" the domain address. |
+
+All of these accounts belong to the business Gmail account. The catch approval system also commits to `main` by itself (see below), so **pull before you start work**.
 
 ## Stack
 
-- Next.js (App Router, static export) + React + TypeScript
-- Plain CSS: global design tokens in `src/app/globals.css` plus a CSS Module per component
-- Self-hosted fonts via Fontsource (Big Shoulders Display, Barlow, Barlow Condensed)
-- No UI kit, no state library and no backend
+- Next.js (App Router, static export), React, TypeScript
+- Plain CSS: design tokens in `src/app/globals.css`, plus a CSS Module per component
+- Self-hosted fonts (Fontsource): Big Shoulders Display, Barlow, Barlow Condensed
+- No UI kit and no state library. The only server code is the Netlify Functions in `netlify/`.
 
 ## Where things live
 
-| What | File |
+```
+src/
+  content/site.ts        Business info and the switches (launch, orders open/paused, ordering mode)
+  data/                  The catalog: products, colors, dealers, catches
+  lib/                   catalog.ts (all catalog lookups), forms.ts, geo.ts (zip distances), types.ts
+  app/                   One folder per page (Next.js routes); globals.css; shared pages.module.css
+  components/            UI by area: layout, home, shop, product, cart, catches, dealers, ui
+netlify/
+  functions/             catch-submit, catch-review, catch-publish, submission-created
+  lib/                   catches.ts (storage, signing, GitHub publish), email.ts (alert email layout)
+public/                  Images, plus __forms.html (form definitions) and email-signature.html
+scripts/                 flatten-rsc.mjs (part of the build), catch-photo.mjs (prepare a catch photo)
+tests/                   functions.test.mjs and its stand-ins
+```
+
+| To change… | Edit |
 | --- | --- |
-| Business info, Facebook link, prototype switch | `src/content/site.ts` |
-| **Ordering mode, open/closed switch, form endpoint** | `src/content/site.ts` → `ordering` |
+| Business name, email, phone, Facebook link | `src/content/site.ts` → `site` |
+| **Pause or reopen orders** | `src/content/site.ts` → `ordering.open` |
+| **Launch (remove the preview banner)** | `src/content/site.ts` → `site.prototype` |
 | Brand taglines (use exactly as written) | `src/content/site.ts` → `brand` |
-| Order request page | `src/app/order/` |
-| **Product catalog** (one product per photo folder) | `src/data/products.ts` |
-| Color chart (Steve's 63 numbered colors; every profile comes in every color) | `src/data/colors.ts`, chart photos in `public/colors/<nn>-<color>.webp` |
-| Color chart page | `src/app/colors/`, grid in `src/components/product/ColorChart.tsx` |
-| Product photos (cut out, transparent, 1600px WebP) | `public/products/<profile>/<color>.webp` |
-| Bait photos in the hero, color wall and menus | `src/components/product/BaitPhoto.tsx` |
-| Categories and their copy | `src/data/categories.ts` |
-| Catalog access layer (swap this for Shopify later) | `src/lib/catalog.ts` |
-| Cart (localStorage) | `src/components/cart/CartProvider.tsx` |
-| Original uploaded logo (untouched) | `assets/original/` |
-| Web logo and icons (cropped to drop stray text along the bottom edge; artwork unchanged) | `public/brand/` |
+| Prices and pack sizes | `src/data/products.ts` → `PACKS`, `PACK_NOTE`, and each profile's `perPack` |
+| Profiles: names, sizes, descriptions, order | `src/data/products.ts` (the shop, menus and footer follow the order of this list) |
+| Colors | `src/data/colors.ts`; chart photos in `public/colors/<nn>-<id>.webp` |
+| Dealers | `src/data/dealers.ts` |
+| Catches | `src/data/catches.ts` (hand-picked) and `src/data/catches-approved.json` (approved on the site) |
+| FAQ, About, Privacy text | `src/app/faq/page.tsx`, `src/app/about/page.tsx`, `src/app/privacy/page.tsx` |
+| Header and footer links | `src/components/layout/Header.tsx`, `Footer.tsx` |
 
-### Adding real product photos
+## The catalog
 
-Originals live outside the repo (`Product Photos/Edited/<Profile>/<Color>.jpg`, shot on pure white). Each one becomes `public/products/<profile>/<color>.webp`: background removed, trimmed to the bait, 1600px on the longest side. Only these web copies are committed. The site has no drawn bait illustrations; every bait shown is a photo. Name the file after the chart color's id in `src/data/colors.ts` and add it to that product's `photos(...)` list in `src/data/products.ts`.
+One product per bait **profile**, in `src/data/products.ts`. Every profile comes in every color on the chart (`src/data/colors.ts`), so the color counts around the site update themselves when a color is added.
 
-Each profile is shown in one **main color** (`mainColor` in `src/data/products.ts`), the color in Steve's profile photo (`Product Photos/Edited/Profiles`): Swim Bait = Blue Treuse, Curly Tail = Blue Ice Lime, Double Curly Tail = Shiny Hiney, Triple Tail = Crown Royal, Crappie Crusher = Blue Treuse, Flicker Minnow = Delta Shad. The product photo stays on that color; picking a color off the chart shows it as "Your color" under the photo. A profile whose main color has no photo shows "Photo coming soon".
+- **Prices** (Steve, Nov 2026): a pack is $4.15; bulk is $20 for 50 or $40 for 100 of one color. A pack is 10 baits for the Swim Bait and Curly Tail and 12 for the rest (`perPack`).
+- **No stock tracking**, on purpose. Steve pours one or two colors at a time and posts each day's pour on Facebook; anything not already poured goes on his pour list. Nothing on the site needs updating when a run is poured.
+- **Photos.** Each profile is shown in one main color (`mainColor`): its photo is `public/products/<profile>/<mainColor>.webp`, cut out on a transparent background, 1600px on the long side. A profile without that photo shows "Photo coming soon". The originals stay outside the repo; only web-sized copies are committed.
+- **Color chart photos** all show the color on a Curly Tail. That's why, on other profiles, the picked color appears as a small labeled sample in the corner of the product photo ("Color shown on a Curly Tail") with a "You'll get" line under it.
+- **Crappie Slayer and Crappie Crusher** share one side photo (same body). The Crusher adds a split tail, shown as a close-up in the corner of its photo: see `detail` on the product. In small thumbnails the Crusher uses its top-down photo (`detail.thumb`).
 
-Chart photos (`public/colors/`) are the small pictures on Steve's color chart. Colors without one show "Photo coming soon" on the chart. New chart colors go in `src/data/colors.ts`; every profile picks them up automatically, and the color counts update themselves.
+To add a color: add it to `colors.ts` (and a chart photo if there is one). To add a profile: add a `build({...})` entry to `products.ts` and its photo.
 
-## Customer catches
+## Ordering
 
-Catch photos live in `src/data/catches.ts` (web copies in `public/catches/`). They show on the **Customer Catches** page (`/catches/`, with a filter by profile), on each profile's page when the catch names that profile, and on the home page for the ones marked `home: true` (first four).
-
-To add one: `node scripts/catch-photo.mjs "<photo.jpg>" public/catches/<name>.webp` (turns it upright, shrinks it to 1400px and strips location data), then add an entry with the name, and optionally the profile, size, color and lake or state. Nothing goes up by itself.
-
-Customers send theirs from `/catches/submit/`: one or two photos, name, lake or state (optional), profile and size, color, optional email and notes, and a permission checkbox. The browser shrinks each photo to 1600px (dropping GPS and camera details) before sending.
-
-### Catch approvals
-
-Submissions go to Netlify Functions in `netlify/functions/` (shared code in `netlify/lib/catches.ts`):
-
-1. **`/api/catch`** saves the catch (Netlify Blobs) and emails the reviewer the photos as attachments, with a **Review** button.
-2. **`/api/catch/review`** is the review page. Fix the name, lake, bait, size or color, tick "home page" if wanted, then **Approve** (goes up overnight), **Approve and post now**, or **Reject** (deleted). Opening the page changes nothing; only the buttons do. Links are signed, so they can't be guessed.
-3. **`catch-publish`** runs nightly (08:00 UTC). It commits every approved catch to GitHub in one commit: photos into `public/catches/` and details into `src/data/catches-approved.json`, newest first. Netlify rebuilds from that commit. Approved catches show before the hand-picked ones in `catches.ts`. Edit or remove them in the JSON like any other entry.
-
-Settings, in Netlify → Project configuration → Environment variables (scope: Functions):
-
-| Variable | What |
-| --- | --- |
-| `RESEND_API_KEY` | Sends the review emails ([resend.com](https://resend.com), free plan) |
-| `CATCH_FROM` | Sender, e.g. `Bear Creek Baits <catches@bearcreekbaits.com>`. The domain must be verified in Resend. |
-| `CATCH_REVIEW_TO` | Who gets the review emails. Use commas for more than one. |
-| `CATCH_SECRET` | Any long random text (32+ characters). Signs the review links. Changing it breaks links already sent. |
-| `GITHUB_TOKEN` | Fine-grained GitHub token: repo `bear-creek-baits/Bear-Creek-Baits`, permission **Contents: Read and write** |
-
-### Order and contact alerts
-
-Order requests and contact messages are saved in Netlify Forms (form definitions in `public/__forms.html`). After each one that passes Netlify's spam filter, `netlify/functions/submission-created.ts` emails the details through Resend with Reply-To set to the customer, so replying answers them directly. It uses the same `RESEND_API_KEY` and `CATCH_FROM`, and sends to `FORMS_NOTIFY_TO` (comma-separated) if set, otherwise to `CATCH_REVIEW_TO`. Submissions marked as spam send nothing: check Netlify → Forms → Spam now and then.
-
-All alert emails (orders, messages, catches) share one look in `netlify/lib/email.ts`: the logo, a colored label, the next step with one-tap Text/Call/Review buttons, then large label-over-value details, built to read easily on a phone. Steve's Gmail signature is at `/email-signature.html` (not linked from the site): open it on a computer, click **Copy signature** and paste it into Gmail's signature settings.
-
-Local and preview builds leave `catchForm.endpoint` empty (it's set in `netlify.toml`), so the form works there but nothing is sent. `tools/fntest/run.mjs` (outside the repo) tests the functions against fake storage, GitHub and email.
-
-## Ordering (phase 1)
-
-Everything lives in the `ordering` block of `src/content/site.ts`:
+Everything is in the `ordering` block of `src/content/site.ts`.
 
 | Setting | What it does |
 | --- | --- |
-| `open` | **The switch.** `false` pauses orders: a banner shows on every page, "Add to order" buttons turn off and the order form is replaced by a "we're catching up" note. Customers can still browse and their list stays saved. Flip it back to `true` and redeploy to reopen. |
+| `open` | **The switch.** `false` pauses orders: a banner shows on every page, "Add to order" turns off and the order form is replaced by a "we're catching up" note. People can still browse, and their list stays saved. |
 | `pausedMessage` | The wording shown while paused. |
-| `formEndpoint` | Where order requests go. Create a free form at Formspree (or Basin, Netlify Forms, a Google Apps Script…), paste its URL here, and each request arrives in Steve's inbox with the customer's contact info and an itemized list. While `null`, the form works but nothing is delivered. |
-| `mode` | `'request'` today. `'shopify'` later (see below). |
+| `mode` | `'request'` today. `'shopify'` is for later (see the end of this file). |
 
-Each request includes: name, email, best way to reach them (email / text / call), phone, city and state, notes, and the itemized list with an estimated subtotal.
+The order list lives in the customer's browser (`localStorage`, see `src/components/cart/CartProvider.tsx`). The order form is `src/app/order/OrderRequestView.tsx`.
 
-### Turning off prototype mode
+## Forms and emails
 
-Set `prototype: false` in `src/content/site.ts`. That removes the sample-content notices and lets search engines index the site. Only do this after real catalog data and checkout are in place.
+**Order requests and contact messages** go to Netlify Forms. The forms are declared in `public/__forms.html`: *a field missing from that file is dropped from submissions*, so add new fields there too. After each submission that passes Netlify's spam filter, `netlify/functions/submission-created.ts` emails the details through Resend, with Reply-To set to the customer. Submissions flagged as spam send no email: check Netlify → Forms → Spam now and then.
 
-## Path to launch (phase 1)
+**Catch photos** don't use Netlify Forms. They go through the approval system:
 
-1. Prices and sizes are set: Swim Bait 1.5"/2"/2.2"/2.5", Curly Tail 1.5"/2.2", Double Curly Tail 2", Triple Tail 2.75", Crappie Crusher 2", Crappie Slayer 1.2"/2", Flicker Minnow 1.5". The Crappie Slayer shares the Crappie Crusher's side photo (same body; the Crusher adds a split tail, shown as a "Split tail" close-up in the top-right corner of its photo: `detail` in `products.ts`, image `public/products/crappie-crusher/split-tail.webp`).
-2. Set `ordering.formEndpoint` (and point the contact form at the same service).
-3. Fill in the real email/phone and domain in `site` (the Facebook link is in). The phone shows as "Text": Steve wants texts, not calls.
-4. Set `prototype: false` and deploy.
+1. **`/api/catch`** (`catch-submit.ts`) saves the catch in Netlify Blobs and emails the reviewer the photos, with a **Review** button.
+2. **`/api/catch/review`** (`catch-review.ts`) is the review page: fix the name, lake, bait, size or color, then **Approve** (goes up overnight), **Approve and post now**, or **Reject** (deleted). Opening the page changes nothing; only the buttons do. Links are signed, so they can't be guessed.
+3. **`catch-publish.ts`** runs nightly (08:00 UTC) and commits every approved catch to GitHub in one commit: photos into `public/catches/`, details into `src/data/catches-approved.json`. Netlify rebuilds from that commit.
 
-## Moving to Shopify (phase 2, when Steve is ready)
+To add a catch by hand instead: `node scripts/catch-photo.mjs "<photo.jpg>" public/catches/<name>.webp`, then add an entry to `src/data/catches.ts` (instructions at the top of that file).
 
-1. Set up Shopify (products, variants, inventory, shipping, taxes, payments). Shopify's inventory tracking can mark items sold out automatically, which helps with capacity.
-2. Re-implement `src/lib/catalog.ts` against the Shopify Storefront API. The data shapes already mirror Shopify's product, option and variant model.
-3. Back `CartProvider` with the Storefront Cart API and send **Checkout** to `cart.checkoutUrl`.
-4. Set `ordering.mode = 'shopify'`. Buttons, drawer and shipping wording switch from "order request" to "cart / checkout" automatically. The `open` switch keeps working.
+All alert emails share one layout, `netlify/lib/email.ts`, built to read easily on a phone.
+
+### Settings on Netlify
+
+Project configuration → Environment variables. The site itself needs none of these; the functions do.
+
+| Variable | What |
+| --- | --- |
+| `RESEND_API_KEY` | Sends the emails ([resend.com](https://resend.com)) |
+| `CATCH_FROM` | Sender, e.g. `Bear Creek Baits <catches@bearcreekbaits.com>`. The domain is verified in Resend. |
+| `CATCH_REVIEW_TO` | Who gets the catch review emails (commas for more than one) |
+| `FORMS_NOTIFY_TO` | Optional. Who gets order and contact emails. Defaults to `CATCH_REVIEW_TO`. |
+| `CATCH_SECRET` | Long random text that signs the review links. Changing it breaks links already sent. |
+| `GITHUB_TOKEN` | Fine-grained GitHub token on this repo with **Contents: Read and write**. If approved catches stop posting ("posting right away didn't work"), this token is the first thing to check. |
+
+## Steve's email signature
+
+`public/email-signature.html` (https://bearcreekbaits.com/email-signature.html, not linked from the site) has the signature with a Copy button and the steps for pasting it into Gmail.
+
+## Before launch
+
+1. Set `site.prototype` to `false` in `src/content/site.ts`. That removes the "Preview site" banner and lets search engines index the site.
+2. Add Steve's phone number to `site.phone` if he wants texts (it shows as "Text" on the contact page).
+3. Confirm the dealer details marked `verify` in `src/data/dealers.ts`.
+4. Clear test submissions out of Netlify → Forms.
+
+## Moving to Shopify (later, if Steve wants online payment)
+
+1. Set up the Shopify store (products, variants, shipping, taxes, payments).
+2. Re-implement `src/lib/catalog.ts` against the Shopify Storefront API. The types in `src/lib/types.ts` already mirror Shopify's product, option and variant model.
+3. Back `CartProvider` with the Storefront Cart API and point `orderingCopy.orderHref` at `cart.checkoutUrl`.
+4. Set `ordering.mode = 'shopify'`. Buttons and wording switch from "order request" to "cart / checkout". The `open` switch keeps working.

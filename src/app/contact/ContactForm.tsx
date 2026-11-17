@@ -8,7 +8,7 @@ import styles from '../pages.module.css';
 
 type Errors = Partial<Record<'name' | 'email' | 'message', string>>;
 
-/** Contact form: checks the fields, then sends to Netlify Forms (form "contact"), which emails Steve. */
+/** Contact form: checks the fields, then sends to Netlify Forms (form "contact"). netlify/functions/submission-created.ts emails it. */
 export function ContactForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
@@ -21,7 +21,7 @@ export function ContactForm() {
         </span>
         <h2 className={styles.h3}>Thanks, message received</h2>
         <p>We’ll get back to you soon.</p>
-        {!contactForm.endpoint && <p className={styles.protoNote}>Preview site: messages are not delivered yet.</p>}
+        {!contactForm.endpoint && <p className={styles.protoNote}>Local build: this message was not sent.</p>}
         <button type="button" className="btn btn-outline btn-sm" onClick={() => setStatus('idle')}>
           Send another message
         </button>

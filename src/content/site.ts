@@ -1,8 +1,7 @@
 /**
  * Business information and site-wide settings.
  *
- * VERIFIED = information supplied by the client.
- * PLACEHOLDER = unknown; must be confirmed or replaced before launch.
+ * VERIFIED = information supplied by Steve. A field set to null is hidden everywhere on the site.
  */
 export const site = {
   /** VERIFIED */
@@ -15,13 +14,9 @@ export const site = {
   /** VERIFIED (Nov 2026) — production domain. Used for canonical URLs, sitemap and social cards. */
   url: 'https://bearcreekbaits.com',
 
-  /**
-   * PLACEHOLDER — leave null to hide them in the UI. Steve wants customers to order direct by text
-   * or email (Nov 2026); the phone shows as "Text", not "Call". Waiting on the number and the exact
-   * email address.
-   */
-  /** VERIFIED (Nov 2026) */
+  /** VERIFIED (Nov 2026). Forwards to the business Gmail through Cloudflare Email Routing. */
   email: 'steve.green@bearcreekbaits.com' as string | null,
+  /** Not set yet. When added it shows as "Text" on the contact page: Steve wants texts, not calls. */
   phone: null as string | null,
   address: null as string | null,
 
@@ -31,8 +26,8 @@ export const site = {
   },
 
   /**
-   * While true, a notice tells visitors the products, prices and images are samples,
-   * and forms are not delivered. Set to false once real catalog data and a form endpoint are in place.
+   * THE LAUNCH SWITCH. While true, the "Preview site" banner shows on every page and search engines
+   * are told not to index the site. Set to false to launch. Forms and catch approvals work either way.
    */
   prototype: true,
 };
@@ -47,11 +42,11 @@ export const prototypeNotice = 'Preview site · Not taking orders yet';
 export type OrderingMode = 'request' | 'shopify';
 
 /**
- * Where the order, contact and catch forms are sent: Netlify Forms, which emails each submission
- * (set the address under Forms → Form notifications in Netlify). The forms Netlify looks for are
- * defined in public/__forms.html. The value comes from netlify.toml, so it is only set on Netlify:
- * on a local build or the claude.ai preview it is null, and the forms check everything and show the
- * thank-you screen, but nothing is delivered.
+ * Where the order and contact forms are sent: Netlify Forms (the forms are declared in
+ * public/__forms.html). Each submission is saved in Netlify and emailed by
+ * netlify/functions/submission-created.ts. The value comes from netlify.toml, so it is only set on
+ * Netlify: on a local build it is null, and the forms check everything and show the thank-you
+ * screen, but nothing is sent.
  */
 const formEndpoint: string | null = process.env.NEXT_PUBLIC_FORM_ENDPOINT || null;
 
@@ -76,7 +71,7 @@ export const ordering = {
   /** Shown in the site-wide banner and on the order page while `open` is false. */
   pausedMessage: 'Orders are paused while we catch up. Browse all you want; we’ll open back up soon.',
 
-  /** Where order requests are sent (see `formEndpoint` below). */
+  /** Where order requests are sent (see `formEndpoint` above). */
   formEndpoint,
 };
 
@@ -84,7 +79,7 @@ export const ordering = {
  * Catch submissions go to the catch approval function (netlify/functions/catch-submit.ts), which emails
  * Steve the photos with Approve / Reject. Nothing goes on the site until he approves it. Photos are shrunk
  * in the browser before sending (Netlify functions take about 6 MB per request). Set in netlify.toml,
- * so it is null (nothing delivered) on local builds and the claude.ai preview.
+ * so it is null (nothing sent) on local builds.
  */
 export const catchForm = {
   endpoint: (process.env.NEXT_PUBLIC_CATCH_ENDPOINT || null) as string | null,
@@ -115,7 +110,8 @@ export const orderingCopy =
         addShort: 'Add',
         added: 'Added to cart',
         goToOrder: 'Checkout',
-        orderHref: '/checkout/',
+        // Phase 2: point this at Shopify's cart.checkoutUrl (see "Moving to Shopify" in the README).
+        orderHref: '/order/',
         listNote: 'Shipping and taxes are calculated at checkout.',
         shippingNote: 'Shipping options and rates are shown at checkout.',
       };

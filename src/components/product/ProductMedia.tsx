@@ -1,9 +1,4 @@
-'use client';
-
-// Client component on purpose: asset() needs the browser to know the preview build's sub-folder.
-// Server-rendered, the photo path breaks when the preview host makes React re-render the page.
 import type { Product } from '@/lib/types';
-import { asset } from '@/lib/asset';
 import { mainPhoto } from '@/lib/catalog';
 import { PhotoComingSoon } from './PhotoComingSoon';
 
@@ -33,7 +28,7 @@ export function ProductMedia({ product, className, labelled = true, priority, th
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={asset(photo.src)}
+      src={photo.src}
       alt={labelled ? photo.alt : ''}
       width={photo.width}
       height={photo.height}

@@ -1,11 +1,9 @@
 'use client';
 
-// Client component: asset() needs the browser to know the preview build's sub-folder, and the photo
-// viewer and profile filter are interactive.
+// Client component: the photo viewer and profile filter are interactive.
 import Link from 'next/link';
 import { useMemo, useRef, useState } from 'react';
 import type { CatchCard } from '@/data/catches';
-import { asset } from '@/lib/asset';
 import { useDialog } from '@/components/layout/useDialog';
 import { Icon } from '@/components/ui/Icon';
 import styles from './Catches.module.css';
@@ -47,7 +45,7 @@ export function CatchGrid({ catches, filter, hideProfile }: Props) {
             <li key={c.id} className={styles.card}>
               <button type="button" className={styles.photoBtn} onClick={() => setOpen({ c, i: 0 })} aria-label={`View ${c.name}’s catch`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset(first.src)} alt="" width={first.width} height={first.height} loading="lazy" decoding="async" />
+                <img src={first.src} alt="" width={first.width} height={first.height} loading="lazy" decoding="async" />
                 {c.photos.length > 1 && <span className={styles.count}>{c.photos.length} photos</span>}
               </button>
               <div className={styles.caption}>
@@ -83,7 +81,7 @@ function Viewer({ c, start, onClose }: { c: CatchCard; start: number; onClose: (
       </button>
       <figure className={styles.viewerFig}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={asset(p.src)} alt={`${c.name} with a crappie${label ? ` caught on a ${label}` : ''}`} width={p.width} height={p.height} />
+        <img src={p.src} alt={`${c.name} with a crappie${label ? ` caught on a ${label}` : ''}`} width={p.width} height={p.height} />
         <figcaption>
           <strong>{c.name}</strong>
           {label && <span> · {label}</span>}

@@ -52,7 +52,7 @@ export function OrderRequestView() {
             charged until then.
           </p>
           <p className={styles.lead}>{brand.promise}</p>
-          {site.prototype && !ordering.formEndpoint && <p className={styles.protoNote}>Preview site: this request was not delivered.</p>}
+          {!ordering.formEndpoint && <p className={styles.protoNote}>Local build: this request was not sent.</p>}
           <Link href="/shop/" className="btn">
             Back to the baits
           </Link>
@@ -217,9 +217,7 @@ export function OrderRequestView() {
                       .
                     </p>
                   )}
-                  {site.prototype && !ordering.formEndpoint && (
-                    <p className={styles.protoNote}>Preview site: order requests are not delivered yet.</p>
-                  )}
+                  {!ordering.formEndpoint && <p className={styles.protoNote}>Local build: order requests aren’t sent from here.</p>}
                 </form>
               </>
             ) : (

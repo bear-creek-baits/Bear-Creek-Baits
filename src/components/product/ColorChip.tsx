@@ -1,8 +1,4 @@
-'use client';
-
-// Client component on purpose: asset() needs the browser to know the preview build's sub-folder.
 import { getColorway } from '@/data/colors';
-import { asset } from '@/lib/asset';
 import { PhotoComingSoon } from './PhotoComingSoon';
 import styles from './ColorChip.module.css';
 
@@ -17,7 +13,7 @@ export function ColorChip({ color, className }: { color: string; className?: str
     <span className={`${styles.chip} ${className ?? ''}`}>
       {cw.chartPhoto ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={asset(cw.chartPhoto)} alt="" width={480} height={240} loading="lazy" decoding="async" className={styles.img} />
+        <img src={cw.chartPhoto} alt="" width={480} height={240} loading="lazy" decoding="async" className={styles.img} />
       ) : (
         <PhotoComingSoon className={styles.img} />
       )}

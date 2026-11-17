@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { getAllProducts } from '@/lib/catalog';
 import { site, orderingCopy } from '@/content/site';
-import { asset } from '@/lib/asset';
 import { useCart } from '@/components/cart/CartProvider';
 import { Icon } from '@/components/ui/Icon';
 import { BaitPhoto } from '@/components/product/BaitPhoto';
@@ -60,7 +59,7 @@ export function Header() {
 
           <Link href="/" className={styles.logo} aria-label={`${site.name} home`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset('/brand/logo.webp')} alt="" width={474} height={464} />
+            <img src={'/brand/logo.webp'} alt="" width={474} height={464} />
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
@@ -89,6 +88,9 @@ export function Header() {
             </Link>
             <Link href="/about/" className={`${styles.utilLink} ${isActive('/about') ? styles.active : ''}`}>
               About
+            </Link>
+            <Link href="/faq/" className={`${styles.utilLink} ${isActive('/faq') ? styles.active : ''}`}>
+              FAQ
             </Link>
             <Link href="/contact/" className={`${styles.utilLink} ${isActive('/contact') ? styles.active : ''}`}>
               Contact
@@ -128,7 +130,7 @@ export function Header() {
         <div className={styles.drawerHead}>
           <Link href="/" className={styles.drawerLogo} aria-label={`${site.name} home`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset('/brand/logo.webp')} alt="" width={474} height={464} />
+            <img src={'/brand/logo.webp'} alt="" width={474} height={464} />
           </Link>
           <button type="button" className={styles.iconBtn} aria-label="Close menu" onClick={() => setMenuOpen(false)}>
             <Icon name="close" size={26} />

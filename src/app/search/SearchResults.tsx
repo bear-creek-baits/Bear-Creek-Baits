@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { navigate } from '@/lib/navigate';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { categories } from '@/data/categories';
-import { searchProducts } from '@/lib/catalog';
+
+import { getAllProducts, searchProducts } from '@/lib/catalog';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Icon } from '@/components/ui/Icon';
 import styles from '../pages.module.css';
@@ -29,7 +28,7 @@ export function SearchResults() {
             className={styles.searchForm}
             onSubmit={(e) => {
               e.preventDefault();
-              navigate(router, `/search/?q=${encodeURIComponent(input.trim())}`);
+              router.push(`/search/?q=${encodeURIComponent(input.trim())}`);
             }}
           >
             <label htmlFor="search-page-input" className="visually-hidden">
@@ -62,16 +61,19 @@ export function SearchResults() {
           {q && results.length === 0 && (
             <div className={styles.noResults}>
               <p className={styles.h3}>No baits match “{q}”</p>
-              <p>Try a color (chartreuse, pink, blue) or a bait type (grub, swim bait, minnow). Or browse a category:</p>
+              <p>Try a color (chartreuse, pink, blue) or a bait type (grub, swim bait, minnow). Or pick a profile:</p>
             </div>
           )}
           {(!q || results.length === 0) && (
             <ul className={styles.catChips}>
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/shop/${c.slug}/`}>{c.name}</Link>
+              {getAllProducts().map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/products/${p.slug}/`}>{p.title}</Link>
                 </li>
               ))}
+              <li>
+                <Link href="/colors/">Color chart</Link>
+              </li>
             </ul>
           )}
         </div>

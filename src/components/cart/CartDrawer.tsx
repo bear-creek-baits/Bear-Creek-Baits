@@ -9,7 +9,7 @@ import { useDialog } from '@/components/layout/useDialog';
 import { ProductMedia } from '@/components/product/ProductMedia';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
-import { site, ordering, orderingCopy } from '@/content/site';
+import { ordering, orderingCopy } from '@/content/site';
 import styles from './CartDrawer.module.css';
 
 export function CartDrawer() {
@@ -116,9 +116,7 @@ export function CartDrawer() {
               <button type="button" className={`btn btn-outline btn-block ${styles.keep}`} onClick={close}>
                 Keep shopping
               </button>
-              {site.prototype && (
-                <p className={styles.proto}>Preview site: {ordering.mode === 'request' ? 'order requests are not delivered yet.' : 'checkout is not live yet.'}</p>
-              )}
+              {!ordering.formEndpoint && <p className={styles.proto}>Local build: order requests aren’t sent from here.</p>}
             </footer>
           </>
         )}

@@ -2,7 +2,7 @@
  * Catalog types.
  *
  * The shape intentionally mirrors Shopify's product model (product -> options -> variants with
- * selectedOptions) so the sample catalog can later be swapped for Shopify Storefront API data
+ * selectedOptions) so the catalog in src/data can later be swapped for Shopify Storefront API data
  * with a thin mapping layer instead of a rewrite.
  */
 
@@ -122,9 +122,8 @@ export interface Product {
   qtyStep?: number;
   /** What one unit is, when the price is per piece (e.g. "bait"). */
   unit?: string;
+  /** Show in the home page's "What are you rigging?" grid. */
   featured?: boolean;
-  /** Marks invented demo data. Every product in the prototype is a sample. */
-  sample: true;
 }
 
 export interface CartLine {

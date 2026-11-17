@@ -1,8 +1,8 @@
 import type { Category } from '@/lib/types';
 
 /**
- * Shop categories. Only soft plastics have product photos so far, so that's the one category in the shop.
- * Copy is draft and can be edited freely.
+ * Shop categories. Soft plastics is the only one today, so /shop/ and /shop/soft-plastics/ show the
+ * same products. Add a category here (and its slug to CategorySlug in src/lib/types.ts) to split the shop.
  */
 export const categories: Category[] = [
   {

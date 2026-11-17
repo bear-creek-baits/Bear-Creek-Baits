@@ -30,7 +30,7 @@ export function ShopView({ products }: { products: Product[] }) {
             <p>Sizes and price are on each card. Every profile comes in every color.</p>
           </div>
         </div>
-        <ProductGrid products={products} columns={3} />
+        <ProductGrid products={products} />
       </section>
 
       <section className={styles.step} aria-labelledby="step-color">

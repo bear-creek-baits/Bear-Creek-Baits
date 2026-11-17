@@ -1,9 +1,4 @@
-'use client';
-
-// Client component on purpose: asset() needs the browser to know the preview build's sub-folder.
-// Rendered on the server only, the photo path would point at the host's root and 404 in the preview.
 import { colorPhoto } from '@/lib/catalog';
-import { asset } from '@/lib/asset';
 
 interface Props {
   /** Product slug and color id of the photo to show. */
@@ -24,7 +19,7 @@ export function BaitPhoto({ product, color, className, angle, labelled = false, 
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={asset(photo.src)}
+      src={photo.src}
       alt={labelled ? photo.alt : ''}
       width={photo.width}
       height={photo.height}

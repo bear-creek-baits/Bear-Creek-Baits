@@ -1,5 +1,5 @@
 # Netlify build settings. The site is a static export (next.config.ts: output 'export'), so
-# Netlify just runs the build and serves the out/ folder. No server or Next.js runtime is needed.
+# Netlify runs the build and serves the out/ folder. The only server code is the functions below.
 
 [build]
   command = "npm run build"
@@ -7,7 +7,7 @@
 
 [build.environment]
   NODE_VERSION = "24"
-  # The order, contact and catch forms post here (Netlify Forms; definitions in public/__forms.html).
+  # The order and contact forms post here (Netlify Forms; definitions in public/__forms.html).
   NEXT_PUBLIC_FORM_ENDPOINT = "/__forms.html"
   # Catch photos go to the approval function instead (netlify/functions/catch-submit.ts).
   NEXT_PUBLIC_CATCH_ENDPOINT = "/api/catch"

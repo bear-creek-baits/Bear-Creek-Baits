@@ -32,7 +32,7 @@ export const PACKS = [
 /** One line describing the packs, used around the site. */
 export const PACK_NOTE = 'Packs are $4.15 (10 baits for Swim Baits and Curly Tails, 12 for the rest). Bulk is $20 for 50 or $40 for 100 of one color (50 per color minimum).';
 
-type Draft = Omit<Product, 'variants' | 'sample' | 'images'> & {
+type Draft = Omit<Product, 'variants' | 'images'> & {
   /** Photos of this profile by color id. The main color's is the product photo; the rest are decoration. */
   photos: Record<string, ProductImage>;
   /** Price in cents for a given option combination. */
@@ -72,7 +72,7 @@ function build(d: Draft): Product {
   const images = Object.entries(photos)
     .sort(([a], [b]) => Number(b === d.mainColor) - Number(a === d.mainColor))
     .map(([, img]) => img);
-  return { ...rest, variants, images, sample: true };
+  return { ...rest, variants, images };
 }
 
 /** The pack option every soft plastic shares, and its price. */

@@ -10,10 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/faq/' },
 };
 
-/*
- * DRAFT — answers avoid stating policies that have not been confirmed.
- * Replace with the real shipping, returns and order details before launch.
- */
+/* Answers follow what Steve has confirmed (prices, packs, tax, how he pours). Nothing here promises a shipping rate or a return policy. */
 const orderingFaqs =
   ordering.mode === 'request'
     ? [

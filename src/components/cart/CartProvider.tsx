@@ -5,9 +5,9 @@ import type { CartLine, Product, Variant } from '@/lib/types';
 import { findVariantById, orderRules } from '@/lib/catalog';
 
 /**
- * Local prototype cart, persisted to localStorage.
- * In production this provider would be backed by the Shopify Storefront Cart API
- * (cartCreate / cartLinesAdd / cartLinesUpdate) and checkout would redirect to cart.checkoutUrl.
+ * The order list ("cart"), kept in the browser's localStorage so it survives a reload.
+ * Phase 2 (Shopify): back this provider with the Storefront Cart API
+ * (cartCreate / cartLinesAdd / cartLinesUpdate) and send checkout to cart.checkoutUrl.
  */
 
 const STORAGE_KEY = 'bcb-cart-v1';

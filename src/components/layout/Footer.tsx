@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { colorways } from '@/data/colors';
 import { getAllProducts } from '@/lib/catalog';
-import { brand, site } from '@/content/site';
+import { brand, ordering, site } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
 import styles from './Footer.module.css';
 
@@ -69,7 +69,8 @@ export function Footer() {
             Privacy
           </Link>
         </p>
-        {site.prototype && <p>Preview build. Order requests and messages sent from this preview aren’t delivered yet.</p>}
+        {/* Only on a local build, where the forms have nowhere to send. */}
+        {!ordering.formEndpoint && <p>Local build: order requests and messages aren’t sent from here.</p>}
       </div>
     </footer>
   );

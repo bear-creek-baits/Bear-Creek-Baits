@@ -11,7 +11,6 @@ import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Icon } from '@/components/ui/Icon';
 import { ColorChip } from './ColorChip';
 import { ProductMedia } from './ProductMedia';
-import { asset } from '@/lib/asset';
 import { VariantPicker } from './VariantPicker';
 import styles from './ProductDetail.module.css';
 
@@ -112,7 +111,7 @@ export function ProductDetail({ product, category }: { product: Product; categor
                 <figcaption className={styles.sampleLabel}>{product.detail.label}</figcaption>
                 <span className={styles.sampleChip}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={asset(product.detail.src)} alt={product.detail.alt} width={product.detail.width} height={product.detail.height} />
+                  <img src={product.detail.src} alt={product.detail.alt} width={product.detail.width} height={product.detail.height} />
                 </span>
               </figure>
             )}
@@ -227,16 +226,11 @@ export function ProductDetail({ product, category }: { product: Product; categor
                 {product.details.map((d) => (
                   <li key={d}>{d}</li>
                 ))}
-                {product.options.map((o) => (
-                  <li key={o.name}>
-                    {o.name} options: {o.values.length}
-                  </li>
-                ))}
               </ul>
             </details>
             <details>
               <summary>
-                Shipping &amp; returns <Icon name="chevron-down" size={20} />
+                Shipping <Icon name="chevron-down" size={20} />
               </summary>
               <p>
                 {orderingCopy.shippingNote} Questions about an order? <Link href="/contact/">Get in touch</Link>.

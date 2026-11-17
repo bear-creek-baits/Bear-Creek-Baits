@@ -7,7 +7,7 @@ import type { Colorway } from '@/lib/types';
  * order. Every profile can be ordered in every color, and the site counts this list wherever it says
  * how many colors there are. `primary` is the head/body color and `tail` the tail color when it
  * differs; `flake` is the glitter. `chartPhoto` is the chart's photo of the color; colors without one
- * are drawn from their hex values until they're photographed. Hex values are approximations.
+ * show a "Photo coming soon" box until they're photographed. The hex values are approximations kept for reference.
  */
 export const colorways: Colorway[] = [
   { n: 1, id: 'monkey-milk', name: "Monkey Milk", description: "Blue highlight / black glitter", primary: '#9FC3E8', secondary: '#9FC3E8', tail: '#EDE6E1', flake: '#111111', families: ['white', 'blue'], chartPhoto: '/colors/01-monkey-milk.webp' },

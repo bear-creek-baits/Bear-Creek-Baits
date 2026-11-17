@@ -58,7 +58,7 @@ export function CatchForm({ profiles, colors }: Props) {
       <div className="prose" role="status" style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
         <h2 style={{ fontSize: 36 }}>Thanks for sending it in</h2>
         <p>We’ll take a look. Our favorites go up on the Customer Catches page and on Facebook.</p>
-        {!catchForm.endpoint && <p style={{ color: 'var(--muted)', fontSize: 14 }}>Preview site: submissions are not delivered yet.</p>}
+        {!catchForm.endpoint && <p style={{ color: 'var(--muted)', fontSize: 14 }}>Local build: this catch was not sent.</p>}
         <p style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <Link href="/catches/" className="btn">
             See customer catches
